@@ -1,1 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HindTrade AI - World's No.1 B2B OS</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['"Crimson Text"', 'serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        emerald: { 400: '#34d399', 500: '#10b981', 600: '#059669' },
+                        cyan: { 400: '#22d3ee', 900: '#164e63' },
+                        slate: { 800: '#1e293b', 900: '#0f172a' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #020617; color: white; overflow-x: hidden; }
+        
+        /* Glass Effect */
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(52, 211, 153, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass:hover {
+            border-color: rgba(52, 211, 153, 0.4);
+            background: rgba(15, 23, 42, 0.8);
+            transform: translateY(-5px);
+        }
+
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Grid Background */
+        .grid-bg {
+            background-image: linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* Feature Card Glow */
+        .feature-icon {
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+        }
+        
+        /* Custom List Bullets */
+        ul.custom-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+        ul.custom-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #34d399;
+        }
+    </style>
+</head>
+<body class="antialiased grid-bg">
+
+    <div class="fixed top-0 w-full z-50 border-b border-emerald-500/10 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 h-10 flex items-center justify-between text-xs font-mono text-emerald-500/70">
+            <div class="flex gap-4">
+                <span>SYSTEM: ONLINE</span>
+                <span class="hidden md:inline">REGION: INDIA (GLOBAL)</span>
+            </div>
+            <div class="flex gap-4">
+                <span class="animate-pulse text-emerald-400">● LIVE MARKET</span>
+                <span>SECURED BY SUPABASE</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="relative min-h-[85vh] flex items-center justify-center pt-20">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.15)_0%,_transparent_60%)]"></div>
+        
+        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center">
+            <div class="mb-6 reveal inline-block">
+                <div class="flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-mono tracking-wider">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    ACCEPTING EARLY ACCESS
+                </div>
+            </div>
+
+            <h1 class="reveal font-serif text-6xl md:text-8xl lg:text-9xl font-medium tracking-tight mb-2 text-white drop-shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+                HindTrade AI
+            </h1>
+
+            <p class="reveal text-lg md:text-xl text-emerald-400 font-mono tracking-wide mb-8 uppercase">
+                World's First B2B AI Trade Operating System
+            </p>
+
+            <p class="reveal text-lg text-gray-400 mb-10 font-light max-w-2xl mx-auto">
+                Stop managing files. Start managing an Empire. <br>
+                The OS for <span class="text-white font-medium border-b border-emerald-500">Indian Dominance</span> in Global Trade.
+            </p>
+
+            <div class="reveal flex flex-col md:flex-row gap-4 justify-center items-center delay-200">
+                <button onclick="openModal('Exporter')" class="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-lg transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_40px_rgba(16,185,129,0.6)] cursor-pointer">
+                    Start Exporting
+                </button>
+                <button onclick="openModal('CA')" class="px-8 py-4 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 rounded-lg font-mono transition-all cursor-pointer">
+                    Register as CA/Partner
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative py-20 border-t border-emerald-500/10 bg-slate-900/30">
+        <div class="max-w-7xl mx-auto px-4">
+            
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-sm font-mono text-emerald-500 mb-2 tracking-widest">CORE INTELLIGENCE</h2>
+                <h3 class="font-serif text-5xl md:text-7xl text-white mb-8">Meet <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Ekayan</span></h3>
+                
+                <div class="inline-block glass p-6 rounded-xl max-w-3xl mx-auto">
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 text-lg">
+                        <div>
+                            <span class="block text-4xl font-serif text-emerald-400 mb-1">एक (Eka)</span>
+                            <span class="text-gray-500 text-xs tracking-widest uppercase">Singular / One</span>
+                        </div>
+                        <div class="text-2xl text-gray-700 font-light">+</div>
+                        <div>
+                            <span class="block text-4xl font-serif text-emerald-400 mb-1">आयन (Ayan)</span>
+                            <span class="text-gray-500 text-xs tracking-widest uppercase">Movement / Path</span>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-gray-300 font-light text-lg">
+                        "Ekayan is the <strong>Superagent</strong> that orchestrates your trade empire. It supervises a team of autonomous specialized agents to execute complex tasks with zero error."
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 reveal delay-100">
+                
+                <div class="glass p-6 rounded-2xl relative group">
+                    <div class="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center mb-4 feature-icon text-cyan-400 text-2xl">
+                        📄
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-4">The Clerk</h4>
+                    <p class="text-xs text-gray-500 mb-3 font-mono">SUPERVISED BY EKAYAN</p>
+                    <ul class="custom-list">
+                        <li>Generate <strong>any Import/Export Doc</strong> instantly.</li>
+                        <li>Auto-fills Invoices within <strong>60 seconds</strong>.</li>
+                        <li>Error-free data entry automation.</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-6 rounded-2xl relative group border-emerald-500/30">
+                    <div class="w-12 h-12 bg-emerald-500/10 rounded-lg flex items-center justify-center mb-4 feature-icon text-emerald-400 text-2xl">
+                        ⚖️
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-4">The Lawyer</h4>
+                    <p class="text-xs text-gray-500 mb-3 font-mono">SUPERVISED BY EKAYAN</p>
+                    <ul class="custom-list">
+                        <li><strong>RAG-Powered Engine:</strong> Zero hallucinations. Fetches Govt circulars directly.</li>
+                        <li>Knows accurate <strong>HS Codes & Duties</strong>.</li>
+                        <li>Get docs <strong>UDIN Signed by CA</strong> digitally.</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-6 rounded-2xl relative group">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-lg flex items-center justify-center mb-4 feature-icon text-red-400 text-2xl">
+                        🛡️
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-4">The Gatekeeper</h4>
+                    <p class="text-xs text-gray-500 mb-3 font-mono">SUPERVISED BY EKAYAN</p>
+                    <ul class="custom-list">
+                        <li>Cross-checks <strong>GST & IEC</strong> to prevent fraud.</li>
+                        <li>Verifies any Buyer/Seller identity instantly.</li>
+                        <li>Get your Company <strong>Trade Score</strong>.</li>
+                        <li><strong>Zero time waste</strong> on fake leads.</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-6 rounded-2xl relative group">
+                    <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4 feature-icon text-purple-400 text-2xl">
+                        🚚
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-4">The Agent</h4>
+                    <p class="text-xs text-gray-500 mb-3 font-mono">SUPERVISED BY EKAYAN</p>
+                    <ul class="custom-list">
+                        <li>Get your <strong>Samples Tracked</strong> real-time.</li>
+                        <li>Connect with verified Logistic Agents.</li>
+                        <li>Predict shipping costs and delays.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="relative py-20 bg-gradient-to-b from-transparent to-emerald-900/20">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10 reveal">
+                <div>
+                    <h2 class="font-serif text-4xl md:text-5xl text-white">The Trust Network</h2>
+                    <p class="text-gray-400 mt-2">Verified Professionals ready to sign your success.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4 mb-8">
+                <div class="glass p-5 rounded-lg flex items-center gap-4 reveal">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-xl border border-gray-700">👨‍💼</div>
+                    <div>
+                        <h4 class="font-bold text-white">CA Rajesh V.</h4>
+                        <p class="text-xs text-emerald-400">GST & Export Refunds</p>
+                        <div class="text-xs text-gray-500 mt-1">● Online Now</div>
+                    </div>
+                </div>
+                <div class="glass p-5 rounded-lg flex items-center gap-4 reveal delay-100">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-xl border border-gray-700">👩‍💼</div>
+                    <div>
+                        <h4 class="font-bold text-white">Priya Kapoor</h4>
+                        <p class="text-xs text-emerald-400">Customs Clearance (CHA)</p>
+                        <div class="text-xs text-gray-500 mt-1">● Online Now</div>
+                    </div>
+                </div>
+                <div class="glass p-5 rounded-lg flex items-center gap-4 reveal delay-200">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-xl border border-gray-700">⚖️</div>
+                    <div>
+                        <h4 class="font-bold text-white">Legal Corp</h4>
+                        <p class="text-xs text-emerald-400">Intl. Contracts</p>
+                        <div class="text-xs text-gray-500 mt-1">● Busy</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-8 rounded-2xl bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/20 text-center reveal">
+                <h3 class="text-2xl font-serif text-white mb-2">Are you a Chartered Accountant?</h3>
+                <p class="text-gray-400 mb-6 text-sm">Join 500+ professionals monetizing their skills on HindTrade.</p>
+                <button onclick="openModal('CA')" class="px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded shadow-lg transition-transform hover:scale-105 cursor-pointer">
+                    Create Partner Profile
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 border-t border-white/5 text-center">
+        <p class="text-emerald-500 font-mono text-lg mb-2 tracking-widest">HINDTRADE AI</p>
+        <p class="text-gray-600 text-xs">© 2025 Harshit Choudhary. All Systems Operational.</p>
+    </footer>
+
+    <div id="registrationModal" class="hidden-modal fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 transition-all duration-300 opacity-0 pointer-events-none scale-95">
+        <div class="glass w-full max-w-md p-8 rounded-2xl relative shadow-2xl shadow-emerald-900/20 border border-emerald-500/20">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors cursor-pointer">✕</button>
+            
+            <div class="mb-6">
+                <span id="modalBadge" class="text-xs font-mono text-emerald-400 border border-emerald-500/30 px-2 py-1 rounded bg-emerald-500/10">NEW APPLICATION</span>
+                <h3 id="modalTitle" class="text-3xl font-serif text-white mt-3">Register</h3>
+            </div>
+            
+            <form id="caForm" onsubmit="submitToSupabase(event)" class="space-y-4">
+                <input type="hidden" id="userType" value="">
+                
+                <div class="group">
+                    <label class="block text-xs text-gray-400 mb-1">FULL NAME</label>
+                    <input type="text" id="name" required class="w-full bg-black/40 border border-gray-700 rounded-lg p-3 text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-all">
+                </div>
+                
+                <div class="group">
+                    <label class="block text-xs text-gray-400 mb-1">PHONE / WHATSAPP</label>
+                    <input type="tel" id="phone" required class="w-full bg-black/40 border border-gray-700 rounded-lg p-3 text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-all">
+                </div>
+
+                <div class="group">
+                    <label class="block text-xs text-gray-400 mb-1">EMAIL ADDRESS</label>
+                    <input type="email" id="email" required class="w-full bg-black/40 border border-gray-700 rounded-lg p-3 text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-all">
+                </div>
+
+                <div id="specializationField" class="group">
+                    <label class="block text-xs text-gray-400 mb-1">SPECIALIZATION</label>
+                    <select id="specialization" class="w-full bg-black/40 border border-gray-700 rounded-lg p-3 text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none appearance-none">
+                        <option value="GST Filing">GST Filing & Refunds</option>
+                        <option value="Export Documentation">Export Documentation</option>
+                        <option value="Audit & Compliance">Audit & Compliance</option>
+                        <option value="Customs Clearance">Customs Clearance (CHA)</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg mt-2 transition-all shadow-lg shadow-emerald-900/50 cursor-pointer">
+                    SUBMIT TO EKAYAN DATABASE
+                </button>
+            </form>
+            <p id="statusMsg" class="text-center text-sm mt-4 text-gray-400 font-mono min-h-[20px]"></p>
+        </div>
+    </div>
+
+    <script>
+        // --- KEYS (VERIFIED) ---
+        const SUPABASE_URL = 'https://rlezzjpgisjycxrmtbmi.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsZXp6anBnaXNqeWN4cm10Ym1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0MzU2MjUsImV4cCI6MjA4MTAxMTYyNX0.fYeTbYnCEDP8wNkqBerGT8buMWk0wK3PdTjI57dVYSY';
+
+        const { createClient } = supabase;
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // --- ANIMATIONS ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- MODAL LOGIC (FIXED) ---
+        function openModal(type) {
+            const modal = document.getElementById('registrationModal');
+            const title = document.getElementById('modalTitle');
+            const badge = document.getElementById('modalBadge');
+            const typeInput = document.getElementById('userType');
+            const specField = document.getElementById('specializationField');
+
+            // Show Modal: Remove hidden classes, add visible classes
+            modal.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+            modal.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+
+            typeInput.value = type;
+            if (type === 'Exporter') {
+                title.innerText = 'Start Export Journey';
+                badge.innerText = 'EXPORTER ACCESS';
+                specField.style.display = 'none';
+            } else {
+                title.innerText = 'Partner Registration';
+                badge.innerText = 'CA / CHA NETWORK';
+                specField.style.display = 'block';
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('registrationModal');
+            // Hide Modal: Add hidden classes, remove visible classes
+            modal.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+            modal.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+            
+            document.getElementById('statusMsg').innerText = "";
+        }
+
+        // --- SUBMIT LOGIC ---
+        async function submitToSupabase(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const status = document.getElementById('statusMsg');
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const type = document.getElementById('userType').value;
+            const specialization = type === 'Exporter' ? 'Exporter' : document.getElementById('specialization').value;
+
+            btn.innerText = "ENCRYPTING & SENDING...";
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            btn.disabled = true;
+
+            try {
+                const { data, error } = await _supabase
+                    .from('ca_requests')
+                    .insert([{ name, phone, email, specialization, status: 'pending' }]);
+
+                if (error) throw error;
+
+                status.innerHTML = "<span class='text-emerald-400'>✔ SUCCESS. WELCOME TO HINDTRADE.</span>";
+                document.getElementById('caForm').reset();
+                setTimeout(() => closeModal(), 2000);
+
+            } catch (err) {
+                console.error(err);
+                status.innerHTML = "<span class='text-red-400'>❌ ERROR. TRY AGAIN.</span>";
+            } finally {
+                btn.innerText = "SUBMIT TO EKAYAN DATABASE";
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
 
