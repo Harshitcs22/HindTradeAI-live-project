@@ -1,9 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HindTrade AI - World's No.1 B2B OS</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+
     <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        brand: { blue: '#2563EB', dark: '#02040a', card: '#0F172A' }
+                    },
+                    animation: {
+                        'scroll': 'scroll 45s linear infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        scroll: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #02040a; color: #E2E8F0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        .glass-card {
+            background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;
+        }
+        .glass-card:hover { border-color: #38bdf8; transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4); }
+        .icon-glow { box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+        .ticker-item { display: inline-flex; align-items: center; gap: 8px; margin-right: 3rem; font-size: 0.9rem; font-weight: 600; }
+        ul.custom-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; color: #cbd5e1; font-size: 0.9rem; }
+        ul.custom-list li::before { content: "▹"; position: absolute; left: 0; color: #38bdf8; }
+
+        /* Chat Styles */
+        .msg-user {
+            background-color: #2563EB;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem 0.75rem 0 0.75rem;
+            max-width: 80%;
+            margin-left: auto;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+        .msg-ai {
+            background-color: #1E293B;
+            color: #E2E8F0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 0.75rem 0.75rem 0.75rem 0;
+            max-width: 85%;
+            margin-right: auto;
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed top-0 w-full z-50 bg-[#02040a]/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">H</div>
+                <div class="leading-none">
+                    <span class="block text-lg font-bold text-white tracking-tight">HindTrade</span>
+                    <span class="text-[10px] text-blue-400 font-medium tracking-widest uppercase">Global OS</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex gap-8 text-xs font-semibold text-gray-400 uppercase tracking-widest items-center">
+                <a href="#vision" class="hover:text-white transition">Vision</a>
+                <a href="#ekayan" class="hover:text-white transition">Ekayan AI</a>
+                <a href="#network" class="hover:text-white transition">Partners</a>
+                <span class="px-3 py-1 bg-blue-500/10 text-blue-400 rounded border border-blue-500/20">SYSTEM ONLINE</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="fixed top-16 w-full z-40 bg-[#0F172A] border-b border-white/5 py-3 overflow-hidden">
+        <div class="animate-scroll whitespace-nowrap inline-block text-gray-300">
+            <span class="ticker-item"><span class="text-blue-400">⚡ LIVE (16 DEC):</span> MARKET PEAK</span>
+            <span class="ticker-item">GOLD (10g) <span class="text-green-400">▲ ₹1,05,400</span></span>
+            <span class="ticker-item">SILVER (1kg) <span class="text-green-400">▲ ₹1,12,000</span></span>
+            <span class="ticker-item">USD/INR <span class="text-red-400">▲ 87.50</span></span>
+            <span class="ticker-item">SENSEX <span class="text-green-400">▲ 92,150</span></span>
+            <span class="ticker-item border-l border-white/10 pl-4">BRENT OIL <span class="text-red-400">▼ $75.20</span></span>
+            <span class="ticker-item">BITCOIN <span class="text-green-400">▲ $108,000</span></span>
+        </div>
+    </div>
+
+    <section id="vision" class="pt-44 pb-20 px-6 min-h-[85vh] flex flex-col justify-center">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                World's First AI Trade OS
+            </div>
+            
+            <h1 class="text-5xl md:text-8xl font-serif text-white mb-8 leading-tight animate-fade-in">
+                Trade Without <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 italic">Boundaries.</span>
+            </h1>
+            
+            <p class="text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed font-light animate-fade-in">
+                Stop managing files. Start managing an Empire.<br>
+                The Operating System for <span class="text-white border-b border-blue-500">Indian Dominance</span> in Global Trade.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-5 justify-center animate-fade-in">
+                <button onclick="document.getElementById('live-agent').scrollIntoView({behavior: 'smooth'})" class="px-10 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-xl shadow-blue-600/20 transition-all transform hover:-translate-y-1">
+                    Try AI Intelligence
+                </button>
+                <button onclick="openModal('CA')" class="px-10 py-4 bg-transparent border border-white/20 text-white font-medium rounded-lg hover:bg-white/5 transition-all">
+                    Join as Partner
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="ekayan" class="py-24 relative border-t border-white/5 bg-[#050914]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-blue-400 text-sm font-bold tracking-[0.3em] uppercase mb-4">Core Architecture</h2>
+                <h3 class="font-serif text-5xl md:text-6xl text-white">Meet <span class="italic text-blue-400">Ekayan</span></h3>
+                <p class="text-gray-400 mt-6 text-lg max-w-2xl mx-auto">
+                    The Superagent that supervises your trade empire. It controls specialized autonomous agents to execute tasks with zero error.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="file-text" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Clerk</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Documentation Unit</p>
+                    <ul class="custom-list"><li>Generate Invoices in 60s</li><li>Auto-fill Docs</li></ul>
+                </div>
+                
+                <div class="glass-card p-8 rounded-2xl group border-blue-500/30 shadow-lg shadow-blue-900/20">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="scale" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Lawyer</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Compliance Unit</p>
+                    <ul class="custom-list"><li>RAG-Engine: 100% Legal</li><li>HS Codes & Duty</li></ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Gatekeeper</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Security Unit</p>
+                    <ul class="custom-list"><li>Verifies Buyer</li><li>Fraud Detection</li></ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="ship" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Agent</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Logistics Unit</p>
+                    <ul class="custom-list"><li>Live Tracking</li><li>Predictive Delays</li></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="network" class="py-24 bg-[#02040a] relative">
+        <div class="absolute inset-0 bg-blue-600/5 blur-3xl pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-blue-400 text-sm font-bold tracking-[0.3em] uppercase mb-2">The Network</h2>
+                    <h3 class="font-serif text-4xl text-white">Verified Trade Experts.</h3>
+                </div>
+                <button onclick="openModal('CA')" class="hidden md:block text-blue-400 hover:text-white underline underline-offset-4 transition">View All Partners</button>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl">👨‍💼</div>
+                    <div>
+                        <h4 class="font-bold text-white text-lg">CA Rajesh V.</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-bold rounded uppercase">Verified</span>
+                        </div>
+                        <p class="text-gray-400 text-xs mt-2">"Expert in Export Refunds & LUT filing."</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl">👩‍💼</div>
+                    <div>
+                        <h4 class="font-bold text-white text-lg">Priya Kapoor</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="px-2 py-0.5 bg-blue-500/10 text-blue-400 text-[10px] font-bold rounded uppercase">CHA License</span>
+                        </div>
+                        <p class="text-gray-400 text-xs mt-2">"Seamless clearance at Mumbai & Mundra Port."</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-xl border-dashed border-blue-500/30 bg-blue-600/5 flex flex-col justify-center items-center text-center">
+                    <h4 class="font-bold text-white text-lg">Are you a CA / CHA?</h4>
+                    <p class="text-gray-400 text-xs mt-1 mb-4">Join 500+ professionals.</p>
+                    <button onclick="openModal('CA')" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-lg transition">Join Network</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="live-agent" class="py-24 bg-[#050914] border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <div class="inline-block px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20 text-green-400 text-xs font-bold mb-4">
+                    LIVE DEMO
+                </div>
+                <h2 class="text-3xl font-bold text-white">Ask The Lawyer</h2>
+                <p class="text-slate-500 mt-2">Powered by Gemini AI (Real-Time Trade Intelligence)</p>
+            </div>
+
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col h-[500px] relative shadow-2xl">
+                <div class="bg-[#0F172A] p-4 border-b border-white/5 flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white"><i data-lucide="bot" class="w-6 h-6"></i></div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">HindTrade AI</h3>
+                        <p class="text-[10px] text-green-400 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Online</p>
+                    </div>
+                </div>
+                
+                <div id="chat-messages" class="flex-1 p-6 overflow-y-auto bg-[#02040a] scroll-smooth">
+                    <div class="msg-ai">
+                        <p class="text-sm"><b>Hello!</b> I am The Lawyer Agent.</p>
+                        <p class="text-xs text-gray-400 mt-2">Try asking: <i>"Export Gold Jewellery to Dubai duty?"</i> or <i>"HS Code for Basmati Rice"</i></p>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-[#0F172A] border-t border-white/5">
+                    <form onsubmit="handleChat(event)" class="flex gap-3">
+                        <input type="text" id="user-input" class="flex-1 bg-[#02040a] border border-white/10 rounded-xl px-5 py-4 text-white text-sm focus:outline-none focus:border-blue-500 placeholder-gray-600" placeholder="Type your trade query here..." autocomplete="off">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-5 transition-colors"><i data-lucide="send" class="w-5 h-5"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="whatsapp-box" class="hidden mt-8 text-center animate-fade-in">
+                <a id="whatsapp-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-full font-bold transition-transform hover:scale-105 shadow-lg shadow-green-900/20">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i> Get Full Legal Report on WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#0F172A] py-12 border-t border-white/5 text-center">
+        <p class="font-serif text-xl text-white tracking-widest mb-2">HINDTRADE</p>
+        <p class="text-gray-500 text-xs">© 2025 • Secure Global Trade Infrastructure</p>
+    </footer>
+
+    <div id="registrationModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
+        <div class="glass-card w-full max-w-md p-8 rounded-2xl relative bg-[#0F172A]">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">✕</button>
+            <h3 class="text-2xl font-serif text-white mb-6">Initialize Access</h3>
+            <form id="caForm" onsubmit="submitToSupabase(event)" class="space-y-4">
+                <input type="hidden" id="userType">
+                <input type="text" id="name" placeholder="Full Name" required class="w-full bg-[#02040a] border border-white/10 text-white p-3.5 rounded-lg outline-none focus:border-blue-500">
+                <input type="tel" id="phone" placeholder="Phone Number" required class="w-full bg-[#02040a] border border-white/10 text-white p-3.5 rounded-lg outline-none focus:border-blue-500">
+                <input type="email" id="email" placeholder="Email Address" required class="w-full bg-[#02040a] border border-white/10 text-white p-3.5 rounded-lg outline-none focus:border-blue-500">
+                <button type="submit" id="submitBtn" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg mt-2">Submit Request</button>
+            </form>
+            <p id="statusMsg" class="mt-4 text-center text-sm font-medium text-gray-400"></p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Icons
         lucide.createIcons();
         
-        // 🔴 STEP 1: Yahan apni NEW API Key daalein
-        const GEMINI_API_KEY = "AIzaSyBSiAd_fvf2pUmyiXLMbOAArClM-uSnjKI"; 
-        
+        // ==========================================
+        //  🔴 APNI GOOGLE GEMINI API KEY YAHAN PASTE KAREIN
+        // ==========================================
+        const GOOGLE_API_KEY = "AIzaSyBSiAd_fvf2pUmyiXLMbOAArClM-uSnjKI"; 
+        // ==========================================
+
+        // Supabase Config
         const SUPABASE_URL = 'https://rlezzjpgisjycxrmtbmi.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsZXp6anBnaXNqeWN4cm10Ym1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0MzU2MjUsImV4cCI6MjA4MTAxMTYyNX0.fYeTbYnCEDP8wNkqBerGT8buMWk0wK3PdTjI57dVYSY';
         const { createClient } = supabase;
@@ -13,111 +311,95 @@
         const whatsappBox = document.getElementById('whatsapp-box');
         const whatsappLink = document.getElementById('whatsapp-link');
 
-        function fillInput(text) {
-            document.getElementById('user-input').value = text;
-        }
-
+        // CHAT LOGIC
         async function handleChat(e) {
             e.preventDefault();
             const input = document.getElementById('user-input');
             const query = input.value.trim();
             if (!query) return;
 
-            // 1. Show User Msg
-            chatBox.innerHTML += `<div class="msg-user animate-fade-in">${query}</div>`;
+            // 1. Show User Message
+            chatBox.innerHTML += `<div class="msg-user animate-fade-in text-sm">${query}</div>`;
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // 2. Typing Loader
+            // 2. Show Loader
             const loadId = 'load-' + Date.now();
             chatBox.innerHTML += `
-                <div id="${loadId}" class="msg-ai w-20">
-                    <div class="flex gap-1 justify-center py-1">
-                        <span class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce"></span>
-                        <span class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style="animation-delay:0.2s"></span>
-                        <span class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style="animation-delay:0.4s"></span>
+                <div id="${loadId}" class="msg-ai w-24">
+                    <div class="flex gap-1 justify-center">
+                        <span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce"></span>
+                        <span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style="animation-delay:0.2s"></span>
+                        <span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style="animation-delay:0.4s"></span>
                     </div>
                 </div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             let responseText = "";
 
-            try {
-                // 3. CALL GOOGLE GEMINI API
-                const prompt = `
-                    You are "The Lawyer", an expert AI for Indian Exporters.
-                    Current Date: 16 Dec 2025.
-                    User Query: "${query}"
-                    
-                    Provide a structued HTML response (NO markdown code blocks, just raw HTML tags like <b>, <br>, <ul>).
-                    Format exactly like this:
-                    <b>Analysis for [Product Name]:</b><br><br>
-                    ✅ <b>HS Code:</b> [Code]<br>
-                    📉 <b>Export Duty:</b> [Percentage/Status]<br>
-                    💡 <b>Compliance Tip:</b> [One sharp tip]<br>
-                    
-                    Keep it short, professional, and confident.
+            if (GOOGLE_API_KEY === "YOUR_GEMINI_API_KEY_HERE" || GOOGLE_API_KEY === "") {
+                // FALLBACK IF NO KEY
+                await new Promise(r => setTimeout(r, 1500));
+                responseText = `
+                    <b class="text-yellow-400">⚠️ System Alert:</b><br>
+                    Please insert your Google API Key in the code to activate Real Intelligence.<br><br>
+                    <b>Demo Output for:</b> "${query}"<br>
+                    • Status: Check Manually<br>
+                    • Duty: N/A
                 `;
+            } else {
+                try {
+                    // REAL AI CALL
+                    const prompt = `Act as 'The Lawyer', an expert Indian Trade Assistant. User Query: "${query}". Provide a short, professional analysis in HTML format: 1. Likely HS Code (6-digit) 2. Approximate Export Duty from India (assume latest 2025 trends) 3. One key compliance tip. Keep it strictly under 60 words. Use <b> for headings.`;
+                    
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GOOGLE_API_KEY}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    });
 
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
+                    const data = await response.json();
+                    responseText = data.candidates[0].content.parts[0].text;
+                    responseText = responseText.replace(/```html/g, '').replace(/```/g, ''); // Clean markdown
 
-                const data = await response.json();
-                
-                // 🔴 IMPROVED ERROR CHECKING
-                if (data.error) {
-                    // Agar Google ne error bheja hai, to wo dikhao
-                    console.error("Gemini Error:", data.error);
-                    responseText = `<span class="text-red-400 font-bold">⚠️ Error: ${data.error.message}</span><br><span class="text-xs text-gray-500">Check API Key or Quota.</span>`;
-                } else if (data.candidates && data.candidates[0].content) {
-                    // Success Case
-                    let rawText = data.candidates[0].content.parts[0].text;
-                    responseText = rawText.replace(/```html/g, '').replace(/```/g, '');
-                } else {
-                    // Fallback
-                    responseText = "System Busy. Please try again in 10 seconds.";
+                } catch (error) {
+                    responseText = `<b class="text-red-400">Error:</b> API limit reached or Network issue.`;
+                    console.error(error);
                 }
-
-            } catch (error) {
-                console.error(error);
-                responseText = `<span class="text-red-400">Network Error: Check your internet connection.</span>`;
             }
 
-            // 4. Show Result
+            // 3. Remove Loader & Show Response
             document.getElementById(loadId).remove();
-            chatBox.innerHTML += `<div class="msg-ai animate-fade-in">${responseText}</div>`;
+            chatBox.innerHTML += `<div class="msg-ai animate-fade-in text-sm">${responseText}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // 5. Update WhatsApp Link
-            if (!responseText.includes("Error")) {
-                whatsappBox.classList.remove('hidden');
-                whatsappLink.href = `https://wa.me/6283849492?text=I searched for "${query}" on HindTrade. I need the official documents.`;
-            }
+            // 4. Show WhatsApp
+            whatsappBox.classList.remove('hidden');
+            whatsappLink.href = `https://wa.me/919999999999?text=I need official help with: ${query}`;
         }
 
-        // Modal Logic Same as before
+        // MODAL LOGIC
         function openModal(type) {
             document.getElementById('registrationModal').classList.remove('hidden');
             document.getElementById('userType').value = type;
         }
         function closeModal() { document.getElementById('registrationModal').classList.add('hidden'); }
+        
         async function submitToSupabase(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             btn.innerText = "Processing...";
-            // ... (rest of logic same)
-             const name = document.getElementById('name').value;
+            const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
             try {
                 await _supabase.from('ca_requests').insert([{ name, phone, email, specialization: 'User', status: 'pending' }]);
-                document.getElementById('statusMsg').innerText = "Request Approved.";
+                document.getElementById('statusMsg').innerText = "✅ Application Sent Successfully.";
                 setTimeout(closeModal, 2000);
-            } catch (err) { 
-                document.getElementById('statusMsg').innerText = "Connection Failed."; 
-            } finally { btn.innerText = "Submit Request"; }
+            } catch (err) { document.getElementById('statusMsg').innerText = "❌ Error connecting to server."; } 
+            finally { btn.innerText = "Submit Request"; }
         }
     </script>
+</body>
+</html>
+        
