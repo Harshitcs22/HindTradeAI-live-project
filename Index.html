@@ -445,6 +445,8 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsZXp6anBnaXNqeWN4cm10Ym1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0MzU2MjUsImV4cCI6MjA4MTAxMTYyNX0.fYeTbYnCEDP8wNkqBerGT8buMWk0wK3PdTjI57dVYSY';
         
         // --- GEMINI AI API KEY ---
+        // NOTE: For production, move API key to backend proxy to avoid exposing it in client-side code
+        // Get your API key from: https://aistudio.google.com/app/apikey
         const API_KEY = 'YOUR_GEMINI_API_KEY_HERE';
 
         const { createClient } = supabase;
@@ -614,7 +616,7 @@
                 if (error.message.includes('API key not configured')) {
                     const helpDiv = document.createElement('div');
                     helpDiv.className = 'text-yellow-400 text-xs mt-2';
-                    helpDiv.textContent = '$ To enable AI: Replace API_KEY with your Gemini API key from https://makersuite.google.com/app/apikey';
+                    helpDiv.textContent = '$ To enable AI: Replace API_KEY with your Gemini API key from https://aistudio.google.com/app/apikey';
                     output.appendChild(helpDiv);
                 }
             }
