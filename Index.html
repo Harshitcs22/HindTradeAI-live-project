@@ -20,12 +20,7 @@
                         serif: ['"Playfair Display"', 'serif'],
                     },
                     colors: {
-                        brand: {
-                            blue: '#2563EB',
-                            dark: '#02040a',
-                            card: '#0F172A',
-                            accent: '#38bdf8'
-                        }
+                        brand: { blue: '#2563EB', dark: '#02040a', card: '#0F172A' }
                     },
                     animation: {
                         'scroll': 'scroll 45s linear infinite',
@@ -47,56 +42,17 @@
     </script>
 
     <style>
-        body { 
-            background-color: #02040a; 
-            color: #E2E8F0; 
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* Glass Card */
+        body { background-color: #02040a; color: #E2E8F0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .glass-card {
-            background-color: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
+            background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;
         }
-        .glass-card:hover {
-            border-color: #38bdf8;
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Feature Icon Glow */
-        .icon-glow {
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-        }
-
-        /* Ticker Item */
-        .ticker-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-right: 3rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        /* Custom List Bullets */
-        ul.custom-list li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #cbd5e1;
-            font-size: 0.9rem;
-        }
-        ul.custom-list li::before {
-            content: "▹";
-            position: absolute;
-            left: 0;
-            color: #38bdf8;
-        }
+        .glass-card:hover { border-color: #38bdf8; transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4); }
+        .icon-glow { box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+        .ticker-item { display: inline-flex; align-items: center; gap: 8px; margin-right: 3rem; font-size: 0.9rem; font-weight: 600; }
+        ul.custom-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; color: #cbd5e1; font-size: 0.9rem; }
+        ul.custom-list li::before { content: "▹"; position: absolute; left: 0; color: #38bdf8; }
     </style>
 </head>
 <body class="antialiased">
@@ -114,7 +70,7 @@
             <div class="hidden md:flex gap-8 text-xs font-semibold text-gray-400 uppercase tracking-widest items-center">
                 <a href="#vision" class="hover:text-white transition">Vision</a>
                 <a href="#ekayan" class="hover:text-white transition">Ekayan AI</a>
-                <a href="#network" class="hover:text-white transition">Network</a>
+                <a href="#network" class="hover:text-white transition">Partners</a>
                 <span class="px-3 py-1 bg-blue-500/10 text-blue-400 rounded border border-blue-500/20">SYSTEM ONLINE</span>
             </div>
         </div>
@@ -136,7 +92,6 @@
 
     <section id="vision" class="pt-44 pb-20 px-6 min-h-[85vh] flex flex-col justify-center">
         <div class="max-w-5xl mx-auto text-center">
-            
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in">
                 <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                 World's First AI Trade OS
@@ -183,7 +138,6 @@
                     <ul class="custom-list">
                         <li>Generate Invoices in <strong>60s</strong></li>
                         <li>Auto-fill Export Docs</li>
-                        <li>Error-free Data Entry</li>
                     </ul>
                 </div>
 
@@ -195,7 +149,6 @@
                     <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Compliance Unit</p>
                     <ul class="custom-list">
                         <li><strong>RAG-Engine:</strong> 100% Legal</li>
-                        <li>Fetches Govt Circulars</li>
                         <li>HS Codes & Duty Checks</li>
                     </ul>
                 </div>
@@ -209,7 +162,6 @@
                     <ul class="custom-list">
                         <li>Verifies Buyer Identity</li>
                         <li>Fraud Detection System</li>
-                        <li>Company Trade Score</li>
                     </ul>
                 </div>
 
@@ -221,7 +173,6 @@
                     <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Logistics Unit</p>
                     <ul class="custom-list">
                         <li>Live Shipment Tracking</li>
-                        <li>Best Logistic Rates</li>
                         <li>Predictive Delays</li>
                     </ul>
                 </div>
@@ -229,7 +180,55 @@
         </div>
     </section>
 
-    <section id="live-agent" class="py-24 bg-[#02040a]">
+    <section id="network" class="py-24 bg-[#02040a] relative">
+        <div class="absolute inset-0 bg-blue-600/5 blur-3xl pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-blue-400 text-sm font-bold tracking-[0.3em] uppercase mb-2">The Network</h2>
+                    <h3 class="font-serif text-4xl text-white">Verified Trade Experts.</h3>
+                    <p class="text-gray-400 mt-2">Real professionals to handle your physical trade needs.</p>
+                </div>
+                <button onclick="openModal('CA')" class="hidden md:block text-blue-400 hover:text-white underline underline-offset-4 transition">View All Partners</button>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl">👨‍💼</div>
+                    <div>
+                        <h4 class="font-bold text-white text-lg">CA Rajesh V.</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-bold rounded uppercase">Verified</span>
+                            <span class="text-gray-500 text-xs">GST & Audit</span>
+                        </div>
+                        <p class="text-gray-400 text-xs mt-2">"Expert in Export Refunds & LUT filing."</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl">👩‍💼</div>
+                    <div>
+                        <h4 class="font-bold text-white text-lg">Priya Kapoor</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="px-2 py-0.5 bg-blue-500/10 text-blue-400 text-[10px] font-bold rounded uppercase">CHA License</span>
+                            <span class="text-gray-500 text-xs">Customs</span>
+                        </div>
+                        <p class="text-gray-400 text-xs mt-2">"Seamless clearance at Mumbai & Mundra Port."</p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl border-dashed border-blue-500/30 bg-blue-600/5 flex flex-col justify-center items-center text-center">
+                    <h4 class="font-bold text-white text-lg">Are you a CA / CHA?</h4>
+                    <p class="text-gray-400 text-xs mt-1 mb-4">Join 500+ professionals monetizing on HindTrade.</p>
+                    <button onclick="openModal('CA')" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-lg transition">
+                        Join Network
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="live-agent" class="py-24 bg-[#050914] border-t border-white/5">
         <div class="max-w-4xl mx-auto px-4">
             <div class="text-center mb-10">
                 <div class="inline-block px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20 text-green-400 text-xs font-bold mb-4">
@@ -241,45 +240,29 @@
 
             <div class="glass-card rounded-2xl overflow-hidden flex flex-col h-[500px] relative shadow-2xl">
                 <div class="bg-[#0F172A] p-4 border-b border-white/5 flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white">
-                        <i data-lucide="bot" class="w-6 h-6"></i>
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white"><i data-lucide="bot" class="w-6 h-6"></i></div>
                     <div>
                         <h3 class="font-bold text-white text-sm">HindTrade AI</h3>
-                        <p class="text-[10px] text-green-400 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Online
-                        </p>
+                        <p class="text-[10px] text-green-400 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Online</p>
                     </div>
                 </div>
-
                 <div id="chat-messages" class="flex-1 p-6 overflow-y-auto bg-[#02040a] scroll-smooth">
                     <div class="bg-[#1E293B] p-4 rounded-r-xl rounded-bl-xl max-w-[85%] border border-white/5">
-                        <p class="text-sm text-gray-200">
-                            <b>Hello!</b> I am The Lawyer Agent. <br>
-                            I have updated data for <b>December 2025</b>.
-                        </p>
-                        <p class="text-sm text-gray-400 mt-2">
-                            Try asking: <i>"Export Gold Jewellery to Dubai duty?"</i> or <i>"HS Code for Basmati Rice"</i>
-                        </p>
+                        <p class="text-sm text-gray-200"><b>Hello!</b> I am The Lawyer Agent. <br>I have updated data for <b>December 2025</b>.</p>
+                        <p class="text-sm text-gray-400 mt-2">Try asking: <i>"Export Gold Jewellery to Dubai duty?"</i> or <i>"HS Code for Basmati Rice"</i></p>
                     </div>
                 </div>
-
                 <div class="p-4 bg-[#0F172A] border-t border-white/5">
                     <form onsubmit="handleChat(event)" class="flex gap-3">
-                        <input type="text" id="user-input" 
-                            class="flex-1 bg-[#02040a] border border-white/10 rounded-xl px-5 py-4 text-white text-sm focus:outline-none focus:border-blue-500 placeholder-gray-600"
-                            placeholder="Type query here..." autocomplete="off">
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-5 transition-colors">
-                            <i data-lucide="send" class="w-5 h-5"></i>
-                        </button>
+                        <input type="text" id="user-input" class="flex-1 bg-[#02040a] border border-white/10 rounded-xl px-5 py-4 text-white text-sm focus:outline-none focus:border-blue-500 placeholder-gray-600" placeholder="Type query here..." autocomplete="off">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-5 transition-colors"><i data-lucide="send" class="w-5 h-5"></i></button>
                     </form>
                 </div>
             </div>
 
             <div id="whatsapp-box" class="hidden mt-8 text-center animate-fade-in">
                 <a id="whatsapp-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-full font-bold transition-transform hover:scale-105 shadow-lg shadow-green-900/20">
-                    <i data-lucide="message-circle" class="w-5 h-5"></i>
-                    Get Full Report on WhatsApp
+                    <i data-lucide="message-circle" class="w-5 h-5"></i> Get Full Report on WhatsApp
                 </a>
             </div>
         </div>
@@ -321,55 +304,27 @@
             const query = input.value.trim();
             if (!query) return;
 
-            // User Message
-            chatBox.innerHTML += `
-                <div class="bg-blue-600 text-white p-4 rounded-l-xl rounded-tr-xl max-w-[80%] ml-auto mb-3 shadow-lg">
-                    ${query}
-                </div>`;
+            chatBox.innerHTML += `<div class="bg-blue-600 text-white p-4 rounded-l-xl rounded-tr-xl max-w-[80%] ml-auto mb-3 shadow-lg">${query}</div>`;
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Typing
             const loadId = 'load-' + Date.now();
-            chatBox.innerHTML += `
-                <div id="${loadId}" class="bg-[#1E293B] p-3 rounded-xl max-w-[100px] mb-3 border border-white/5">
-                    <div class="flex gap-1 justify-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style="animation-delay:0.2s"></span></div>
-                </div>`;
+            chatBox.innerHTML += `<div id="${loadId}" class="bg-[#1E293B] p-3 rounded-xl max-w-[100px] mb-3 border border-white/5"><div class="flex gap-1 justify-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style="animation-delay:0.2s"></span></div></div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             let responseText = "";
-            
-            // Logic with High Inflation 2025 Rates
             if (query.toLowerCase().includes('gold')) {
-                responseText = `
-                    <strong class="text-white">Gold Export Analysis (Dec 2025):</strong><br><br>
-                    💰 <b>Current Rate:</b> ₹1,05,400 / 10g<br>
-                    🇦🇪 <b>UAE Import Duty:</b> 5% (Recoverable)<br>
-                    📉 <b>Trend:</b> High Demand due to Wedding Season.<br>
-                `;
+                responseText = `<strong class="text-white">Gold Export Analysis (Dec 2025):</strong><br><br>💰 <b>Current Rate:</b> ₹1,05,400 / 10g<br>🇦🇪 <b>UAE Import Duty:</b> 5% (Recoverable)<br>📉 <b>Trend:</b> High Demand due to Wedding Season.`;
             } else if (query.toLowerCase().includes('rice')) {
-                responseText = `
-                    <strong class="text-white">Basmati Rice Report:</strong><br><br>
-                    ✅ <b>HS Code:</b> 1006.30.20<br>
-                    🇮🇳 <b>Export Duty:</b> 10% (Reduced)<br>
-                    🚢 <b>Freight to Dubai:</b> $800 / Container<br>
-                `;
+                responseText = `<strong class="text-white">Basmati Rice Report:</strong><br><br>✅ <b>HS Code:</b> 1006.30.20<br>🇮🇳 <b>Export Duty:</b> 10% (Reduced)<br>🚢 <b>Freight to Dubai:</b> $800 / Container`;
             } else {
-                responseText = `
-                    I have checked the database for "<b>${query}</b>".<br><br>
-                    • <b>Status:</b> Export Allowed<br>
-                    • <b>Docs Required:</b> Invoice, Packing List, IEC<br><br>
-                    For a formal report, click the WhatsApp button below.
-                `;
+                responseText = `I have checked the database for "<b>${query}</b>".<br><br>• <b>Status:</b> Export Allowed<br>• <b>Docs Required:</b> Invoice, Packing List, IEC<br><br>For a formal report, click the WhatsApp button below.`;
             }
 
             await new Promise(r => setTimeout(r, 1500));
             document.getElementById(loadId).remove();
             
-            chatBox.innerHTML += `
-                <div class="bg-[#1E293B] border border-white/5 text-gray-200 p-4 rounded-r-xl rounded-bl-xl max-w-[85%] mb-3 shadow">
-                    ${responseText}
-                </div>`;
+            chatBox.innerHTML += `<div class="bg-[#1E293B] border border-white/5 text-gray-200 p-4 rounded-r-xl rounded-bl-xl max-w-[85%] mb-3 shadow">${responseText}</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             document.getElementById('whatsapp-box').classList.remove('hidden');
@@ -380,27 +335,20 @@
             document.getElementById('registrationModal').classList.remove('hidden');
             document.getElementById('userType').value = type;
         }
-        function closeModal() {
-            document.getElementById('registrationModal').classList.add('hidden');
-        }
+        function closeModal() { document.getElementById('registrationModal').classList.add('hidden'); }
         async function submitToSupabase(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             btn.innerText = "Processing...";
-            
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
-            
             try {
                 await _supabase.from('ca_requests').insert([{ name, phone, email, specialization: 'User', status: 'pending' }]);
                 document.getElementById('statusMsg').innerText = "Application Sent.";
                 setTimeout(closeModal, 2000);
-            } catch (err) {
-                document.getElementById('statusMsg').innerText = "Error.";
-            } finally {
-                btn.innerText = "Submit Request";
-            }
+            } catch (err) { document.getElementById('statusMsg').innerText = "Error."; } 
+            finally { btn.innerText = "Submit Request"; }
         }
     </script>
 </body>
