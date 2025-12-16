@@ -1,139 +1,299 @@
+Badhiya! Maine tumhara Relevance AI Agent (Embedded Code) sahi jagah fit kar diya hai aur purana manual chat system hata diya hai.
+Ab:
+ * AI Brain: Relevance AI ka Agent load hoga (jo tumne bheja).
+ * WhatsApp: Number update kar diya hai -> 6283849492.
+ * Cleanup: Purani Google API key aur complex code hata diya hai taaki site fast chale.
+Ye raha Final Code. Ise copy karke index.html mein paste kar do.
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HindTrade AI - World's No.1 B2B OS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HindTrade AI - World's No.1 B2B OS</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            serif: ['"Playfair Display"', 'serif'],
-          },
-          colors: {
-            brand: { blue: '#2563EB', dark: '#02040a', card: '#0F172A' }
-          }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        brand: { blue: '#2563EB', dark: '#02040a', card: '#0F172A' }
+                    },
+                    animation: {
+                        'scroll': 'scroll 45s linear infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        scroll: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
+    </script>
 
-  <style>
-    body { background:#02040a; color:#E2E8F0; font-family:Inter,sans-serif }
-    .glass-card {
-      background: rgba(15,23,42,.6);
-      backdrop-filter: blur(12px);
-      border:1px solid rgba(255,255,255,.08);
-      transition:.3s;
-    }
-    .glass-card:hover { border-color:#38bdf8; transform:translateY(-4px) }
-  </style>
+    <style>
+        body { background-color: #02040a; color: #E2E8F0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        .glass-card {
+            background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;
+        }
+        .glass-card:hover { border-color: #38bdf8; transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4); }
+        .icon-glow { box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+        .ticker-item { display: inline-flex; align-items: center; gap: 8px; margin-right: 3rem; font-size: 0.9rem; font-weight: 600; }
+        ul.custom-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; color: #cbd5e1; font-size: 0.9rem; }
+        ul.custom-list li::before { content: "▹"; position: absolute; left: 0; color: #38bdf8; }
+    </style>
 </head>
-
 <body class="antialiased">
 
-<!-- NAV -->
-<nav class="fixed top-0 w-full z-50 bg-[#02040a]/90 backdrop-blur border-b border-white/5">
-  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <div class="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">H</div>
-      <div>
-        <div class="font-bold text-white">HindTrade</div>
-        <div class="text-[10px] text-blue-400 tracking-widest">GLOBAL OS</div>
-      </div>
-    </div>
-  </div>
-</nav>
+    <nav class="fixed top-0 w-full z-50 bg-[#02040a]/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">H</div>
+                <div class="leading-none">
+                    <span class="block text-lg font-bold text-white tracking-tight">HindTrade</span>
+                    <span class="text-[10px] text-blue-400 font-medium tracking-widest uppercase">Global OS</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex gap-8 text-xs font-semibold text-gray-400 uppercase tracking-widest items-center">
+                <a href="#vision" class="hover:text-white transition">Vision</a>
+                <a href="#ekayan" class="hover:text-white transition">Ekayan AI</a>
+                <a href="#network" class="hover:text-white transition">Partners</a>
+                <span class="px-3 py-1 bg-blue-500/10 text-blue-400 rounded border border-blue-500/20">SYSTEM ONLINE</span>
+            </div>
+        </div>
+    </nav>
 
-<!-- HERO -->
-<section id="vision" class="pt-40 pb-20 text-center px-6">
-  <h1 class="text-5xl md:text-7xl font-serif text-white mb-6">
-    Trade Without <span class="text-blue-400 italic">Boundaries</span>
-  </h1>
-  <p class="text-slate-400 max-w-2xl mx-auto">
-    The Operating System for Indian dominance in global trade.
-  </p>
-  <button onclick="document.getElementById('live-agent').scrollIntoView({behavior:'smooth'})"
-    class="mt-8 px-10 py-4 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold">
-    Try Lawyer AI
-  </button>
-</section>
-
-<!-- LIVE AGENT -->
-<section id="live-agent" class="py-24 bg-[#050914] border-t border-white/5">
-  <div class="max-w-4xl mx-auto px-4">
-
-    <div class="text-center mb-8">
-      <div class="inline-block px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold">
-        LIVE DEMO
-      </div>
-      <h2 class="text-3xl font-bold text-white mt-4">Ask The Lawyer</h2>
-      <p class="text-slate-500">1 free legal / HS code query</p>
+    <div class="fixed top-16 w-full z-40 bg-[#0F172A] border-b border-white/5 py-3 overflow-hidden">
+        <div class="animate-scroll whitespace-nowrap inline-block text-gray-300">
+            <span class="ticker-item"><span class="text-blue-400">⚡ LIVE (16 DEC):</span> MARKET PEAK</span>
+            <span class="ticker-item">GOLD (10g) <span class="text-green-400">▲ ₹1,05,400</span></span>
+            <span class="ticker-item">SILVER (1kg) <span class="text-green-400">▲ ₹1,12,000</span></span>
+            <span class="ticker-item">USD/INR <span class="text-red-400">▲ 87.50</span></span>
+            <span class="ticker-item">SENSEX <span class="text-green-400">▲ 92,150</span></span>
+            <span class="ticker-item border-l border-white/10 pl-4">BRENT OIL <span class="text-red-400">▼ $75.20</span></span>
+            <span class="ticker-item">BITCOIN <span class="text-green-400">▲ $108,000</span></span>
+        </div>
     </div>
 
-    <!-- 🔴 RELEVANCE AI LAWYER AGENT -->
-    <div class="glass-card rounded-2xl overflow-hidden h-[520px] shadow-2xl">
+    <section id="vision" class="pt-44 pb-20 px-6 min-h-[85vh] flex flex-col justify-center">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                World's First AI Trade OS
+            </div>
+            
+            <h1 class="text-5xl md:text-8xl font-serif text-white mb-8 leading-tight animate-fade-in">
+                Trade Without <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 italic">Boundaries.</span>
+            </h1>
+            
+            <p class="text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed font-light animate-fade-in">
+                Stop managing files. Start managing an Empire.<br>
+                The Operating System for <span class="text-white border-b border-blue-500">Indian Dominance</span> in Global Trade.
+            </p>
 
-      <iframe
-        src="https://app.relevanceai.com/agents/d7b62b/18dd64bb-7e6f-4d82-913c-42ffa5f552c1/1733a3cb-bd12-45c6-9cbc-71e1286652fe/embed-chat
-        ?starting_message_prompts=You+have+one+free+query.+Ask+your+import-export+legal+or+HS+code+question+clearly.+Further+assistance+requires+registration.
-        &hide_tool_steps=true
-        &hide_file_uploads=true
-        &hide_conversation_list=true
-        &bubble_style=agent
-        &primary_color=%232563EB
-        &input_placeholder_text=You+have+1+free+query.+Ask+now…"
-        class="w-full h-full border-0"
-        allow="microphone">
-      </iframe>
+            <div class="flex flex-col sm:flex-row gap-5 justify-center animate-fade-in">
+                <button onclick="document.getElementById('live-agent').scrollIntoView({behavior: 'smooth'})" class="px-10 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-xl shadow-blue-600/20 transition-all transform hover:-translate-y-1">
+                    Try AI Intelligence
+                </button>
+                <button onclick="openModal('CA')" class="px-10 py-4 bg-transparent border border-white/20 text-white font-medium rounded-lg hover:bg-white/5 transition-all">
+                    Join as Partner
+                </button>
+            </div>
+        </div>
+    </section>
 
+    <section id="ekayan" class="py-24 relative border-t border-white/5 bg-[#050914]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-blue-400 text-sm font-bold tracking-[0.3em] uppercase mb-4">Core Architecture</h2>
+                <h3 class="font-serif text-5xl md:text-6xl text-white">Meet <span class="italic text-blue-400">Ekayan</span></h3>
+                <p class="text-gray-400 mt-6 text-lg max-w-2xl mx-auto">
+                    The Superagent that supervises your trade empire. It controls specialized autonomous agents to execute tasks with zero error.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="file-text" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Clerk</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Documentation Unit</p>
+                    <ul class="custom-list"><li>Generate Invoices in 60s</li><li>Auto-fill Docs</li></ul>
+                </div>
+                
+                <div class="glass-card p-8 rounded-2xl group border-blue-500/30 shadow-lg shadow-blue-900/20">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="scale" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Lawyer</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Compliance Unit</p>
+                    <ul class="custom-list"><li>RAG-Engine: 100% Legal</li><li>HS Codes & Duty</li></ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Gatekeeper</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Security Unit</p>
+                    <ul class="custom-list"><li>Verifies Buyer</li><li>Fraud Detection</li></ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="ship" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Agent</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Logistics Unit</p>
+                    <ul class="custom-list"><li>Live Tracking</li><li>Predictive Delays</li></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="network" class="py-24 bg-[#02040a] relative">
+        <div class="absolute inset-0 bg-blue-600/5 blur-3xl pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-blue-400 text-sm font-bold tracking-[0.3em] uppercase mb-2">The Network</h2>
+                    <h3 class="font-serif text-4xl text-white">Verified Trade Experts.</h3>
+                </div>
+                <button onclick="openModal('CA')" class="hidden md:block text-blue-400 hover:text-white underline underline-offset-4 transition">View All Partners</button>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl">👨‍💼</div>
+                    <div>
+                        <h4 class="font-bold text-white text-lg">CA Rajesh V.</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-bold rounded uppercase">Verified</span>
+                        </div>
+                        <p class="text-gray-400 text-xs mt-2">"Expert in Export Refunds & LUT filing."</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-xl flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xl">👩‍💼</div>
+                    <div>
+                        <h4 class="font-bold text-white text-lg">Priya Kapoor</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="px-2 py-0.5 bg-blue-500/10 text-blue-400 text-[10px] font-bold rounded uppercase">CHA License</span>
+                        </div>
+                        <p class="text-gray-400 text-xs mt-2">"Seamless clearance at Mumbai & Mundra Port."</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-xl border-dashed border-blue-500/30 bg-blue-600/5 flex flex-col justify-center items-center text-center">
+                    <h4 class="font-bold text-white text-lg">Are you a CA / CHA?</h4>
+                    <p class="text-gray-400 text-xs mt-1 mb-4">Join 500+ professionals.</p>
+                    <button onclick="openModal('CA')" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-lg transition">Join Network</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="live-agent" class="py-24 bg-[#050914] border-t border-white/5">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <div class="inline-block px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20 text-green-400 text-xs font-bold mb-4">
+                    LIVE SYSTEM
+                </div>
+                <h2 class="text-3xl font-bold text-white">Ask The Lawyer</h2>
+                <p class="text-slate-500 mt-2">Powered by Ekayan (Relevance AI)</p>
+            </div>
+
+            <div class="glass-card rounded-2xl overflow-hidden h-[700px] relative shadow-2xl p-2">
+                <iframe src="https://app.relevanceai.com/agents/d7b62b/18dd64bb-7e6f-4d82-913c-42ffa5f552c1/1733a3cb-bd12-45c6-9cbc-71e1286652fe/embed-chat?starting_message_prompts=You+have+one+free+query.+Ask+your+import-export+legal+or+HS+code+question+clearly.+For+further+assistance%2C+registration+will+be+required.&hide_tool_steps=true&hide_file_uploads=true&hide_conversation_list=true&bubble_style=agent&primary_color=%23000000&bubble_icon=pd%2Fchat&input_placeholder_text=You+have+1+free+query.+Ask+now%E2%80%A6&hide_logo=false&hide_description=false" 
+                width="100%" 
+                height="100%" 
+                frameborder="0" 
+                allow="microphone"
+                class="rounded-xl">
+                </iframe>
+            </div>
+
+            <div id="whatsapp-box" class="mt-8 text-center animate-fade-in">
+                <a id="whatsapp-link" href="https://wa.me/6283849492?text=I%20have%20completed%20my%20free%20query%20on%20HindTrade.%20I%20need%20advanced%20legal%20help." target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-full font-bold transition-transform hover:scale-105 shadow-lg shadow-green-900/20">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i> Get Full Legal Report on WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#0F172A] py-12 border-t border-white/5 text-center">
+        <p class="font-serif text-xl text-white tracking-widest mb-2">HINDTRADE</p>
+        <p class="text-gray-500 text-xs">© 2025 • Secure Global Trade Infrastructure</p>
+    </footer>
+
+    <div id="registrationModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
+        <div class="glass-card w-full max-w-md p-8 rounded-2xl relative bg-[#0F172A]">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">✕</button>
+            <h3 class="text-2xl font-serif text-white mb-6">Initialize Access</h3>
+            <form id="caForm" onsubmit="submitToSupabase(event)" class="space-y-4">
+                <input type="hidden" id="userType">
+                <input type="text" id="name" placeholder="Full Name" required class="w-full bg-[#02040a] border border-white/10 text-white p-3.5 rounded-lg outline-none focus:border-blue-500">
+                <input type="tel" id="phone" placeholder="Phone Number" required class="w-full bg-[#02040a] border border-white/10 text-white p-3.5 rounded-lg outline-none focus:border-blue-500">
+                <input type="email" id="email" placeholder="Email Address" required class="w-full bg-[#02040a] border border-white/10 text-white p-3.5 rounded-lg outline-none focus:border-blue-500">
+                <button type="submit" id="submitBtn" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg mt-2">Submit Request</button>
+            </form>
+            <p id="statusMsg" class="mt-4 text-center text-sm font-medium text-gray-400"></p>
+        </div>
     </div>
 
-    <!-- CTA -->
-    <div class="mt-8 text-center">
-      <button onclick="openModal()"
-        class="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold">
-        Unlock Full Legal Assistance
-      </button>
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
 
-      <a href="https://wa.me/919999999999"
-         class="block mt-4 text-green-400 underline font-semibold">
-        Talk to expert on WhatsApp
-      </a>
-    </div>
+        // Supabase Config
+        const SUPABASE_URL = 'https://rlezzjpgisjycxrmtbmi.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsZXp6anBnaXNqeWN4cm10Ym1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0MzU2MjUsImV4cCI6MjA4MTAxMTYyNX0.fYeTbYnCEDP8wNkqBerGT8buMWk0wK3PdTjI57dVYSY';
+        const { createClient } = supabase;
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="bg-[#0F172A] py-10 text-center border-t border-white/5">
-  <p class="text-white font-serif text-xl">HINDTRADE</p>
-  <p class="text-gray-500 text-xs">© 2025 Secure Global Trade Infrastructure</p>
-</footer>
-
-<!-- MODAL -->
-<div id="modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-  <div class="glass-card p-8 rounded-xl w-full max-w-md">
-    <h3 class="text-xl font-bold text-white mb-4">Register for Full Access</h3>
-    <input placeholder="Name" class="w-full mb-3 p-3 bg-black/40 border border-white/10 rounded">
-    <input placeholder="Phone" class="w-full mb-3 p-3 bg-black/40 border border-white/10 rounded">
-    <input placeholder="Email" class="w-full mb-4 p-3 bg-black/40 border border-white/10 rounded">
-    <button class="w-full py-3 bg-blue-600 rounded font-bold">Submit</button>
-  </div>
-</div>
-
-<script>
-  lucide.createIcons()
-  function openModal(){ document.getElementById('modal').classList.remove('hidden') }
-</script>
-
+        // MODAL LOGIC
+        function openModal(type) {
+            document.getElementById('registrationModal').classList.remove('hidden');
+            document.getElementById('userType').value = type;
+        }
+        function closeModal() { document.getElementById('registrationModal').classList.add('hidden'); }
+        
+        async function submitToSupabase(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Processing...";
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            try {
+                await _supabase.from('ca_requests').insert([{ name, phone, email, specialization: 'User', status: 'pending' }]);
+                document.getElementById('statusMsg').innerText = "✅ Application Sent Successfully.";
+                setTimeout(closeModal, 2000);
+            } catch (err) { document.getElementById('statusMsg').innerText = "❌ Error connecting to server."; } 
+            finally { btn.innerText = "Submit Request"; }
+        }
+    </script>
 </body>
 </html>
+
+
