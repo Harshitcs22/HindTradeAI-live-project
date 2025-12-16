@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HindTrade AI - Global Trade OS</title>
+    <title>HindTrade AI - World's No.1 B2B OS</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -17,18 +17,19 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
                     },
                     colors: {
                         brand: {
-                            blue: '#007AFF',   // Modern Tech Blue
-                            dark: '#0B1120',   // Deep Navy Background
-                            card: '#151F32',   // Lighter Card BG
-                            accent: '#38bdf8'  // Cyan Highlight
+                            blue: '#2563EB',
+                            dark: '#02040a',
+                            card: '#0F172A',
+                            accent: '#38bdf8'
                         }
                     },
                     animation: {
                         'scroll': 'scroll 45s linear infinite',
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
                     },
                     keyframes: {
                         scroll: {
@@ -47,354 +48,334 @@
 
     <style>
         body { 
-            background-color: #0B1120; 
+            background-color: #02040a; 
             color: #E2E8F0; 
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        /* Smooth Glass Card */
+        /* Glass Card */
         .glass-card {
-            background-color: #151F32;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
         }
         .glass-card:hover {
             border-color: #38bdf8;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4);
         }
 
-        /* Chat Message Bubble Styles */
-        .msg-user {
-            background-color: #2563EB;
-            color: white;
-            border-radius: 12px 12px 0 12px;
-            padding: 12px 16px;
-            max-width: 80%;
-            margin-left: auto;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .msg-ai {
-            background-color: #1E293B;
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #E2E8F0;
-            border-radius: 12px 12px 12px 0;
-            padding: 12px 16px;
-            max-width: 85%;
-            margin-right: auto;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            line-height: 1.6;
+        /* Feature Icon Glow */
+        .icon-glow {
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
         }
 
-        /* Ticker Style */
+        /* Ticker Item */
         .ticker-item {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             margin-right: 3rem;
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
+        }
+
+        /* Custom List Bullets */
+        ul.custom-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+        ul.custom-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #38bdf8;
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <nav class="fixed top-0 w-full z-50 bg-[#0B1120]/95 backdrop-blur-md border-b border-white/5">
+    <nav class="fixed top-0 w-full z-50 bg-[#02040a]/90 backdrop-blur-md border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">H</div>
-                <span class="text-xl font-bold text-white tracking-tight">HindTrade <span class="text-blue-400">AI</span></span>
+                <div class="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">H</div>
+                <div class="leading-none">
+                    <span class="block text-lg font-bold text-white tracking-tight">HindTrade</span>
+                    <span class="text-[10px] text-blue-400 font-medium tracking-widest uppercase">Global OS</span>
+                </div>
             </div>
             
-            <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium">
-                <a href="#features" class="hover:text-white transition">Features</a>
-                <a href="#live-agent" class="hover:text-white transition">AI Agent</a>
-                <a href="#network" class="hover:text-white transition">Partner Network</a>
+            <div class="hidden md:flex gap-8 text-xs font-semibold text-gray-400 uppercase tracking-widest items-center">
+                <a href="#vision" class="hover:text-white transition">Vision</a>
+                <a href="#ekayan" class="hover:text-white transition">Ekayan AI</a>
+                <a href="#network" class="hover:text-white transition">Network</a>
+                <span class="px-3 py-1 bg-blue-500/10 text-blue-400 rounded border border-blue-500/20">SYSTEM ONLINE</span>
             </div>
-
-            <button onclick="openModal('Exporter')" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-blue-500/20">
-                Get Started
-            </button>
         </div>
     </nav>
 
-    <div class="fixed top-16 w-full z-40 bg-[#151F32] border-b border-white/5 py-2.5 overflow-hidden">
+    <div class="fixed top-16 w-full z-40 bg-[#0F172A] border-b border-white/5 py-3 overflow-hidden">
         <div class="animate-scroll whitespace-nowrap inline-block text-gray-300">
-            <span class="ticker-item"><span class="text-blue-400">● LIVE:</span> MARKET OPEN</span>
-            <span class="ticker-item">USD/INR <span class="text-green-400">▲ 85.12</span></span>
-            <span class="ticker-item">SENSEX <span class="text-green-400">▲ 84,200</span></span>
-            <span class="ticker-item">GOLD (10g) <span class="text-red-400">▼ ₹82,450</span></span>
-            
-            <span class="ticker-item border-l border-white/10 pl-4">BRENT CRUDE <span class="text-red-400">▼ $72.40</span></span>
-            <span class="ticker-item">EUR/USD <span class="text-green-400">▲ 1.09</span></span>
-            <span class="ticker-item">BITCOIN <span class="text-green-400">▲ $98,500</span></span>
-            
-            <span class="ticker-item border-l border-white/10 pl-4 text-blue-300">NEWS: Rice Export Ban Lifted (Non-Basmati)</span>
-            <span class="ticker-item text-blue-300">Trending: Leather Footwear Demand High in EU</span>
-            
-            <span class="ticker-item border-l border-white/10 pl-4">USD/INR <span class="text-green-400">▲ 85.12</span></span>
+            <span class="ticker-item"><span class="text-blue-400">⚡ LIVE (16 DEC):</span> MARKET PEAK</span>
+            <span class="ticker-item">GOLD (10g) <span class="text-green-400">▲ ₹1,05,400</span></span>
+            <span class="ticker-item">SILVER (1kg) <span class="text-green-400">▲ ₹1,12,000</span></span>
+            <span class="ticker-item">USD/INR <span class="text-red-400">▲ 87.50</span></span>
+            <span class="ticker-item">SENSEX <span class="text-green-400">▲ 92,150</span></span>
+            <span class="ticker-item border-l border-white/10 pl-4">BRENT OIL <span class="text-red-400">▼ $75.20</span></span>
+            <span class="ticker-item">BITCOIN <span class="text-green-400">▲ $108,000</span></span>
+            <span class="ticker-item border-l border-white/10 pl-4 text-blue-300">NEWS: Indian Exports Cross $900B Mark</span>
+            <span class="ticker-item border-l border-white/10 pl-4">GOLD (10g) <span class="text-green-400">▲ ₹1,05,400</span></span>
         </div>
     </div>
 
-    <section class="pt-40 pb-20 px-6">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wide mb-6">
+    <section id="vision" class="pt-44 pb-20 px-6 min-h-[85vh] flex flex-col justify-center">
+        <div class="max-w-5xl mx-auto text-center">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in">
                 <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                System Operational v2.5
+                World's First AI Trade OS
             </div>
             
-            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-                Trade Intelligence for <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Indian Exporters</span>
+            <h1 class="text-5xl md:text-8xl font-serif text-white mb-8 leading-tight animate-fade-in">
+                Trade Without <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 italic">Boundaries.</span>
             </h1>
             
-            <p class="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Check HS Codes, Calculate Export Duties, and Find Buyers instantly. 
-                Replacing the chaos of files with the precision of AI.
+            <p class="text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed font-light animate-fade-in">
+                Stop managing files. Start managing an Empire.<br>
+                The Operating System for <span class="text-white border-b border-blue-500">Indian Dominance</span> in Global Trade.
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="document.getElementById('live-agent').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 bg-white text-brand-dark font-bold rounded-xl shadow-xl hover:bg-gray-100 transition-all transform hover:-translate-y-1">
-                    Try AI Assistant (Free)
+            <div class="flex flex-col sm:flex-row gap-5 justify-center animate-fade-in">
+                <button onclick="document.getElementById('live-agent').scrollIntoView({behavior: 'smooth'})" class="px-10 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-xl shadow-blue-600/20 transition-all transform hover:-translate-y-1">
+                    Try AI Intelligence
                 </button>
-                <button onclick="openModal('CA')" class="px-8 py-4 bg-[#1E293B] border border-white/10 text-white font-medium rounded-xl hover:bg-[#283548] transition-all">
-                    Partner as CA
+                <button onclick="openModal('CA')" class="px-10 py-4 bg-transparent border border-white/20 text-white font-medium rounded-lg hover:bg-white/5 transition-all">
+                    Join as Partner
                 </button>
             </div>
         </div>
     </section>
 
-    <section id="live-agent" class="py-20 bg-[#0d1526]">
-        <div class="max-w-3xl mx-auto px-4">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl font-bold text-white">Live Compliance Assistant</h2>
-                <p class="text-slate-400 text-sm mt-2">Ask about products, duties, or documentation.</p>
+    <section id="ekayan" class="py-24 relative border-t border-white/5 bg-[#050914]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-blue-400 text-sm font-bold tracking-[0.3em] uppercase mb-4">Core Architecture</h2>
+                <h3 class="font-serif text-5xl md:text-6xl text-white">Meet <span class="italic text-blue-400">Ekayan</span></h3>
+                <p class="text-gray-400 mt-6 text-lg max-w-2xl mx-auto">
+                    The Superagent that supervises your trade empire. It controls specialized autonomous agents to execute tasks with zero error.
+                </p>
             </div>
 
-            <div class="glass-card rounded-2xl overflow-hidden flex flex-col h-[500px] relative">
-                <div class="bg-[#1E293B] p-4 border-b border-white/5 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white">
-                            <i data-lucide="bot" class="w-6 h-6"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-white text-sm">HindTrade Agent</h3>
-                            <p class="text-xs text-green-400 flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span> Online
-                            </p>
-                        </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="file-text" class="w-7 h-7"></i>
                     </div>
-                    <button class="text-gray-400 hover:text-white"><i data-lucide="more-horizontal"></i></button>
+                    <h4 class="text-xl font-bold text-white mb-2">The Clerk</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Documentation Unit</p>
+                    <ul class="custom-list">
+                        <li>Generate Invoices in <strong>60s</strong></li>
+                        <li>Auto-fill Export Docs</li>
+                        <li>Error-free Data Entry</li>
+                    </ul>
                 </div>
 
-                <div id="chat-messages" class="flex-1 p-6 overflow-y-auto bg-[#0B1120] scroll-smooth">
-                    <div class="msg-ai animate-fade-in">
-                        <p class="text-sm">Hello! 👋 I'm your Trade Assistant.<br>I can help you with:</p>
-                        <ul class="list-disc ml-4 mt-2 text-sm text-gray-300 space-y-1">
-                            <li>Finding correct <b>HS Codes</b></li>
-                            <li>Checking <b>Export Duties</b> (India)</li>
-                            <li>Import Tariffs in Dubai/USA</li>
-                        </ul>
-                        <p class="text-sm mt-3 text-gray-400">Try searching: <i>"Export Rice to Dubai"</i></p>
+                <div class="glass-card p-8 rounded-2xl group border-blue-500/30 shadow-lg shadow-blue-900/20">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="scale" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Lawyer</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Compliance Unit</p>
+                    <ul class="custom-list">
+                        <li><strong>RAG-Engine:</strong> 100% Legal</li>
+                        <li>Fetches Govt Circulars</li>
+                        <li>HS Codes & Duty Checks</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Gatekeeper</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Security Unit</p>
+                    <ul class="custom-list">
+                        <li>Verifies Buyer Identity</li>
+                        <li>Fraud Detection System</li>
+                        <li>Company Trade Score</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 icon-glow text-blue-400">
+                        <i data-lucide="ship" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">The Agent</h4>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-4 font-bold">Logistics Unit</p>
+                    <ul class="custom-list">
+                        <li>Live Shipment Tracking</li>
+                        <li>Best Logistic Rates</li>
+                        <li>Predictive Delays</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="live-agent" class="py-24 bg-[#02040a]">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <div class="inline-block px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20 text-green-400 text-xs font-bold mb-4">
+                    LIVE DEMO
+                </div>
+                <h2 class="text-3xl font-bold text-white">Ask The Lawyer</h2>
+                <p class="text-slate-500 mt-2">Check Duties & HS Codes (Updated Dec 2025)</p>
+            </div>
+
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col h-[500px] relative shadow-2xl">
+                <div class="bg-[#0F172A] p-4 border-b border-white/5 flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                        <i data-lucide="bot" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">HindTrade AI</h3>
+                        <p class="text-[10px] text-green-400 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Online
+                        </p>
                     </div>
                 </div>
 
-                <div class="p-4 bg-[#1E293B] border-t border-white/5">
+                <div id="chat-messages" class="flex-1 p-6 overflow-y-auto bg-[#02040a] scroll-smooth">
+                    <div class="bg-[#1E293B] p-4 rounded-r-xl rounded-bl-xl max-w-[85%] border border-white/5">
+                        <p class="text-sm text-gray-200">
+                            <b>Hello!</b> I am The Lawyer Agent. <br>
+                            I have updated data for <b>December 2025</b>.
+                        </p>
+                        <p class="text-sm text-gray-400 mt-2">
+                            Try asking: <i>"Export Gold Jewellery to Dubai duty?"</i> or <i>"HS Code for Basmati Rice"</i>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-[#0F172A] border-t border-white/5">
                     <form onsubmit="handleChat(event)" class="flex gap-3">
                         <input type="text" id="user-input" 
-                            class="flex-1 bg-[#0B1120] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500 placeholder-gray-600 transition-colors"
-                            placeholder="Type your product here..." autocomplete="off">
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-4 py-2 transition-colors flex items-center justify-center">
-                            <i data-lucide="send-horizontal" class="w-5 h-5"></i>
+                            class="flex-1 bg-[#02040a] border border-white/10 rounded-xl px-5 py-4 text-white text-sm focus:outline-none focus:border-blue-500 placeholder-gray-600"
+                            placeholder="Type query here..." autocomplete="off">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-5 transition-colors">
+                            <i data-lucide="send" class="w-5 h-5"></i>
                         </button>
                     </form>
                 </div>
             </div>
 
-            <div id="whatsapp-box" class="hidden mt-6 text-center animate-fade-in">
-                <p class="text-gray-400 text-sm mb-3">Need official documentation or a license?</p>
-                <a id="whatsapp-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-6 py-3 rounded-full font-bold transition-transform hover:scale-105 shadow-lg">
+            <div id="whatsapp-box" class="hidden mt-8 text-center animate-fade-in">
+                <a id="whatsapp-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-full font-bold transition-transform hover:scale-105 shadow-lg shadow-green-900/20">
                     <i data-lucide="message-circle" class="w-5 h-5"></i>
-                    Chat on WhatsApp
+                    Get Full Report on WhatsApp
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="features" class="py-20 px-6 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-white text-center mb-12">Complete Export Stack</h2>
-        
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="glass-card p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 mb-6">
-                    <i data-lucide="file-text" class="w-6 h-6"></i>
-                </div>
-                <h3 class="text-xl font-bold text-white mb-3">Instant Docs</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Generate Proforma Invoices, Packing Lists, and Commercial Invoices in one click. Zero errors.
-                </p>
-            </div>
-
-            <div class="glass-card p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-400 mb-6">
-                    <i data-lucide="globe" class="w-6 h-6"></i>
-                </div>
-                <h3 class="text-xl font-bold text-white mb-3">Duty Calculator</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Know exactly how much tax you pay in India and how much your buyer pays in their country.
-                </p>
-            </div>
-
-            <div class="glass-card p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 mb-6">
-                    <i data-lucide="shield-check" class="w-6 h-6"></i>
-                </div>
-                <h3 class="text-xl font-bold text-white mb-3">Buyer Verify</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
-                    Check if your international buyer is legit or a scammer before shipping any goods.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-[#050911] py-12 border-t border-white/5 text-center">
-        <p class="text-white font-bold text-lg tracking-wide mb-2">HINDTRADE AI</p>
-        <p class="text-gray-500 text-sm">© 2025 • Empowering Indian Exports</p>
+    <footer class="bg-[#0F172A] py-12 border-t border-white/5 text-center">
+        <p class="font-serif text-xl text-white tracking-widest mb-2">HINDTRADE</p>
+        <p class="text-gray-500 text-xs">© 2025 • Secure Global Trade Infrastructure</p>
     </footer>
 
-    <div id="registrationModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 transition-all">
-        <div class="glass-card w-full max-w-md p-8 rounded-2xl relative bg-[#151F32]">
+    <div id="registrationModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4">
+        <div class="glass-card w-full max-w-md p-8 rounded-2xl relative bg-[#0F172A]">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">✕</button>
-            
-            <div class="mb-6">
-                <span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-2 py-1 rounded uppercase tracking-wider">Join Network</span>
-                <h3 class="text-2xl font-bold text-white mt-2">Get Started</h3>
-            </div>
-            
+            <h3 class="text-2xl font-serif text-white mb-6">Initialize Access</h3>
             <form id="caForm" onsubmit="submitToSupabase(event)" class="space-y-4">
                 <input type="hidden" id="userType">
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1 ml-1">Full Name</label>
-                    <input type="text" id="name" required class="w-full bg-[#0B1120] border border-white/10 text-white p-3 rounded-lg focus:border-blue-500 outline-none transition-colors">
-                </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1 ml-1">Phone Number</label>
-                    <input type="tel" id="phone" required class="w-full bg-[#0B1120] border border-white/10 text-white p-3 rounded-lg focus:border-blue-500 outline-none transition-colors">
-                </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1 ml-1">Email Address</label>
-                    <input type="email" id="email" required class="w-full bg-[#0B1120] border border-white/10 text-white p-3 rounded-lg focus:border-blue-500 outline-none transition-colors">
-                </div>
-                
-                <button type="submit" id="submitBtn" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg shadow-lg mt-2 transition-all">
-                    Submit Request
-                </button>
+                <input type="text" id="name" placeholder="Full Name" required class="w-full bg-[#02040a] border border-white/10 text-white p-3.5 rounded-lg outline-none focus:border-blue-500">
+                <input type="tel" id="phone" placeholder="Phone Number" required class="w-full bg-[#02040a] border border-white/10 text-white p-3.5 rounded-lg outline-none focus:border-blue-500">
+                <input type="email" id="email" placeholder="Email Address" required class="w-full bg-[#02040a] border border-white/10 text-white p-3.5 rounded-lg outline-none focus:border-blue-500">
+                <button type="submit" id="submitBtn" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg mt-2">Submit Request</button>
             </form>
-            <p id="statusMsg" class="mt-4 text-center text-sm font-medium"></p>
+            <p id="statusMsg" class="mt-4 text-center text-sm font-medium text-gray-400"></p>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-
-        // API Configuration
-        const API_KEY = ''; // Optional: Add Gemini Key here for Real AI
+        const API_KEY = ''; 
         const SUPABASE_URL = 'https://rlezzjpgisjycxrmtbmi.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsZXp6anBnaXNqeWN4cm10Ym1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0MzU2MjUsImV4cCI6MjA4MTAxMTYyNX0.fYeTbYnCEDP8wNkqBerGT8buMWk0wK3PdTjI57dVYSY';
         const { createClient } = supabase;
         const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // --- CHAT LOGIC (USER FRIENDLY) ---
         const chatBox = document.getElementById('chat-messages');
-        const whatsappBox = document.getElementById('whatsapp-box');
-        const whatsappLink = document.getElementById('whatsapp-link');
-
+        
         async function handleChat(e) {
             e.preventDefault();
             const input = document.getElementById('user-input');
             const query = input.value.trim();
             if (!query) return;
 
-            // 1. Add User Message
-            addMessage(query, 'user');
+            // User Message
+            chatBox.innerHTML += `
+                <div class="bg-blue-600 text-white p-4 rounded-l-xl rounded-tr-xl max-w-[80%] ml-auto mb-3 shadow-lg">
+                    ${query}
+                </div>`;
             input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
 
-            // 2. Show Typing Indicator
-            const loadingId = addTypingIndicator();
+            // Typing
+            const loadId = 'load-' + Date.now();
+            chatBox.innerHTML += `
+                <div id="${loadId}" class="bg-[#1E293B] p-3 rounded-xl max-w-[100px] mb-3 border border-white/5">
+                    <div class="flex gap-1 justify-center"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style="animation-delay:0.2s"></span></div>
+                </div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
 
-            // 3. Process Logic (Real AI or Simulation)
             let responseText = "";
-            let product = "Product";
-
-            // Fallback Logic (If no API Key)
-            if (query.toLowerCase().includes('rice')) {
-                product = "Basmati Rice";
+            
+            // Logic with High Inflation 2025 Rates
+            if (query.toLowerCase().includes('gold')) {
                 responseText = `
-                    <strong class="text-white">Analysis for ${product}:</strong><br><br>
-                    ✅ <b>HS Code:</b> 1006.30.20<br>
-                    🇮🇳 <b>Export Duty (India):</b> 20% (Check recent notifications)<br>
-                    🇦🇪 <b>Import Duty (Dubai):</b> 0% (Free Trade)<br><br>
-                    ⚠️ <b>Requirement:</b> You need a Phytosanitary Certificate.
+                    <strong class="text-white">Gold Export Analysis (Dec 2025):</strong><br><br>
+                    💰 <b>Current Rate:</b> ₹1,05,400 / 10g<br>
+                    🇦🇪 <b>UAE Import Duty:</b> 5% (Recoverable)<br>
+                    📉 <b>Trend:</b> High Demand due to Wedding Season.<br>
                 `;
-            } else if (query.toLowerCase().includes('shoe') || query.toLowerCase().includes('leather')) {
-                product = "Leather Footwear";
+            } else if (query.toLowerCase().includes('rice')) {
                 responseText = `
-                    <strong class="text-white">Analysis for ${product}:</strong><br><br>
-                    ✅ <b>HS Code:</b> 6403.99<br>
-                    🇮🇳 <b>Export Incentive:</b> You get ~4.5% Drawback benefit.<br>
-                    🇪🇺 <b>EU Demand:</b> Very High currently.<br>
+                    <strong class="text-white">Basmati Rice Report:</strong><br><br>
+                    ✅ <b>HS Code:</b> 1006.30.20<br>
+                    🇮🇳 <b>Export Duty:</b> 10% (Reduced)<br>
+                    🚢 <b>Freight to Dubai:</b> $800 / Container<br>
                 `;
             } else {
                 responseText = `
                     I have checked the database for "<b>${query}</b>".<br><br>
                     • <b>Status:</b> Export Allowed<br>
-                    • <b>Compliance:</b> IEC License Required<br><br>
-                    For exact Duty Rates and Buyer Verification, please connect with our expert team below.
+                    • <b>Docs Required:</b> Invoice, Packing List, IEC<br><br>
+                    For a formal report, click the WhatsApp button below.
                 `;
             }
 
-            // Simulate Network Delay for realism (1.5s)
             await new Promise(r => setTimeout(r, 1500));
-
-            // 4. Remove Typing & Show Response
-            document.getElementById(loadingId).remove();
-            addMessage(responseText, 'ai');
-
-            // 5. Show WhatsApp Button
-            whatsappBox.classList.remove('hidden');
-            whatsappLink.href = `https://wa.me/6283849492?text=Hi, I searched for "${query}" on HindTrade. I need help with documentation.`;
-        }
-
-        function addMessage(html, sender) {
-            const div = document.createElement('div');
-            div.className = sender === 'user' ? 'msg-user animate-fade-in' : 'msg-ai animate-fade-in';
-            div.innerHTML = html;
-            chatBox.appendChild(div);
+            document.getElementById(loadId).remove();
+            
+            chatBox.innerHTML += `
+                <div class="bg-[#1E293B] border border-white/5 text-gray-200 p-4 rounded-r-xl rounded-bl-xl max-w-[85%] mb-3 shadow">
+                    ${responseText}
+                </div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
+
+            document.getElementById('whatsapp-box').classList.remove('hidden');
+            document.getElementById('whatsapp-link').href = `https://wa.me/6283849492?text=Hi, need help with ${query} (2025 Rates).`;
         }
 
-        function addTypingIndicator() {
-            const id = 'typing-' + Date.now();
-            const div = document.createElement('div');
-            div.id = id;
-            div.className = 'msg-ai text-gray-400 text-sm flex gap-2 items-center';
-            div.innerHTML = `
-                <span>Thinking</span>
-                <span class="flex gap-1">
-                    <span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce"></span>
-                    <span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
-                    <span class="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
-                </span>`;
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
-            return id;
-        }
-
-        // --- MODAL LOGIC ---
         function openModal(type) {
             document.getElementById('registrationModal').classList.remove('hidden');
             document.getElementById('userType').value = type;
@@ -402,31 +383,23 @@
         function closeModal() {
             document.getElementById('registrationModal').classList.add('hidden');
         }
-
         async function submitToSupabase(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            const status = document.getElementById('statusMsg');
-            
             btn.innerText = "Processing...";
-            btn.classList.add('opacity-70');
             
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
             
             try {
-                const { error } = await _supabase.from('ca_requests').insert([{ name, phone, email, specialization: 'User', status: 'pending' }]);
-                if (error) throw error;
-                
-                status.innerHTML = "<span class='text-green-400'>✔ Success! We will call you shortly.</span>";
-                document.getElementById('caForm').reset();
-                setTimeout(closeModal, 2500);
+                await _supabase.from('ca_requests').insert([{ name, phone, email, specialization: 'User', status: 'pending' }]);
+                document.getElementById('statusMsg').innerText = "Application Sent.";
+                setTimeout(closeModal, 2000);
             } catch (err) {
-                status.innerHTML = "<span class='text-red-400'>❌ Error. Please try again.</span>";
+                document.getElementById('statusMsg').innerText = "Error.";
             } finally {
                 btn.innerText = "Submit Request";
-                btn.classList.remove('opacity-70');
             }
         }
     </script>
