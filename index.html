@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HindTrade AI - The Complete Trade OS</title>
+    <title>HindTrade AI - The Global Trade OS</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -38,10 +38,32 @@
         .glass-card { background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; }
         .glass-card:hover { border-color: #38bdf8; transform: translateY(-3px); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5); }
         
+        /* TRADING CARDS (New Feature) */
+        .trade-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .trade-card:hover {
+            border-color: #f97316; /* Orange hover for connection */
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+        }
+        .chip-sim {
+            background: linear-gradient(45deg, #fbbf24, #d97706);
+            width: 40px; 
+            height: 30px; 
+            border-radius: 6px;
+            opacity: 0.8;
+        }
+
         /* Agent Cards */
         .agent-card-active { border: 1px solid #3b82f6; background: linear-gradient(145deg, rgba(59, 130, 246, 0.1), rgba(15, 23, 42, 0.8)); }
         .agent-card-locked { border: 1px solid rgba(255, 255, 255, 0.05); opacity: 0.6; position: relative; overflow: hidden; cursor: not-allowed; }
-        .agent-card-locked::after { content: "LOCKED"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 2rem; font-weight: 800; color: rgba(255,255,255,0.05); pointer-events: none; }
+        .agent-card-locked::after { content: "WAITLIST"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 1.5rem; font-weight: 800; color: rgba(255,255,255,0.05); pointer-events: none; }
         
         /* Dashboard Layout - Precise Grid */
         .dash-layout { display: grid; grid-template-columns: 260px 1fr; height: 100vh; overflow: hidden; }
@@ -85,13 +107,13 @@
                     <div class="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">H</div>
                     <div class="leading-none">
                         <span class="block text-lg font-bold text-white tracking-tight">HindTrade</span>
-                        <span class="text-[10px] text-blue-400 font-medium tracking-widest uppercase">AI Trade SaaS</span>
+                        <span class="text-[10px] text-blue-400 font-medium tracking-widest uppercase">AI Trade OS</span>
                     </div>
                 </div>
                 <div class="hidden md:flex gap-8 text-xs font-semibold text-gray-400 uppercase tracking-widest items-center">
                     <a href="#agents" class="hover:text-blue-400 transition">AI Agents</a>
+                    <a href="#live-traders" class="hover:text-green-400 transition">Live Network</a>
                     <a href="#domestic" class="hover:text-orange-400 transition">Bharat Bazaar</a>
-                    <a href="#ca-network" class="hover:text-yellow-400 transition">CA Trust</a>
                     <button onclick="openAuthModal()" class="text-white hover:text-blue-400 transition bg-white/10 px-4 py-2 rounded">Login</button>
                 </div>
             </div>
@@ -109,15 +131,19 @@
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/20 rounded-full blur-[120px] -z-10"></div>
             
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8 mx-auto animate-fade-in">
-                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Testing Live: Legal AI Agent
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Operating System v2.1
             </div>
             
-            <h1 class="text-5xl md:text-8xl font-serif text-white mb-8 leading-tight animate-fade-in">
-                One OS. Four Agents. <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 italic">Total Trade Dominance.</span>
+            <h1 class="text-5xl md:text-7xl font-serif text-white mb-6 leading-tight animate-fade-in tracking-tight">
+                HindTrade AI
             </h1>
+            <p class="text-2xl md:text-3xl font-light text-slate-300 mb-8 animate-fade-in">
+                World's First <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 font-medium">Agent-Led</span> Trade Network.
+            </p>
             
-            <p class="text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed font-light animate-fade-in">
-                Replace 10 different tools. Hire our AI Agents for Law, Logistics, Sales, and Trust.
+            <p class="text-sm text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed font-mono animate-fade-in">
+                Automate Law. Optimize Logistics. Secure Trust. <br>
+                Connecting <span class="text-white border-b border-white/20">Local Bharat</span> to <span class="text-white border-b border-white/20">Global Markets</span>.
             </p>
             
             <div class="flex flex-col sm:flex-row gap-5 justify-center animate-fade-in">
@@ -125,27 +151,27 @@
                     <i data-lucide="message-square"></i> Talk with Lawyer Agent
                 </button>
                 <button onclick="openAuthModal()" class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-lg border border-white/10">
-                    View Dashboard
+                    Enter Dashboard
                 </button>
             </div>
         </section>
 
         <section class="py-16 bg-[#050914] border-y border-white/5">
             <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center">
-                <div class="p-6 group hover:bg-white/5 rounded-xl transition">
+                <div class="p-6 group hover:bg-white/5 rounded-xl transition cursor-pointer">
                     <div class="w-14 h-14 bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-green-400 group-hover:scale-110 transition"><i data-lucide="trending-up" class="w-7 h-7"></i></div>
-                    <h3 class="text-white font-bold text-xl mb-2">"You Earn Here"</h3>
-                    <p class="text-gray-400 text-sm">Our Sales Agent hunts buyers in Dubai & UK 24/7. Auto-negotiation enabled.</p>
+                    <h3 class="text-white font-bold text-xl mb-2">You Earn Here</h3>
+                    <p class="text-gray-400 text-sm">Sales Agent finds buyers in Dubai & UK. Handles negotiation automatically.</p>
                 </div>
-                <div class="p-6 border-x border-white/5 group hover:bg-white/5 rounded-xl transition">
+                <div class="p-6 border-x border-white/5 group hover:bg-white/5 rounded-xl transition cursor-pointer">
                     <div class="w-14 h-14 bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-400 group-hover:scale-110 transition"><i data-lucide="piggy-bank" class="w-7 h-7"></i></div>
-                    <h3 class="text-white font-bold text-xl mb-2">"You Save Here"</h3>
-                    <p class="text-gray-400 text-sm">Cut legal costs by 90% with AI Lawyer. Get optimized freight rates via Logistics Agent.</p>
+                    <h3 class="text-white font-bold text-xl mb-2">You Save Here</h3>
+                    <p class="text-gray-400 text-sm">Cut legal fees by 90% with AI. Logistics Agent finds the cheapest containers.</p>
                 </div>
-                <div class="p-6 group hover:bg-white/5 rounded-xl transition">
+                <div class="p-6 group hover:bg-white/5 rounded-xl transition cursor-pointer">
                     <div class="w-14 h-14 bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow-400 group-hover:scale-110 transition"><i data-lucide="shield-check" class="w-7 h-7"></i></div>
-                    <h3 class="text-white font-bold text-xl mb-2">"You Build Repo Here"</h3>
-                    <p class="text-gray-400 text-sm">Gatekeeper Agent + CA Verification = A Trust Score banks actually respect.</p>
+                    <h3 class="text-white font-bold text-xl mb-2">You Build Repo Here</h3>
+                    <p class="text-gray-400 text-sm">Gatekeeper + CA Verification = A Trust Score that banks actually respect.</p>
                 </div>
             </div>
         </section>
@@ -153,7 +179,9 @@
         <section id="agents" class="py-24 max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-serif text-white mb-4">Meet Your AI Workforce</h2>
-                <p class="text-gray-400">4 Specialized Sub-Agents. Only Lawyer is Active for Beta Testing.</p>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    Why hire 10 people when 4 Agents can run your entire export business?
+                </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -161,42 +189,58 @@
                     <div class="absolute top-3 right-3 text-gray-500"><i data-lucide="lock" class="w-4 h-4"></i></div>
                     <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-6 text-gray-400"><i data-lucide="scan-face" class="w-8 h-8"></i></div>
                     <h3 class="text-white font-bold text-lg">The Gatekeeper</h3>
-                    <p class="text-xs text-gray-500 mt-2 mb-4">KYC, Aadhaar, GST Verification Agent.</p>
-                    <button class="w-full py-2 bg-white/5 rounded text-gray-500 text-xs cursor-not-allowed">Waitlist Only</button>
+                    <ul class="text-xs text-gray-500 mt-4 mb-4 text-left space-y-2 w-full px-2">
+                        <li>• Verifies IEC, GST & Aadhaar in real-time.</li>
+                        <li>• Checks against Global Sanctions lists.</li>
+                        <li>• Prevents fraud by validating counter-parties.</li>
+                    </ul>
+                    <button class="w-full py-2 bg-white/5 rounded text-gray-500 text-xs cursor-not-allowed mt-auto">Waitlist Only</button>
                 </div>
 
                 <div class="glass-card agent-card-active p-6 rounded-xl flex flex-col items-center text-center transform scale-105 shadow-2xl shadow-blue-900/20 relative z-10">
                     <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">LIVE</div>
                     <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-6 text-white shadow-lg shadow-blue-600/30 animate-pulse-glow"><i data-lucide="scale" class="w-8 h-8"></i></div>
                     <h3 class="text-white font-bold text-lg">The Lawyer</h3>
-                    <p class="text-xs text-blue-200 mt-2 mb-4">Contracts, HS Codes, Customs Law.</p>
-                    <button onclick="activateAgentFrame()" class="w-full py-2 bg-white text-blue-900 font-bold rounded text-xs hover:bg-gray-100 transition">Start Chatting</button>
+                    <ul class="text-xs text-blue-200 mt-4 mb-6 text-left space-y-2 w-full px-2">
+                        <li>• Expert in <b>HS Code 6310 (Used Rags)</b> & Scrap.</li>
+                        <li>• Drafts watertight Export Contracts instantly.</li>
+                        <li>• Navigates complex Customs & Duty laws.</li>
+                    </ul>
+                    <button onclick="activateAgentFrame()" class="w-full py-3 bg-white text-blue-900 font-bold rounded text-xs hover:bg-gray-100 transition shadow-lg">Start Chatting</button>
                 </div>
 
                 <div class="glass-card agent-card-locked p-6 rounded-xl flex flex-col items-center text-center">
                     <div class="absolute top-3 right-3 text-gray-500"><i data-lucide="lock" class="w-4 h-4"></i></div>
                     <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-6 text-gray-400"><i data-lucide="container" class="w-8 h-8"></i></div>
                     <h3 class="text-white font-bold text-lg">Logistic Agent</h3>
-                    <p class="text-xs text-gray-500 mt-2 mb-4">Freight rates, Tracking, Optimization.</p>
-                    <button class="w-full py-2 bg-white/5 rounded text-gray-500 text-xs cursor-not-allowed">Waitlist Only</button>
+                    <ul class="text-xs text-gray-500 mt-4 mb-4 text-left space-y-2 w-full px-2">
+                        <li>• Compares freight rates across 50+ lines.</li>
+                        <li>• Tracks containers to prevent demurrage.</li>
+                        <li>• Optimizes route planning for speed.</li>
+                    </ul>
+                    <button class="w-full py-2 bg-white/5 rounded text-gray-500 text-xs cursor-not-allowed mt-auto">Waitlist Only</button>
                 </div>
 
                 <div class="glass-card agent-card-locked p-6 rounded-xl flex flex-col items-center text-center">
                     <div class="absolute top-3 right-3 text-gray-500"><i data-lucide="lock" class="w-4 h-4"></i></div>
                     <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-6 text-gray-400"><i data-lucide="users" class="w-8 h-8"></i></div>
                     <h3 class="text-white font-bold text-lg">Sales Agent</h3>
-                    <p class="text-xs text-gray-500 mt-2 mb-4">Buyer Discovery, Deal Negotiation.</p>
-                    <button class="w-full py-2 bg-white/5 rounded text-gray-500 text-xs cursor-not-allowed">Waitlist Only</button>
+                    <ul class="text-xs text-gray-500 mt-4 mb-4 text-left space-y-2 w-full px-2">
+                        <li>• Identifies verified buyers in niche markets.</li>
+                        <li>• Auto-negotiates pricing based on your limits.</li>
+                        <li>• Sends samples & manages follow-ups.</li>
+                    </ul>
+                    <button class="w-full py-2 bg-white/5 rounded text-gray-500 text-xs cursor-not-allowed mt-auto">Waitlist Only</button>
                 </div>
             </div>
 
-            <div id="agent-interface" class="hidden mt-12 animate-fade-in border border-blue-500/30 rounded-2xl overflow-hidden shadow-2xl h-[600px] bg-[#02040a]">
-                <div class="bg-blue-900/20 p-4 border-b border-blue-500/20 flex justify-between items-center">
+            <div id="agent-interface" class="hidden mt-12 animate-fade-in border border-blue-500/30 rounded-2xl overflow-hidden shadow-2xl h-[650px] bg-white relative z-50">
+                <div class="bg-slate-100 p-4 border-b border-gray-200 flex justify-between items-center">
                     <div class="flex items-center gap-3">
                         <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                        <span class="text-white font-bold text-sm">Lawyer Agent Session (Encrypted)</span>
+                        <span class="text-slate-800 font-bold text-sm">Lawyer Agent Session (Encrypted)</span>
                     </div>
-                    <button onclick="closeAgentFrame()" class="text-gray-400 hover:text-white"><i data-lucide="x"></i></button>
+                    <button onclick="closeAgentFrame()" class="text-gray-500 hover:text-red-500"><i data-lucide="x"></i></button>
                 </div>
                 <iframe src="https://app.relevanceai.com/agents/d7b62b/18dd64bb-7e6f-4d82-913c-42ffa5f552c1/1733a3cb-bd12-45c6-9cbc-71e1286652fe/embed-chat?hide_tool_steps=true&hide_file_uploads=true&hide_conversation_list=true&bubble_style=agent&primary_color=%233b82f6&bubble_icon=pd%2Fchat" width="100%" height="100%" frameborder="0"></iframe>
             </div>
@@ -234,14 +278,91 @@
                             <div class="w-full bg-gray-700 h-2 rounded-full overflow-hidden mb-2">
                                 <div class="bg-orange-500 h-full w-[75%]"></div>
                             </div>
-                            <span class="text-orange-400 text-xs">Available: 75,000 Units</span>
+                            <span class="text-orange-400 text-xs">Available: 75,000 Units (Ready to Ship)</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="ca-network" class="py-24 bg-[#050914] border-t border-white/5">
+        <section id="live-traders" class="py-20 bg-[#050914] relative border-t border-white/5 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex justify-between items-center mb-10">
+                    <h3 class="text-2xl font-serif text-white">Live Trade Network</h3>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest">Real-Time Profiles</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="trade-card p-6">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="chip-sim"></div>
+                            <span class="text-xs font-mono text-gray-400">ID: #PUN-8921</span>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="text-white font-bold text-lg tracking-wide">Singh Brothers Textiles</h4>
+                            <p class="text-orange-400 text-xs font-semibold mt-1">Ludhiana, Punjab</p>
+                        </div>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-[10px] text-gray-500 uppercase">Offering</p>
+                                <p class="text-sm text-gray-300">Bulk Cotton Tees (10k)</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] text-gray-500 uppercase">Trust Score</p>
+                                <p class="text-sm text-green-400 font-bold">98/100</p>
+                            </div>
+                        </div>
+                        <button class="w-full mt-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-xs text-white transition">Connect</button>
+                    </div>
+
+                    <div class="trade-card p-6">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="chip-sim"></div>
+                            <span class="text-xs font-mono text-gray-400">ID: #MAH-2022</span>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="text-white font-bold text-lg tracking-wide">Patil Agro Farms</h4>
+                            <p class="text-green-400 text-xs font-semibold mt-1">Nagpur, Maharashtra</p>
+                        </div>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-[10px] text-gray-500 uppercase">Offering</p>
+                                <p class="text-sm text-gray-300">Raw Cotton Bales</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] text-gray-500 uppercase">Last Deal</p>
+                                <p class="text-sm text-gray-300">2 Days ago</p>
+                            </div>
+                        </div>
+                        <button class="w-full mt-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-xs text-white transition">Connect</button>
+                    </div>
+
+                    <div class="trade-card p-6">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="chip-sim"></div>
+                            <span class="text-xs font-mono text-gray-400">ID: #RAJ-1109</span>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="text-white font-bold text-lg tracking-wide">Royal Rugs Export</h4>
+                            <p class="text-blue-400 text-xs font-semibold mt-1">Jaipur, Rajasthan</p>
+                        </div>
+                        <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                            <div>
+                                <p class="text-[10px] text-gray-500 uppercase">Looking For</p>
+                                <p class="text-sm text-gray-300">Wool Yarn Suppliers</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] text-gray-500 uppercase">Verified</p>
+                                <p class="text-sm text-yellow-500 font-bold"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> Yes</p>
+                            </div>
+                        </div>
+                        <button class="w-full mt-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-xs text-white transition">Connect</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ca-network" class="py-24 bg-[#02040a] border-t border-white/5">
             <div class="max-w-7xl mx-auto px-6 text-center">
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-xs font-bold uppercase tracking-widest mb-6"><i data-lucide="award"></i> The Trust Layer</div>
                 <h2 class="text-3xl md:text-5xl font-serif text-white mb-10">CA Verified Trust Score</h2>
@@ -394,7 +515,7 @@
 
             <div id="view-lawyer" class="dash-section h-full pb-20">
                 <h2 class="text-white font-bold text-xl mb-4">Legal Counsel</h2>
-                <div class="h-[500px] border border-white/10 rounded-xl overflow-hidden bg-[#02040a]">
+                <div class="h-[600px] border border-white/10 rounded-xl overflow-hidden bg-white">
                     <iframe src="https://app.relevanceai.com/agents/d7b62b/18dd64bb-7e6f-4d82-913c-42ffa5f552c1/1733a3cb-bd12-45c6-9cbc-71e1286652fe/embed-chat?hide_tool_steps=true&hide_file_uploads=true&hide_conversation_list=true&bubble_style=agent&primary_color=%233b82f6&bubble_icon=pd%2Fchat" width="100%" height="100%" frameborder="0"></iframe>
                 </div>
             </div>
@@ -455,16 +576,12 @@
 
         // --- DASHBOARD LOGIC ---
         function switchDashView(viewId) {
-            // Hide all sections
             document.querySelectorAll('.dash-section').forEach(el => el.classList.remove('active'));
-            
-            // Show target section
             document.getElementById('view-' + viewId).classList.add('active');
             
-            // Update Nav Styling
             document.querySelectorAll('.nav-item').forEach(el => {
                 el.classList.remove('active', 'active-domestic', 'text-white', 'text-orange-400');
-                if(el.id === 'nav-domestic') el.classList.add('text-gray-400'); // Reset domestic
+                if(el.id === 'nav-domestic') el.classList.add('text-gray-400'); 
                 else el.classList.add('text-gray-400');
             });
 
