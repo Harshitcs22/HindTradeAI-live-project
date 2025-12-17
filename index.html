@@ -7,6 +7,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
@@ -15,181 +16,741 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter'], serif: ['Playfair Display'] }
+                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['"Playfair Display"', 'serif'] },
+                    animation: { 
+                        'scroll': 'scroll 45s linear infinite', 
+                        'fade-in': 'fadeIn 0.8s ease-out forwards', 
+                        'pulse-slow': 'pulse 3s infinite',
+                        'float': 'float 6s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        scroll: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-100%)' } },
+                        fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
+                    }
                 }
             }
         }
     </script>
 
     <style>
-        body { background-color:#02040a;color:#E2E8F0;font-family:'Inter';overflow-x:hidden }
-        .glass-card{background:rgba(15,23,42,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08)}
-        .demo-badge{background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.3)}
+        body { background-color: #02040a; color: #E2E8F0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        /* Glassmorphism & UI */
+        .glass-card { background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; }
+        .glass-card:hover { border-color: #38bdf8; transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.4); }
+        .icon-glow { box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+        .ticker-item { display: inline-flex; align-items: center; gap: 8px; margin-right: 3rem; font-size: 0.9rem; font-weight: 600; }
+        
+        /* Agent Tab Styles */
+        .agent-tab { cursor: pointer; border-bottom: 2px solid transparent; opacity: 0.6; transition: all 0.3s; }
+        .agent-tab.active { border-color: #3b82f6; opacity: 1; color: white; }
+
+        /* Dashboard specific */
+        .nav-item.active { background: rgba(59, 130, 246, 0.1); border-left: 3px solid #3b82f6; color: white; }
+        .dash-section { display: none; animation: fadeIn 0.4s ease-out; }
+        .dash-section.active { display: block; }
+
+        /* Form Inputs */
+        .dash-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 8px; color: white; margin-top: 5px; }
+        .dash-input:focus { outline: none; border-color: #3b82f6; background: rgba(255,255,255,0.1); }
+        .dash-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+
+        /* Gold Gradient */
+        .gold-gradient { background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-gold { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; }
+        .btn-gold:hover { background: linear-gradient(135deg, #D97706 0%, #B45309 100%); }
+
+        /* LUXURY NOTIFICATIONS SCROLL */
+        .notification-rail {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 5%;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        }
+        .notification-rail::-webkit-scrollbar { display: none; }
+        
+        .notif-card {
+            min-width: 280px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s;
+            cursor: default;
+        }
+        .notif-card:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(56, 189, 248, 0.5); }
+
+        /* Onboarding Wedge */
+        .wedge-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            width: 300px;
+            transform: translateY(120%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .wedge-visible { transform: translateY(0); }
+        .mini-profile-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.1);
+        }
     </style>
 </head>
-
 <body class="antialiased">
 
-<!-- ========================================================= -->
-<!-- ================= ORIGINAL CODE START =================== -->
-<!-- ========================================================= -->
-
-<!-- 🔒 AUTH MODAL (UNCHANGED) -->
-<div id="auth-modal" class="fixed inset-0 z-[200] bg-black/80 hidden flex items-center justify-center">
-    <div class="glass-card p-8 rounded-2xl w-full max-w-md relative">
-        <button onclick="closeAuthModal()" class="absolute top-4 right-4">✕</button>
-        <h2 class="text-2xl font-serif text-white text-center mb-4">Register with us</h2>
-        <input id="auth-email" type="email" class="w-full p-3 rounded bg-black/40 mb-4" placeholder="you@company.com">
-        <button onclick="handleMagicLink()" class="w-full bg-blue-600 py-3 rounded font-bold">Continue</button>
-        <p id="auth-success" class="hidden text-green-400 text-sm mt-3">Magic link sent</p>
-    </div>
-</div>
-
-<!-- LANDING -->
-<div id="landing-view">
-
-<nav class="fixed top-0 w-full bg-black/80 backdrop-blur border-b border-white/5 z-40">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
-        <div class="text-white font-bold tracking-widest">HINDTRADE AI</div>
-        <div class="flex gap-6 text-sm">
-            <button onclick="openAuthModal()">Register with us</button>
-            <button onclick="openDemoDashboard()" class="text-blue-400">Visit Himrock Demo</button>
+    <div id="auth-modal" class="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md hidden flex items-center justify-center">
+        <div class="glass-card p-8 rounded-2xl w-full max-w-md relative animate-fade-in border-blue-500/30">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center text-blue-400 mx-auto mb-4"><i data-lucide="key" class="w-6 h-6"></i></div>
+                <h2 class="text-2xl font-serif text-white mb-2">Login / Register</h2>
+                <p class="text-gray-400 text-sm">Secure access via Magic Link (Email)</p>
+            </div>
+            <div id="auth-step-email">
+                <label class="dash-label">Work Email</label>
+                <input type="email" id="auth-email" placeholder="name@company.com" class="dash-input mb-4 text-lg">
+                <button onclick="handleMagicLink()" id="btn-magic-link" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition-all shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2">
+                    <span>Send Magic Link</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div id="auth-step-success" class="hidden text-center">
+                <div class="p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 mb-4 text-sm flex flex-col items-center">
+                    <i data-lucide="check-circle" class="w-8 h-8 mb-2"></i>
+                    <span>Magic Link Sent! Check your inbox.</span>
+                </div>
+                <p class="text-xs text-gray-500">You can close this tab and click the link in your email to login automatically.</p>
+            </div>
         </div>
     </div>
-</nav>
 
-<section class="pt-40 pb-20 text-center max-w-5xl mx-auto px-6">
-    <h1 class="text-6xl font-serif text-white mb-6">
-        Trade Without Boundaries
-    </h1>
-    <p class="text-xl text-gray-400 mb-6">
-        One registration can help you <span class="text-green-400 font-bold">start earning in a few days</span> —  
-        without paperwork, agents, or middlemen.
-    </p>
-    <div class="flex justify-center gap-4">
-        <button onclick="openAuthModal()" class="bg-blue-600 px-8 py-4 rounded font-bold">
-            Register with us
-        </button>
-        <button onclick="openDemoDashboard()" class="bg-white text-black px-8 py-4 rounded font-bold">
-            View Demo Dashboard
+    <div id="profile-modal" class="fixed inset-0 z-[200] bg-[#02040a] hidden flex items-center justify-center">
+        <div class="max-w-2xl w-full p-6">
+            <div class="mb-8">
+                <p class="text-blue-400 text-xs font-bold uppercase tracking-widest mb-2">Step 1 of 3</p>
+                <h2 class="text-4xl font-serif text-white">Create your profile</h2>
+                <p class="text-gray-400 mt-2">To start trading on HindTrade OS, we need to verify your trade identity.</p>
+            </div>
+            <div class="glass-card p-8 rounded-2xl border-blue-500/20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="col-span-2">
+                        <label class="dash-label">Full Name</label>
+                        <input type="text" id="prof-name" class="dash-input" placeholder="e.g. Rahul Sharma">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="dash-label">Company Name</label>
+                        <input type="text" id="prof-company" class="dash-input" placeholder="e.g. Sharma Global Exports">
+                    </div>
+                    <div>
+                        <label class="dash-label">Role</label>
+                        <select id="prof-role" class="dash-input bg-[#0f172a]">
+                            <option value="exporter">Exporter</option>
+                            <option value="buyer">International Buyer</option>
+                            <option value="logistics">Logistics Partner</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="dash-label">City</label>
+                        <input type="text" id="prof-city" class="dash-input" placeholder="e.g. Mumbai">
+                    </div>
+                </div>
+                <div class="mt-8 flex justify-end">
+                    <button id="save-prof-btn" onclick="saveProfile()" class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg shadow-blue-600/20 flex items-center gap-2">
+                        <span>Launch Dashboard</span> <i data-lucide="rocket" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="landing-view" class="transition-all duration-700 ease-in-out opacity-100">
+
+        <nav class="fixed top-0 w-full z-50 bg-[#02040a]/90 backdrop-blur-md border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">H</div>
+                    <div class="leading-none">
+                        <span class="block text-lg font-bold text-white tracking-tight">HindTrade</span>
+                        <span class="text-[10px] text-blue-400 font-medium tracking-widest uppercase">Global OS</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex gap-8 text-xs font-semibold text-gray-400 uppercase tracking-widest items-center">
+                    <a href="#vision" class="hover:text-white transition">Vision</a>
+                    <a href="#ekayan" class="hover:text-white transition">Ekayan AI</a>
+                    <span class="px-3 py-1 bg-green-500/10 text-green-400 rounded border border-green-500/20 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> SYSTEM ONLINE
+                    </span>
+                    <button onclick="openAuthModal()" class="text-white hover:text-blue-400 transition">Login / Register</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="fixed top-16 w-full z-40 bg-[#0F172A] border-b border-white/5 py-3 overflow-hidden">
+            <div class="animate-scroll whitespace-nowrap inline-block text-gray-300">
+                <span class="ticker-item"><span class="text-blue-400">⚡ LIVE:</span> HINDTRADE OS v1.0</span>
+                <span class="ticker-item">GOLD <span class="text-green-400">▲ ₹1,05,400</span></span>
+                <span class="ticker-item">USD/INR <span class="text-red-400">▲ 87.50</span></span>
+                <span class="ticker-item">CONTAINERS BOOKED: <span class="text-blue-400">840 TODAY</span></span>
+            </div>
+        </div>
+
+        <section id="vision" class="pt-40 pb-10 px-6 min-h-[90vh] flex flex-col justify-center relative">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/20 rounded-full blur-[120px] -z-10"></div>
+            <div class="max-w-5xl mx-auto text-center z-10">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> World's First AI Trade OS
+                </div>
+                <h1 class="text-5xl md:text-8xl font-serif text-white mb-8 leading-tight animate-fade-in">
+                    Trade Without <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 italic">Boundaries.</span>
+                </h1>
+                <p class="text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed font-light animate-fade-in">
+                    The Operating System for <span class="text-white border-b border-blue-500">Indian Dominance</span> in Global Trade.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-5 justify-center animate-fade-in mb-16">
+                    <button onclick="openAuthModal()" class="px-10 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-xl shadow-blue-600/20 transition-all transform hover:-translate-y-1">
+                        Start Ekayan Engine (Free)
+                    </button>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto w-full animate-fade-in">
+                <p class="text-center text-xs text-gray-500 uppercase tracking-[0.2em] mb-4">Solves 99% of Trade Failures</p>
+                <div class="notification-rail">
+                    <div class="notif-card">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center"><i data-lucide="zap" class="w-5 h-5"></i></div>
+                        <div><h4 class="text-white text-sm font-bold">AI Matchmaking</h4><p class="text-xs text-gray-400">Find buyers in 30s.</p></div>
+                    </div>
+                    <div class="notif-card border-green-500/30">
+                        <div class="w-10 h-10 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center"><i data-lucide="sprout" class="w-5 h-5"></i></div>
+                        <div><h4 class="text-white text-sm font-bold">Direct-to-Farmer</h4><p class="text-xs text-gray-400">Zero Middlemen. 100% Margin.</p></div>
+                    </div>
+                    <div class="notif-card">
+                        <div class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+                        <div><h4 class="text-white text-sm font-bold">Trust Verified</h4><p class="text-xs text-gray-400">GST/IEC Verified entities.</p></div>
+                    </div>
+                    <div class="notif-card">
+                        <div class="w-10 h-10 rounded-full bg-yellow-500/20 text-yellow-400 flex items-center justify-center"><i data-lucide="piggy-bank" class="w-5 h-5"></i></div>
+                        <div><h4 class="text-white text-sm font-bold">Save 30% Freight</h4><p class="text-xs text-gray-400">AI negotiates rates.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ekayan" class="py-24 relative border-t border-white/5 bg-[#050914]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-24 max-w-4xl mx-auto">
+                    <h2 class="text-blue-400 text-sm font-bold tracking-[0.3em] uppercase mb-4">The Philosophy</h2>
+                    <h3 class="font-serif text-5xl md:text-6xl text-white mb-8">Meet <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Ekayan</span></h3>
+                    <div class="glass-card p-8 rounded-2xl relative overflow-hidden text-left border-l-4 border-l-blue-500">
+                        <div class="flex flex-col md:flex-row items-center gap-6">
+                            <div class="text-5xl font-serif text-slate-700 opacity-20 hidden md:block">ॐ</div>
+                            <div>
+                                <p class="text-xl text-white mb-4 font-serif italic">"Ekayan" (Sanskrit: <span class="text-blue-400">एकायन</span>) — Meaning "The One Path" or "Unity of Purpose".</p>
+                                <p class="text-gray-400 text-sm leading-relaxed">HindTrade's <span class="text-white">Ekayan AI</span> is a Single Unified Intelligence that connects Legal, Logistics, and Finance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
+                        <div class="absolute top-4 right-4 bg-green-500/20 text-green-400 text-[10px] font-bold px-2 py-1 rounded border border-green-500/30">🟢 LIVE</div>
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 icon-glow text-blue-400"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+                        <h4 class="text-lg font-bold text-white mb-1">The Gatekeeper</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 font-bold">Verification Unit</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
+                        <div class="absolute top-4 right-4 bg-green-500/20 text-green-400 text-[10px] font-bold px-2 py-1 rounded border border-green-500/30">🟢 LIVE</div>
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 icon-glow text-blue-400"><i data-lucide="scale" class="w-6 h-6"></i></div>
+                        <h4 class="text-lg font-bold text-white mb-1">The Lawyer</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 font-bold">Legal & Compliance</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
+                        <div class="absolute top-4 right-4 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold px-2 py-1 rounded border border-yellow-500/30">🟠 BETA</div>
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 icon-glow text-blue-400"><i data-lucide="ship" class="w-6 h-6"></i></div>
+                        <h4 class="text-lg font-bold text-white mb-1">Logistics Core</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 font-bold">Optimization Unit</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
+                        <div class="absolute top-4 right-4 bg-red-500/20 text-red-400 text-[10px] font-bold px-2 py-1 rounded border border-red-500/30">🔴 OFFLINE</div>
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 icon-glow text-blue-400"><i data-lucide="file-text" class="w-6 h-6"></i></div>
+                        <h4 class="text-lg font-bold text-white mb-1">The Clerk</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 font-bold">Documentation</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="live-agent" class="py-24 bg-[#050914] border-t border-white/5 scroll-mt-20">
+            <div class="max-w-6xl mx-auto px-4">
+                
+                <div id="registration-wedge" class="mb-10 text-center bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-blue-500/30 rounded-2xl p-8 backdrop-blur-sm">
+                    <h3 class="text-2xl font-serif text-white mb-4">Start your export journey</h3>
+                    <p class="text-gray-400 mb-6">Create your profile to access the AI Agents and Dashboard.</p>
+                    <button onclick="openAuthModal()" class="px-8 py-3 bg-white text-blue-900 font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg shadow-white/10">
+                        Register with us
+                    </button>
+                </div>
+                <div class="flex items-center gap-8 mb-6 border-b border-white/10 pb-2">
+                    <div onclick="switchAgentTab('gatekeeper')" id="tab-gatekeeper" class="agent-tab active flex items-center gap-2 pb-2 text-lg font-bold text-white">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-green-400"></i> The Gatekeeper (Login)
+                    </div>
+                    <div onclick="switchAgentTab('lawyer')" id="tab-lawyer" class="agent-tab flex items-center gap-2 pb-2 text-lg font-bold text-gray-500 hover:text-white">
+                        <i data-lucide="scale" class="w-5 h-5 text-blue-400"></i> The Lawyer (Queries)
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden h-[650px] relative shadow-2xl border border-gray-200">
+                    <div id="frame-gatekeeper" class="w-full h-full">
+                        <iframe src="https://app.relevanceai.com/agents/d7b62b/18dd64bb-7e6f-4d82-913c-42ffa5f552c1/73962548-1d56-44f6-aa88-51901de346ef/embed-chat?hide_tool_steps=true&hide_file_uploads=false&hide_conversation_list=false&bubble_style=agent&primary_color=%23685FFF&bubble_icon=pd%2Fchat&input_placeholder_text=Verify+Identity+to+Access+Dashboard...&hide_logo=false&hide_description=false" width="100%" height="100%" frameborder="0"></iframe>
+                    </div>
+                    <div id="frame-lawyer" class="w-full h-full hidden">
+                        <iframe src="https://app.relevanceai.com/agents/d7b62b/18dd64bb-7e6f-4d82-913c-42ffa5f552c1/1733a3cb-bd12-45c6-9cbc-71e1286652fe/embed-chat?starting_message_prompts=Can+you+check+HS+Code+for+Basmati+Rice%3F&hide_tool_steps=true&hide_file_uploads=true&hide_conversation_list=true&bubble_style=agent&primary_color=%23000000&bubble_icon=pd%2Fchat&input_placeholder_text=Ask+legal+or+customs+questions...&hide_logo=false&hide_description=false" width="100%" height="100%" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 border-t border-white/5 relative overflow-hidden">
+            <div class="absolute inset-0 bg-yellow-500/5"></div> 
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+                <div class="inline-block p-3 rounded-full bg-yellow-500/10 text-yellow-500 mb-4 animate-pulse-slow"><i data-lucide="trending-up" class="w-6 h-6"></i></div>
+                <h2 class="text-4xl md:text-5xl font-serif text-white mb-6">Join the Revolution.</h2>
+                <p class="text-xl text-gray-300 mb-2">HindTrade AI is building the <span class="text-white font-bold">future backbone</span> of Indian Exports.</p>
+                <p class="text-lg gold-gradient font-bold mb-8">Wanna be a shareholder in the upcoming unicorn HindTrade AI?</p>
+                <button class="px-8 py-4 btn-gold rounded-xl font-bold text-lg shadow-lg hover:shadow-yellow-500/20 transition-all transform hover:-translate-y-1">Apply for Early Allocation</button>
+                <p class="text-xs text-gray-600 mt-4 uppercase tracking-widest">Limited Equity • Accredited Investors Only</p>
+            </div>
+        </section>
+
+        <footer class="bg-[#0F172A] py-12 border-t border-white/5 text-center">
+            <p class="font-serif text-xl text-white tracking-widest mb-2">HINDTRADE</p>
+            <p class="text-gray-500 text-xs">© 2025 • Secure Global Trade Infrastructure</p>
+        </footer>
+    </div>
+
+
+    <div id="dashboard-view" class="hidden fixed inset-0 w-full h-full bg-[#02040a] flex overflow-hidden z-[100]">
+        
+        <aside class="w-64 bg-[#050914] border-r border-white/5 flex flex-col justify-between p-6">
+            <div>
+                <div class="flex items-center gap-3 mb-10">
+                    <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-bold">H</div>
+                    <span class="font-bold text-white tracking-widest text-sm">HINDTRADE OS</span>
+                </div>
+                <nav class="space-y-2">
+                    <button onclick="switchDashView('home')" id="nav-home" class="nav-item active w-full flex items-center gap-3 px-4 py-3 text-white rounded-lg transition">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Mission Control
+                    </button>
+                    <button onclick="switchDashView('profile')" id="nav-profile" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition">
+                        <i data-lucide="building-2" class="w-5 h-5"></i> Company Profile
+                    </button>
+                    <button onclick="switchDashView('shipments')" id="nav-shipments" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition">
+                        <i data-lucide="package" class="w-5 h-5"></i> My Shipments
+                    </button>
+                    <button onclick="switchDashView('matches')" id="nav-matches" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition">
+                        <i data-lucide="users" class="w-5 h-5"></i> Trade Network
+                    </button>
+                    <button onclick="switchDashView('docs')" id="nav-docs" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition">
+                        <i data-lucide="file-text" class="w-5 h-5"></i> Documents
+                    </button>
+                </nav>
+            </div>
+            <div class="pt-6 border-t border-white/5" id="sidebar-user-section">
+                </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-8 relative bg-[#02040a]">
+            
+            <header class="flex justify-between items-center mb-8">
+                <div id="dash-header-text">
+                    <h1 class="text-2xl font-serif text-white">Command Center</h1>
+                    <p class="text-slate-500 text-sm flex gap-4 mt-1">
+                        <span id="user-company-header">Loading...</span>
+                        <span class="text-blue-400 font-bold" id="user-credits-header">Credits: 0</span>
+                    </p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="logout()" class="px-4 py-2 border border-red-500/30 text-red-400 text-xs rounded hover:bg-red-500/10">Logout</button>
+                    <button class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-white/10 relative">
+                        <i data-lucide="bell" class="w-5 h-5"></i><span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                </div>
+            </header>
+
+            <div id="view-home" class="dash-section active">
+                
+                <div id="mini-profile-container" class="mb-8">
+                    </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex justify-between items-start mb-4">
+                            <div><p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Active Shipments</p><h3 class="text-3xl font-bold text-white mt-1">0</h3></div>
+                            <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400"><i data-lucide="container" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="text-xs text-slate-500 flex items-center gap-1">No active shipments</div>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl border-green-500/20">
+                        <div class="flex justify-between items-start mb-4">
+                            <div><p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Credits Available</p><h3 id="dash-credits-display" class="text-3xl font-bold text-green-400 mt-1">0</h3></div>
+                            <div class="p-2 bg-green-500/10 rounded-lg text-green-400"><i data-lucide="piggy-bank" class="w-5 h-5"></i></div>
+                        </div>
+                        <p class="text-xs text-slate-400">Use credits for AI matching.</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl">
+                        <div class="flex justify-between items-start mb-4">
+                            <div><p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Trust Score</p><h3 class="text-3xl font-bold text-white mt-1">N/A</h3></div>
+                            <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400"><i data-lucide="shield" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="w-full bg-gray-700 h-1.5 rounded-full mt-2"><div class="bg-purple-500 h-1.5 rounded-full" style="width: 10%"></div></div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl relative overflow-hidden mb-6">
+                    <p class="text-white text-sm font-bold">Welcome to HindTrade OS v1.0</p>
+                    <p class="text-xs text-slate-400 mt-1">Start by verifying your company details in the 'Documents' tab.</p>
+                </div>
+            </div>
+
+            <div id="view-profile" class="dash-section">
+                <h2 class="text-white font-bold text-xl mb-4">Company Details</h2>
+                <div class="glass-card p-6 rounded-xl" id="full-profile-view">Loading...</div>
+            </div>
+            
+            <div id="view-docs" class="dash-section">
+                <h2 class="text-white font-bold text-xl mb-4">Digital Vault</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="glass-card p-6 rounded-xl flex flex-col items-center text-center hover:bg-white/5 cursor-pointer border-dashed border border-gray-600 transition">
+                        <i data-lucide="upload" class="w-10 h-10 text-gray-400 mb-3"></i>
+                        <h4 class="text-gray-300 text-sm font-bold">Upload IEC</h4>
+                        <p class="text-xs text-gray-500 mt-1">Import Export Code</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl flex flex-col items-center text-center hover:bg-white/5 cursor-pointer border-dashed border border-gray-600 transition">
+                        <i data-lucide="upload" class="w-10 h-10 text-gray-400 mb-3"></i>
+                        <h4 class="text-gray-300 text-sm font-bold">GST Cert</h4>
+                        <p class="text-xs text-gray-500 mt-1">Tax Registration</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-shipments" class="dash-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-white font-bold text-xl">Shipment Manifest</h2>
+                    <button class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500">New Booking</button>
+                </div>
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <table class="w-full text-left text-sm text-gray-400">
+                        <thead class="bg-white/5 text-white uppercase text-xs">
+                            <tr><th class="p-4">ID</th><th class="p-4">Commodity</th><th class="p-4">Destination</th><th class="p-4">Status</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr class="hover:bg-white/5 transition"><td class="p-4" colspan="4">No Shipments yet. Create a profile to start trading.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+             <div id="view-matches" class="dash-section">
+                 <h2 class="text-white font-bold text-xl mb-4">Trade Network</h2>
+                 <p class="text-gray-400 mb-6">Buyers matching your profile will appear here.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <div class="glass-card p-4 rounded-xl border border-white/5 flex items-center justify-between">
+                         <div class="flex items-center gap-3">
+                             <div class="w-10 h-10 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold">A</div>
+                             <div>
+                                 <h4 class="text-white font-bold text-sm">Al-Futtaim Group</h4>
+                                 <p class="text-xs text-gray-500">Dubai, UAE • Rice Importer</p>
+                             </div>
+                         </div>
+                         <button class="text-xs bg-white/10 px-3 py-1 rounded text-white hover:bg-white/20">Connect</button>
+                     </div>
+                 </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="onboarding-wedge" class="wedge-float p-4">
+        <div class="flex justify-between items-start mb-2">
+            <h4 class="text-white font-bold text-sm">Next Step</h4>
+            <span class="text-xs text-blue-400 font-bold" id="wedge-step-count">1/3</span>
+        </div>
+        <p class="text-gray-300 text-xs mb-3 leading-relaxed" id="wedge-text">
+            Complete your trade profile to unlock buyer matches.
+        </p>
+        <button id="wedge-action-btn" class="w-full py-2 bg-blue-600 text-white text-xs font-bold rounded hover:bg-blue-500 transition">
+            Do it now
         </button>
     </div>
-</section>
 
-<!-- ================= ADD-ON: LIVE DEMO PROFILES ================= -->
-<section class="py-20 border-t border-white/5">
-<div class="max-w-7xl mx-auto px-6">
-<h2 class="text-4xl font-serif text-white text-center mb-12">Live Network on HindTrade</h2>
-<div class="grid md:grid-cols-3 gap-6">
+    <script>
+        lucide.createIcons();
 
-<div class="glass-card p-6 rounded-xl demo-badge">
-<span class="text-green-400 text-xs font-bold">EXPORTER</span>
-<h3 class="text-white text-xl font-bold mt-2">Ramesh Agri Exports</h3>
-<p class="text-gray-400 text-sm">Basmati Rice • India</p>
-<p class="text-xs text-gray-500 mt-2">Using AI matchmaking & docs automation</p>
-</div>
+        // --- 1. SUPABASE SETUP ---
+        const SUPABASE_URL = 'https://rlezzjpgisjycxrmtbmi.supabase.co'; 
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsZXp6anBnaXNqeWN4cm10Ym1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0MzU2MjUsImV4cCI6MjA4MTAxMTYyNX0.fYeTbYnCEDP8wNkqBerGT8buMWk0wK3PdTjI57dVYSY';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-<div class="glass-card p-6 rounded-xl demo-badge">
-<span class="text-blue-400 text-xs font-bold">GLOBAL BUYER</span>
-<h3 class="text-white text-xl font-bold mt-2">Nordic Foods BV</h3>
-<p class="text-gray-400 text-sm">EU Importer</p>
-<p class="text-xs text-gray-500 mt-2">Sources directly from Indian exporters</p>
-</div>
+        let currentUser = null;
+        let currentProfile = null;
 
-<div class="glass-card p-6 rounded-xl demo-badge">
-<span class="text-yellow-400 text-xs font-bold">LOGISTICS</span>
-<h3 class="text-white text-xl font-bold mt-2">TransAsia Freight</h3>
-<p class="text-gray-400 text-sm">Global Shipping</p>
-<p class="text-xs text-gray-500 mt-2">AI-optimized freight & routes</p>
-</div>
+        // --- 2. INITIALIZATION ON LOAD ---
+        window.addEventListener('load', async () => {
+            // Check for existing session
+            const { data: { session } } = await supabase.auth.getSession();
+            
+            if (session) {
+                currentUser = session.user;
+                console.log("Logged in user:", currentUser.id);
+                
+                // Switch View Logic
+                document.getElementById('landing-view').style.display = 'none';
+                document.getElementById('dashboard-view').classList.remove('hidden');
+                
+                // Fetch Profile Data
+                await fetchAndRenderProfile();
+            } else {
+                console.log("No session found. Showing Landing Page.");
+            }
+        });
 
-</div>
-</div>
-</section>
+        // --- 3. FETCH PROFILE LOGIC ---
+        async function fetchAndRenderProfile() {
+            // Try to get profile from DB
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', currentUser.id)
+                .single();
 
-<!-- ================= ADD-ON: PAIN POINTS ================= -->
-<section class="py-20 bg-[#050914] border-t border-white/5">
-<div class="max-w-5xl mx-auto px-6 text-center">
-<h2 class="text-4xl font-serif text-white mb-10">Why HindTrade AI Exists</h2>
-<div class="grid md:grid-cols-3 gap-6 text-left">
-<div class="glass-card p-6 rounded-xl">
-<h4 class="text-white font-bold">Paperwork Hell</h4>
-<p class="text-gray-400 text-sm">Weeks wasted on IEC, GST, HS Codes.</p>
-</div>
-<div class="glass-card p-6 rounded-xl">
-<h4 class="text-white font-bold">Middlemen Loss</h4>
-<p class="text-gray-400 text-sm">Money lost to agents for basic work.</p>
-</div>
-<div class="glass-card p-6 rounded-xl">
-<h4 class="text-white font-bold">Missed Buyers</h4>
-<p class="text-gray-400 text-sm">Deals failed due to trust gaps.</p>
-</div>
-</div>
-</div>
-</section>
+            // If error or no profile, we need to create one.
+            if (error || !data) {
+                console.log("Profile not found, prompting creation.");
+                showProfileSetup();
+                return;
+            }
 
-</div>
+            // Profile exists
+            currentProfile = data;
+            
+            // Check if vital info is missing (double check)
+            if (!data.company_name) {
+                showProfileSetup(); 
+            } else {
+                renderDashboardData(data);
+                renderWedge('action');
+            }
+        }
 
-<!-- ================= ADD-ON: DEMO DASHBOARD (NO LOGIN) ================= -->
-<div id="demo-dashboard" class="fixed inset-0 z-[300] bg-[#02040a] hidden overflow-y-auto">
-<div class="max-w-7xl mx-auto p-8">
-<div class="flex justify-between items-center mb-6">
-<h1 class="text-3xl font-serif text-white">Himrock Exports — Demo Dashboard</h1>
-<button onclick="closeDemoDashboard()" class="text-red-400">Exit Demo</button>
-</div>
+        // --- 4. AUTH & MODAL FUNCTIONS ---
+        function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
+        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
-<div class="grid md:grid-cols-3 gap-6 mb-8">
-<div class="glass-card p-6 rounded-xl">
-<p class="text-xs text-gray-400 uppercase">Active Shipments</p>
-<h3 class="text-3xl text-white font-bold">12</h3>
-</div>
-<div class="glass-card p-6 rounded-xl">
-<p class="text-xs text-gray-400 uppercase">Buyers Connected</p>
-<h3 class="text-3xl text-green-400 font-bold">28</h3>
-</div>
-<div class="glass-card p-6 rounded-xl">
-<p class="text-xs text-gray-400 uppercase">Trust Score</p>
-<h3 class="text-3xl text-blue-400 font-bold">92%</h3>
-</div>
-</div>
+        async function handleMagicLink() {
+            const email = document.getElementById('auth-email').value;
+            const btn = document.getElementById('btn-magic-link');
+            
+            if(!email) return alert("Please enter your email.");
 
-<div class="glass-card p-6 rounded-xl">
-<ul class="text-sm text-gray-400 space-y-2">
-<li>✔ IEC Verified by Gatekeeper AI</li>
-<li>✔ Buyer matched from Germany</li>
-<li>✔ Freight cost reduced by 27%</li>
-<li>✔ Export documents auto-generated</li>
-</ul>
-</div>
-</div>
-</div>
+            btn.innerHTML = "Sending...";
+            btn.disabled = true;
 
-<!-- ================= ORIGINAL DASHBOARD / SUPABASE LOGIC (UNCHANGED) ================= -->
+            const { error } = await supabase.auth.signInWithOtp({
+                email: email,
+                options: { emailRedirectTo: window.location.href }
+            });
 
-<script>
-lucide.createIcons()
+            if (error) {
+                alert("Login Error: " + error.message);
+                btn.innerHTML = "Try Again";
+                btn.disabled = false;
+            } else {
+                document.getElementById('auth-step-email').classList.add('hidden');
+                document.getElementById('auth-step-success').classList.remove('hidden');
+                lucide.createIcons();
+            }
+        }
 
-const supabase = window.supabase.createClient(
-  "https://rlezzjpgisjycxrmtbmi.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsZXp6anBnaXNqeWN4cm10Ym1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0MzU2MjUsImV4cCI6MjA4MTAxMTYyNX0.fYeTbYnCEDP8wNkqBerGT8buMWk0wK3PdTjI57dVYSY"
-)
+        function showProfileSetup() {
+            // Ensure dashboard is visible behind modal
+            document.getElementById('landing-view').style.display = 'none';
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            
+            document.getElementById('profile-modal').classList.remove('hidden');
+            renderWedge('profile');
+        }
 
-function openAuthModal(){document.getElementById('auth-modal').classList.remove('hidden')}
-function closeAuthModal(){document.getElementById('auth-modal').classList.add('hidden')}
+        // --- 5. SAVE PROFILE ---
+        async function saveProfile() {
+            const btn = document.getElementById('save-prof-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "Saving to Ekayan Core...";
+            btn.disabled = true;
 
-async function handleMagicLink(){
- const email=document.getElementById('auth-email').value
- const {error}=await supabase.auth.signInWithOtp({email})
- if(!error) document.getElementById('auth-success').classList.remove('hidden')
-}
+            const name = document.getElementById('prof-name').value;
+            const company = document.getElementById('prof-company').value;
+            const role = document.getElementById('prof-role').value;
+            const city = document.getElementById('prof-city').value;
 
-function openDemoDashboard(){
- document.getElementById('demo-dashboard').classList.remove('hidden')
-}
-function closeDemoDashboard(){
- document.getElementById('demo-dashboard').classList.add('hidden')
-}
-</script>
+            if(!name || !company) {
+                alert("Please fill Name and Company fields.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
 
+            // Upsert into Supabase
+            const { error } = await supabase
+                .from('profiles')
+                .upsert({
+                    id: currentUser.id,
+                    full_name: name,
+                    company_name: company,
+                    role: role,
+                    city: city,
+                    email: currentUser.email,
+                    credits: 50 // Welcome bonus
+                });
+
+            if (error) {
+                console.error(error);
+                alert("Error saving profile. Make sure the database table exists! Check console.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            } else {
+                // Success!
+                document.getElementById('profile-modal').classList.add('hidden');
+                await fetchAndRenderProfile(); // Refresh UI
+            }
+        }
+
+        // --- 6. RENDER DASHBOARD ---
+        function renderDashboardData(profile) {
+            // A. Sidebar Update
+            const sidebarHTML = `
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center font-bold text-white uppercase text-lg shadow-lg">
+                        ${profile.company_name.charAt(0)}
+                    </div>
+                    <div class="overflow-hidden">
+                        <p class="text-sm font-bold text-white truncate w-32" title="${profile.company_name}">${profile.company_name}</p>
+                        <p class="text-[10px] text-gray-400 capitalize">${profile.role}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('sidebar-user-section').innerHTML = sidebarHTML;
+
+            // B. Header Update
+            document.getElementById('user-company-header').innerText = profile.company_name;
+            document.getElementById('user-credits-header').innerText = `Credits: ${profile.credits}`;
+            document.getElementById('dash-credits-display').innerText = profile.credits;
+
+            // C. MINI PROFILE CARD
+            const cardHTML = `
+                <div class="mini-profile-card p-6 rounded-xl flex items-center justify-between shadow-lg">
+                    <div class="flex items-center gap-5">
+                        <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-400 border border-blue-500/30">
+                            <i data-lucide="building-2" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">${profile.company_name}</h3>
+                            <p class="text-sm text-slate-400">${profile.role.toUpperCase()} • ${profile.city}</p>
+                            <div class="flex items-center gap-3 mt-2">
+                                <span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-bold uppercase rounded border border-green-500/20 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Active Account
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right hidden md:block">
+                        <p class="text-xs text-gray-500">Member since</p>
+                        <p class="text-sm text-white font-mono">${new Date(profile.created_at).toLocaleDateString()}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('mini-profile-container').innerHTML = cardHTML;
+            
+            // D. Full Profile View Update
+            document.getElementById('full-profile-view').innerHTML = `
+                <div class="grid grid-cols-2 gap-y-6 gap-x-4 text-sm">
+                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">Full Name</p><p class="text-white text-lg">${profile.full_name}</p></div>
+                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">Company</p><p class="text-white text-lg">${profile.company_name}</p></div>
+                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">Email</p><p class="text-white text-lg">${profile.email}</p></div>
+                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">City</p><p class="text-white text-lg">${profile.city}</p></div>
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        // --- 7. HELPER FUNCTIONS ---
+        async function logout() {
+            await supabase.auth.signOut();
+            window.location.reload();
+        }
+
+        function switchAgentTab(agentType) {
+            document.querySelectorAll('.agent-tab').forEach(el => el.classList.remove('active', 'text-white'));
+            document.querySelectorAll('.agent-tab').forEach(el => el.classList.add('text-gray-500'));
+            const activeTab = document.getElementById('tab-' + agentType);
+            activeTab.classList.add('active', 'text-white');
+            activeTab.classList.remove('text-gray-500');
+
+            if(agentType === 'gatekeeper') {
+                document.getElementById('frame-gatekeeper').classList.remove('hidden');
+                document.getElementById('frame-lawyer').classList.add('hidden');
+            } else {
+                document.getElementById('frame-gatekeeper').classList.add('hidden');
+                document.getElementById('frame-lawyer').classList.remove('hidden');
+            }
+        }
+
+        function switchDashView(viewId) {
+            // Hide all sections
+            document.querySelectorAll('.dash-section').forEach(el => el.classList.remove('active'));
+            // Show target section
+            document.getElementById('view-' + viewId).classList.add('active');
+            
+            // Update Nav State
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active', 'text-white');
+                el.classList.add('text-gray-400');
+            });
+            const activeNav = document.getElementById('nav-' + viewId);
+            if(activeNav) activeNav.classList.add('active', 'text-white');
+            
+            lucide.createIcons();
+        }
+
+        function renderWedge(step) {
+            const wedge = document.getElementById('onboarding-wedge');
+            const btn = document.getElementById('wedge-action-btn');
+            wedge.classList.add('wedge-visible');
+
+            if (step === 'profile') {
+                document.getElementById('wedge-step-count').innerText = "1/3";
+                document.getElementById('wedge-text').innerText = "Create your profile to start.";
+                btn.innerText = "Fill Form";
+                btn.onclick = () => showProfileSetup();
+            } else if (step === 'action') {
+                document.getElementById('wedge-step-count').innerText = "2/3";
+                document.getElementById('wedge-text').innerText = "Verify your IEC to unlock trades.";
+                btn.innerText = "Upload Documents";
+                btn.onclick = () => switchDashView('docs');
+            }
+        }
+    </script>
 </body>
 </html>
