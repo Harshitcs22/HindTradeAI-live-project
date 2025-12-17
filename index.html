@@ -108,6 +108,15 @@
             background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
             border: 1px solid rgba(255,255,255,0.1);
         }
+        
+        /* Step Progress */
+        .step-dot { height: 8px; width: 8px; border-radius: 50%; background: #334155; }
+        .step-dot.active { background: #3b82f6; box-shadow: 0 0 10px #3b82f6; }
+        .step-line { height: 2px; flex-grow: 1; background: #334155; }
+        .step-line.active { background: #3b82f6; }
+        
+        /* Avatar Image Styling */
+        .avatar-img { object-fit: cover; width: 100%; height: 100%; }
     </style>
 </head>
 <body class="antialiased">
@@ -117,9 +126,23 @@
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x"></i></button>
             <div class="text-center mb-6">
                 <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center text-blue-400 mx-auto mb-4"><i data-lucide="key" class="w-6 h-6"></i></div>
-                <h2 class="text-2xl font-serif text-white mb-2">Login / Register</h2>
-                <p class="text-gray-400 text-sm">Secure access via Magic Link (Email)</p>
+                <h2 class="text-2xl font-serif text-white mb-2">Register with HindTrade</h2>
+                <p class="text-gray-400 text-xs px-4">Register once to unlock all AI Agents: Verification, Compliance, Legal, Logistics & Global Trade Network.</p>
+                
+                <div class="flex items-center justify-center mt-4 gap-2 mb-2">
+                    <div class="step-dot active"></div>
+                    <div class="step-line active"></div>
+                    <div class="step-dot"></div>
+                    <div class="step-line"></div>
+                    <div class="step-dot"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-gray-500 uppercase tracking-wider font-bold">
+                    <span>Identity</span>
+                    <span>Company</span>
+                    <span>Activate</span>
+                </div>
             </div>
+            
             <div id="auth-step-email">
                 <label class="dash-label">Work Email</label>
                 <input type="email" id="auth-email" placeholder="name@company.com" class="dash-input mb-4 text-lg">
@@ -226,14 +249,50 @@
                 <h1 class="text-5xl md:text-8xl font-serif text-white mb-8 leading-tight animate-fade-in">
                     Trade Without <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 italic">Boundaries.</span>
                 </h1>
-                <p class="text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed font-light animate-fade-in">
+                
+                <div class="mb-6 max-w-2xl mx-auto p-3 bg-white/5 border border-white/10 rounded-lg animate-fade-in">
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        <i data-lucide="globe" class="inline w-3 h-3 text-blue-400 mr-1"></i>
+                        HindTrade OS supports trade compliance and rules for <span class="text-white font-bold">180+ countries</span> — including documentation rules, duty structures, export laws, restricted commodities, and logistics differences per region.
+                    </p>
+                </div>
+
+                <p class="text-xl text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed font-light animate-fade-in">
                     The Operating System for <span class="text-white border-b border-blue-500">Indian Dominance</span> in Global Trade.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-5 justify-center animate-fade-in mb-16">
+                <div class="flex flex-col sm:flex-row gap-5 justify-center animate-fade-in mb-12">
                     <button onclick="openAuthModal()" class="px-10 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-xl shadow-blue-600/20 transition-all transform hover:-translate-y-1">
                         Start Ekayan Engine (Free)
                     </button>
                 </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-16 animate-fade-in">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3 cursor-pointer" onclick="openAuthModal()">
+                        <div class="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center text-green-400"><i data-lucide="sprout" class="w-5 h-5"></i></div>
+                        <div class="text-left">
+                            <p class="text-white font-bold text-sm">Verified Farmer</p>
+                            <p class="text-[10px] text-gray-400">Maharashtra, India • Score: 98</p>
+                        </div>
+                        <i data-lucide="badge-check" class="w-4 h-4 text-blue-400 ml-auto"></i>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3 cursor-pointer" onclick="openAuthModal()">
+                        <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center text-purple-400"><i data-lucide="factory" class="w-5 h-5"></i></div>
+                        <div class="text-left">
+                            <p class="text-white font-bold text-sm">Verified Manufacturer</p>
+                            <p class="text-[10px] text-gray-400">Gujarat, India • Score: 95</p>
+                        </div>
+                        <i data-lucide="badge-check" class="w-4 h-4 text-blue-400 ml-auto"></i>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3 cursor-pointer" onclick="openAuthModal()">
+                        <div class="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-400"><i data-lucide="globe-2" class="w-5 h-5"></i></div>
+                        <div class="text-left">
+                            <p class="text-white font-bold text-sm">Global Buyer</p>
+                            <p class="text-[10px] text-gray-400">Rotterdam, EU • Score: 99</p>
+                        </div>
+                        <i data-lucide="badge-check" class="w-4 h-4 text-blue-400 ml-auto"></i>
+                    </div>
+                </div>
+
             </div>
             <div class="max-w-7xl mx-auto w-full animate-fade-in">
                 <p class="text-center text-xs text-gray-500 uppercase tracking-[0.2em] mb-4">Solves 99% of Trade Failures</p>
@@ -279,28 +338,47 @@
                         <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 icon-glow text-blue-400"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
                         <h4 class="text-lg font-bold text-white mb-1">The Gatekeeper</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 font-bold">Verification Unit</p>
-                        <p class="text-xs text-gray-400 mt-2">Features: KYC Verification, Fraud Detection, Identity Proofing.</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 text-xs text-gray-400 space-y-2">
+                            <p><strong class="text-white">Main Features:</strong> KYC, AML Checks, GST API integration.</p>
+                            <p><strong class="text-white">Solves:</strong> Identity theft & Payment fraud.</p>
+                            <p><strong class="text-white">Example:</strong> "Verify IEC code AB12345."</p>
+                        </div>
                     </div>
+                    
                     <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
                         <div class="absolute top-4 right-4 bg-green-500/20 text-green-400 text-[10px] font-bold px-2 py-1 rounded border border-green-500/30">🟢 LIVE</div>
                         <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 icon-glow text-blue-400"><i data-lucide="scale" class="w-6 h-6"></i></div>
                         <h4 class="text-lg font-bold text-white mb-1">The Lawyer</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 font-bold">Legal & Compliance</p>
-                        <p class="text-xs text-gray-400 mt-2">Features: HS Code Lookup, Contract Drafting, Customs Advice.</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 text-xs text-gray-400 space-y-2">
+                            <p><strong class="text-white">Main Features:</strong> HS Code Lookup, Contract Drafting, Dispute Resolution.</p>
+                            <p><strong class="text-white">Solves:</strong> Customs fines & Bad contracts.</p>
+                            <p><strong class="text-white">Example:</strong> "Draft Sales Contract for Rice to Dubai."</p>
+                        </div>
                     </div>
+                    
                     <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
                         <div class="absolute top-4 right-4 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold px-2 py-1 rounded border border-yellow-500/30">🟠 BETA</div>
                         <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 icon-glow text-blue-400"><i data-lucide="ship" class="w-6 h-6"></i></div>
                         <h4 class="text-lg font-bold text-white mb-1">Logistics Core</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 font-bold">Optimization Unit</p>
-                        <p class="text-xs text-gray-400 mt-2">Features: Freight Rate Negotiation, Container Tracking.</p>
+                         <div class="mt-4 pt-4 border-t border-white/10 text-xs text-gray-400 space-y-2">
+                            <p><strong class="text-white">Main Features:</strong> Freight Rate Negotiation, Container Tracking.</p>
+                            <p><strong class="text-white">Solves:</strong> High shipping costs & Delays.</p>
+                            <p><strong class="text-white">Example:</strong> "Cheapest rate Mumbai to London?"</p>
+                        </div>
                     </div>
+                    
                     <div class="glass-card p-6 rounded-2xl group relative overflow-hidden">
                         <div class="absolute top-4 right-4 bg-red-500/20 text-red-400 text-[10px] font-bold px-2 py-1 rounded border border-red-500/30">🔴 OFFLINE</div>
                         <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 icon-glow text-blue-400"><i data-lucide="file-text" class="w-6 h-6"></i></div>
                         <h4 class="text-lg font-bold text-white mb-1">The Clerk</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 font-bold">Documentation</p>
-                        <p class="text-xs text-gray-400 mt-2">Features: Invoice Generation, Packing List, Certificate of Origin.</p>
+                         <div class="mt-4 pt-4 border-t border-white/10 text-xs text-gray-400 space-y-2">
+                            <p><strong class="text-white">Main Features:</strong> Invoice Gen, Packing List, Cert of Origin.</p>
+                            <p><strong class="text-white">Solves:</strong> Clerical errors & Rejections.</p>
+                            <p><strong class="text-white">Example:</strong> "Generate Commercial Invoice."</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -329,9 +407,10 @@
                         <iframe src="https://app.relevanceai.com/agents/d7b62b/18dd64bb-7e6f-4d82-913c-42ffa5f552c1/73962548-1d56-44f6-aa88-51901de346ef/embed-chat?hide_tool_steps=true&hide_file_uploads=false&hide_conversation_list=false&bubble_style=agent&primary_color=%23685FFF&bubble_icon=pd%2Fchat&input_placeholder_text=Verify+Identity+to+Access+Dashboard...&hide_logo=false&hide_description=false" width="100%" height="100%" frameborder="0"></iframe>
                     </div>
                     <div id="frame-lawyer" class="w-full h-full hidden">
-                        <iframe src="https://app.relevanceai.com/agents/d7b62b/18dd64bb-7e6f-4d82-913c-42ffa5f552c1/1733a3cb-bd12-45c6-9cbc-71e1286652fe/embed-chat?starting_message_prompts=You+have+one+free+query.+Ask+your+import-export+legal+or+HS+code+question+clearly.+For+further+assistance%2C+registration+will+be+required.&hide_tool_steps=true&hide_file_uploads=true&hide_conversation_list=true&bubble_style=agent&primary_color=%23000000&bubble_icon=pd%2Fchat&input_placeholder_text=You+have+1+free+query.+Ask+now%E2%80%A6&hide_logo=false&hide_description=false" width="100%" height="100%" frameborder="0" allow="microphone"></iframe>
+                        <iframe src="https://app.relevanceai.com/agents/d7b62b/18dd64bb-7e6f-4d82-913c-42ffa5f552c1/1733a3cb-bd12-45c6-9cbc-71e1286652fe/embed-chat?starting_message_prompts=You+have+one+free+query.+Ask+your+import-export+legal+or+HS+code+question+clearly.+For+further+assistance%2C+registration+will+be+required.&hide_tool_steps=true&hide_file_uploads=true&hide_conversation_list=true&bubble_style=agent&primary_color=%23000000&bubble_icon=pd%2Fchat&input_placeholder_text=You+have+1+free+query.+Ask+now%E2%80%A6&hide_logo=false&hide_description=false" width="100%" height="100%" frameborder="0" allow="microphone; clipboard-read; clipboard-write"></iframe>
                     </div>
                 </div>
+                <p class="text-center text-xs text-gray-500 mt-2">*Demo Mode: Informational Purposes Only.</p>
             </div>
         </section>
 
@@ -356,7 +435,7 @@
 
     <div id="dashboard-view" class="hidden fixed inset-0 w-full h-full bg-[#02040a] flex overflow-hidden z-[100]">
         
-        <aside class="w-64 bg-[#050914] border-r border-white/5 flex flex-col justify-between p-6">
+        <aside class="w-64 bg-[#050914] border-r border-white/5 flex flex-col justify-between p-6 overflow-y-auto">
             <div>
                 <div class="flex items-center gap-3 mb-10">
                     <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-bold">H</div>
@@ -368,6 +447,9 @@
                     </button>
                     <button onclick="switchDashView('profile')" id="nav-profile" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition">
                         <i data-lucide="building-2" class="w-5 h-5"></i> Company Profile
+                    </button>
+                     <button onclick="switchDashView('rules')" id="nav-rules" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition">
+                        <i data-lucide="globe" class="w-5 h-5"></i> Country Rules
                     </button>
                     <button onclick="switchDashView('shipments')" id="nav-shipments" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition">
                         <i data-lucide="package" class="w-5 h-5"></i> My Shipments
@@ -424,36 +506,37 @@
                     </div>
                     <div class="glass-card p-6 rounded-xl">
                         <div class="flex justify-between items-start mb-4">
-                            <div><p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Trust Score</p><h3 class="text-3xl font-bold text-white mt-1">98/100</h3></div>
+                            <div><p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Trust Score</p><h3 id="dash-trust-score" class="text-3xl font-bold text-white mt-1">--/100</h3></div>
                             <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400"><i data-lucide="shield" class="w-5 h-5"></i></div>
                         </div>
-                        <div class="w-full bg-gray-700 h-1.5 rounded-full mt-2"><div class="bg-purple-500 h-1.5 rounded-full" style="width: 98%"></div></div>
+                        <div class="w-full bg-gray-700 h-1.5 rounded-full mt-2"><div id="dash-trust-bar" class="bg-purple-500 h-1.5 rounded-full" style="width: 0%"></div></div>
                     </div>
                 </div>
 
                 <div class="mb-6">
-                    <h3 class="text-white font-bold text-lg mb-4">AI Agent Capabilities</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="glass-card p-4 rounded-xl flex items-center gap-4 cursor-pointer hover:bg-white/5 transition" onclick="switchAgentTab('lawyer'); location.href='#live-agent'">
-                            <div class="w-10 h-10 rounded bg-blue-500/10 flex items-center justify-center text-blue-400"><i data-lucide="scale" class="w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">Legal & Compliance</h4>
-                                <p class="text-xs text-gray-400">Ask about HS Codes, Export Duties, and Contract Drafting.</p>
-                            </div>
+                    <h3 class="text-white font-bold text-lg mb-4">AI Agent Interactions (Log)</h3>
+                    <div class="glass-card p-4 rounded-xl space-y-3">
+                        <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                             <div class="flex items-center gap-3">
+                                 <div class="w-8 h-8 rounded bg-blue-500/10 text-blue-400 flex items-center justify-center"><i data-lucide="scale" class="w-4 h-4"></i></div>
+                                 <div class="text-sm">
+                                     <p class="text-white font-bold">Legal Query: HS Code 1006.30</p>
+                                     <p class="text-xs text-gray-500">Response: Basmati Rice Semi-milled...</p>
+                                 </div>
+                             </div>
+                             <span class="text-[10px] text-gray-400">2 mins ago</span>
                         </div>
-                        <div class="glass-card p-4 rounded-xl flex items-center gap-4 cursor-pointer hover:bg-white/5 transition" onclick="alert('Logistics Core is currently in Beta. Please verify IEC first.')">
-                            <div class="w-10 h-10 rounded bg-yellow-500/10 flex items-center justify-center text-yellow-400"><i data-lucide="ship" class="w-5 h-5"></i></div>
-                            <div>
-                                <h4 class="text-white font-bold text-sm">Logistics Optimizer</h4>
-                                <p class="text-xs text-gray-400">Get Freight Quotes, Route planning, and Container tracking.</p>
-                            </div>
+                        <div class="flex items-center justify-between">
+                             <div class="flex items-center gap-3">
+                                 <div class="w-8 h-8 rounded bg-yellow-500/10 text-yellow-400 flex items-center justify-center"><i data-lucide="ship" class="w-4 h-4"></i></div>
+                                 <div class="text-sm">
+                                     <p class="text-white font-bold">Logistics: Quote ID #990</p>
+                                     <p class="text-xs text-gray-500">Route: Nava Sheva -> Jebel Ali</p>
+                                 </div>
+                             </div>
+                             <span class="text-[10px] text-gray-400">1 hr ago</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="glass-card p-6 rounded-xl relative overflow-hidden">
-                    <p class="text-white text-sm font-bold">Welcome to HindTrade OS v1.0</p>
-                    <p class="text-xs text-slate-400 mt-1">Your documents are verified. You are ready to trade.</p>
                 </div>
             </div>
 
@@ -462,6 +545,26 @@
                 <div class="glass-card p-6 rounded-xl" id="full-profile-view">Loading...</div>
             </div>
             
+            <div id="view-rules" class="dash-section">
+                <h2 class="text-white font-bold text-xl mb-4">Global Trade Rules</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="glass-card p-5 rounded-xl border border-white/10 hover:border-blue-500/50 transition cursor-pointer" onclick="alert('Demo: Loading Dubai Import Restrictions...')">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-2xl">🇦🇪</span>
+                            <h3 class="text-white font-bold">United Arab Emirates</h3>
+                        </div>
+                        <p class="text-xs text-gray-400">Recent changes in Basmati Rice duties. Halal certification mandatory for meat exports.</p>
+                    </div>
+                    <div class="glass-card p-5 rounded-xl border border-white/10 hover:border-blue-500/50 transition cursor-pointer" onclick="alert('Demo: Loading UK Brexit Forms...')">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-2xl">🇬🇧</span>
+                            <h3 class="text-white font-bold">United Kingdom</h3>
+                        </div>
+                        <p class="text-xs text-gray-400">Post-Brexit customs declaration forms (C88) required. VAT rules updated Jan 2025.</p>
+                    </div>
+                </div>
+            </div>
+
             <div id="view-docs" class="dash-section">
                 <h2 class="text-white font-bold text-xl mb-4">Digital Vault</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -499,7 +602,7 @@
                 </div>
             </div>
 
-             <div id="view-matches" class="dash-section">
+            <div id="view-matches" class="dash-section">
                  <div class="flex justify-between items-center mb-6">
                     <div>
                          <h2 class="text-white font-bold text-xl">Trade Network</h2>
@@ -530,166 +633,63 @@
     </div>
 
     <script>
-        lucide.createIcons();
-
-        // --- 1. SUPABASE SETUP ---
+        // ----------------------------------------------------
+        // IMPORTANT: Global Variables declared first
+        // ----------------------------------------------------
         const SUPABASE_URL = 'https://rlezzjpgisjycxrmtbmi.supabase.co'; 
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsZXp6anBnaXNqeWN4cm10Ym1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0MzU2MjUsImV4cCI6MjA4MTAxMTYyNX0.fYeTbYnCEDP8wNkqBerGT8buMWk0wK3PdTjI57dVYSY';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
+        let supabase = null;
         let currentUser = null;
         let currentProfile = null;
-
-        // --- DEMO MODE TOGGLE ---
         let isDemoMode = false;
 
-        // --- 2. INITIALIZATION ON LOAD ---
-        window.addEventListener('load', async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            
-            if (session) {
-                currentUser = session.user;
-                console.log("Logged in user:", currentUser.id);
-                document.getElementById('landing-view').style.display = 'none';
-                document.getElementById('dashboard-view').classList.remove('hidden');
-                await fetchAndRenderProfile();
-            } else {
-                console.log("No session found. Showing Landing Page.");
-            }
-        });
+        // ----------------------------------------------------
+        // 1. GLOBAL FUNCTIONS (These must be defined first)
+        // ----------------------------------------------------
 
-        // --- 3. FETCH PROFILE LOGIC ---
-        async function fetchAndRenderProfile() {
-            if (isDemoMode) return; // handled separately
-
-            const { data, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', currentUser.id)
-                .single();
-
-            if (error || !data) {
-                showProfileSetup();
-                return;
-            }
-            currentProfile = data;
-            
-            if (!data.company_name) {
-                showProfileSetup(); 
-            } else {
-                renderDashboardData(data);
-                renderWedge('action');
-            }
-        }
-
-        // --- 4. AUTH & MODAL FUNCTIONS ---
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
-        // --- 5. SAVE PROFILE ---
-        async function saveProfile() {
-            const btn = document.getElementById('save-prof-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = "Saving to Ekayan Core...";
-            btn.disabled = true;
-
-            const name = document.getElementById('prof-name').value;
-            const company = document.getElementById('prof-company').value;
-            const role = document.getElementById('prof-role').value;
-            const city = document.getElementById('prof-city').value;
-
-            if(!name || !company) {
-                alert("Please fill Name and Company fields.");
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                return;
-            }
-
-            const { error } = await supabase
-                .from('profiles')
-                .upsert({
-                    id: currentUser.id,
-                    full_name: name,
-                    company_name: company,
-                    role: role,
-                    city: city,
-                    email: currentUser.email,
-                    credits: 50 
-                });
-
-            if (error) {
-                console.error(error);
-                alert("Error saving profile. Make sure the database table exists! Check console.");
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            } else {
-                document.getElementById('profile-modal').classList.add('hidden');
-                await fetchAndRenderProfile(); 
-            }
-        }
-
-        // --- 6. RENDER DASHBOARD CORE ---
-        function renderDashboardData(profile) {
-            // A. Sidebar Update
-            const sidebarHTML = `
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center font-bold text-white uppercase text-lg shadow-lg">
-                        ${profile.company_name.charAt(0)}
-                    </div>
-                    <div class="overflow-hidden">
-                        <p class="text-sm font-bold text-white truncate w-32" title="${profile.company_name}">${profile.company_name}</p>
-                        <p class="text-[10px] text-gray-400 capitalize">${profile.role}</p>
-                    </div>
-                </div>
-            `;
-            document.getElementById('sidebar-user-section').innerHTML = sidebarHTML;
-
-            // B. Header Update
-            document.getElementById('user-company-header').innerText = profile.company_name;
-            document.getElementById('user-credits-header').innerText = `Credits: ${profile.credits}`;
-            document.getElementById('dash-credits-display').innerText = profile.credits;
-
-            // C. MINI PROFILE CARD
-            const cardHTML = `
-                <div class="mini-profile-card p-6 rounded-xl flex items-center justify-between shadow-lg">
-                    <div class="flex items-center gap-5">
-                        <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-400 border border-blue-500/30">
-                            <i data-lucide="building-2" class="w-8 h-8"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white">${profile.company_name}</h3>
-                            <p class="text-sm text-slate-400">${profile.role.toUpperCase()} • ${profile.city}</p>
-                            <div class="flex items-center gap-3 mt-2">
-                                <span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-bold uppercase rounded border border-green-500/20 flex items-center gap-1">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Active Account
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-right hidden md:block">
-                        <p class="text-xs text-gray-500">Member since</p>
-                        <p class="text-sm text-white font-mono">${new Date(profile.created_at).toLocaleDateString()}</p>
-                    </div>
-                </div>
-            `;
-            document.getElementById('mini-profile-container').innerHTML = cardHTML;
+        // --- THE LAWYER AGENT FIX IS HERE ---
+        function switchAgentTab(agentType) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.agent-tab').forEach(el => {
+                el.classList.remove('active', 'text-white');
+                el.classList.add('text-gray-500');
+            });
             
-            // D. Full Profile View Update
-            document.getElementById('full-profile-view').innerHTML = `
-                <div class="grid grid-cols-2 gap-y-6 gap-x-4 text-sm">
-                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">Full Name</p><p class="text-white text-lg">${profile.full_name}</p></div>
-                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">Company</p><p class="text-white text-lg">${profile.company_name}</p></div>
-                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">Email</p><p class="text-white text-lg">${profile.email}</p></div>
-                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">City</p><p class="text-white text-lg">${profile.city}</p></div>
-                </div>
-            `;
+            // Add active class to clicked tab
+            const activeTab = document.getElementById('tab-' + agentType);
+            if(activeTab) {
+                activeTab.classList.add('active', 'text-white');
+                activeTab.classList.remove('text-gray-500');
+            }
 
-            lucide.createIcons();
+            // Toggle Visibility of IFrames
+            if(agentType === 'gatekeeper') {
+                document.getElementById('frame-gatekeeper').classList.remove('hidden');
+                document.getElementById('frame-lawyer').classList.add('hidden');
+            } else if (agentType === 'lawyer') {
+                document.getElementById('frame-gatekeeper').classList.add('hidden');
+                document.getElementById('frame-lawyer').classList.remove('hidden');
+            }
         }
 
-        // --- 7. DEMO MODE & INTERACTIVITY (HIMROCK) ---
-        function loginAsDemo() {
+        function switchDashView(viewId) {
+            document.querySelectorAll('.dash-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-' + viewId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active', 'text-white');
+                el.classList.add('text-gray-400');
+            });
+            const activeNav = document.getElementById('nav-' + viewId);
+            if(activeNav) activeNav.classList.add('active', 'text-white');
+            
+            if(window.lucide) lucide.createIcons();
+        }
+
+        async function loginAsDemo() {
             isDemoMode = true;
             document.getElementById('auth-modal').classList.add('hidden');
             document.getElementById('landing-view').style.display = 'none';
@@ -702,107 +702,23 @@
                 city: "Jalandhar, Punjab",
                 email: "amit@himrock.com",
                 credits: 2500,
+                // New User Avatar URL
+                avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop", 
                 created_at: new Date().toISOString()
             };
 
             renderDashboardData(himrockProfile);
             renderDemoShipments();
             renderMatches();
-            lucide.createIcons();
-        }
-
-        // --- SHIPMENT LOGIC ---
-        function renderDemoShipments() {
-            const shipmentTable = document.getElementById('shipment-table-body');
-            shipmentTable.innerHTML = `
-                <tr class="hover:bg-white/5 transition"><td class="p-4 font-mono text-xs">#SHP-9001</td><td class="p-4 text-white">Basmati Rice (Grade A)</td><td class="p-4">Dubai, UAE</td><td class="p-4"><span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded border border-yellow-500/30">Customs Cleared</span></td></tr>
-                <tr class="hover:bg-white/5 transition"><td class="p-4 font-mono text-xs">#SHP-9002</td><td class="p-4 text-white">Organic Spices</td><td class="p-4">London, UK</td><td class="p-4"><span class="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded border border-blue-500/30">In Transit</span></td></tr>
-            `;
-            document.getElementById('stat-shipments').innerText = "2";
-        }
-
-        function requestBooking() {
-            if(!isDemoMode) { alert("Please verify GST first."); return; }
-            const table = document.getElementById('shipment-table-body');
-            const newRow = `
-                <tr class="animate-fade-in bg-blue-500/10"><td class="p-4 font-mono text-xs text-blue-300">#SHP-9003</td><td class="p-4 text-white">Hand Tools Set</td><td class="p-4">Toronto, CA</td><td class="p-4"><span class="px-2 py-1 bg-gray-500/20 text-gray-300 text-xs rounded border border-gray-500/30">Processing...</span></td></tr>
-            `;
-            table.innerHTML = newRow + table.innerHTML;
-            document.getElementById('stat-shipments').innerText = "3";
-        }
-
-        // --- MINI LINKEDIN LOGIC ---
-        function renderMatches() {
-            const matches = [
-                { name: "Al-Futtaim Group", loc: "Dubai, UAE", type: "Buyer • Food", color: "orange" },
-                { name: "Tesco Sourcing", loc: "London, UK", type: "Buyer • Bulk", color: "blue" },
-                { name: "Walmart Global", loc: "Arkansas, USA", type: "Retailer", color: "blue" },
-                { name: "Carrefour Hub", loc: "Paris, France", type: "Buyer • FMCG", color: "red" }
-            ];
-
-            const grid = document.getElementById('matches-grid');
-            let html = '';
+            if(window.lucide) lucide.createIcons();
             
-            matches.forEach((m, index) => {
-                html += `
-                <div class="glass-card p-5 rounded-xl border border-white/5 flex items-center justify-between hover:bg-white/5 transition">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 flex items-center justify-center font-bold text-white shadow-lg text-lg">
-                            ${m.name.charAt(0)}
-                        </div>
-                        <div>
-                            <h4 class="text-white font-bold text-sm flex items-center gap-2">
-                                ${m.name} <i data-lucide="badge-check" class="w-3 h-3 text-blue-400"></i>
-                            </h4>
-                            <p class="text-xs text-gray-400 mt-0.5">${m.loc}</p>
-                            <span class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">${m.type}</span>
-                        </div>
-                    </div>
-                    <button id="btn-conn-${index}" onclick="connectMatch(${index})" class="text-xs font-bold border border-blue-600 text-blue-400 px-4 py-2 rounded hover:bg-blue-600 hover:text-white transition-all shadow-lg shadow-blue-900/10">
-                        Connect
-                    </button>
-                </div>`;
-            });
-            grid.innerHTML = html;
-            lucide.createIcons();
-        }
-
-        function connectMatch(index) {
-            const btn = document.getElementById(`btn-conn-${index}`);
-            btn.innerText = "Request Sent";
-            btn.classList.remove('border-blue-600', 'text-blue-400', 'hover:bg-blue-600');
-            btn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30', 'cursor-default');
-            btn.onclick = null;
-        }
-
-        // --- UPLOAD SIMULATION ---
-        function simulateUpload() {
-            const card = document.getElementById('upload-card');
-            const icon = document.getElementById('upload-icon');
-            const text = document.getElementById('upload-text');
-            const sub = document.getElementById('upload-sub');
-
-            text.innerText = "Scanning...";
-            sub.innerText = "AI checking validity...";
-            icon.classList.add('animate-bounce', 'text-blue-400');
-
             setTimeout(() => {
-                card.classList.remove('border-dashed', 'border-gray-600');
-                card.classList.add('bg-green-500/10', 'border-green-500/30');
-                icon.classList.remove('animate-bounce', 'text-gray-400', 'text-blue-400');
-                icon.classList.add('text-green-400');
-                
-                // Change Icon to check
-                card.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle w-10 h-10 text-green-400 mb-3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-                    <h4 class="text-gray-300 text-sm font-bold">RCMC Verified</h4>
-                    <p class="text-xs text-green-400 mt-1">Approved by AI</p>
-                `;
-            }, 2000);
+                alert("Welcome back, Amit! \n\nEkayan AI has detected 2 new buyer matches for your Basmati Rice inventory.");
+            }, 800);
         }
 
-        // --- 8. HELPER FUNCTIONS ---
         async function handleMagicLink() {
+            if(!supabase) { alert("System Offline: Supabase not connected."); return; }
             const email = document.getElementById('auth-email').value;
             const btn = document.getElementById('btn-magic-link');
             
@@ -823,7 +739,7 @@
             } else {
                 document.getElementById('auth-step-email').classList.add('hidden');
                 document.getElementById('auth-step-success').classList.remove('hidden');
-                lucide.createIcons();
+                if(window.lucide) lucide.createIcons();
             }
         }
 
@@ -834,43 +750,229 @@
             renderWedge('profile');
         }
 
+        async function saveProfile() {
+            if(!supabase) { alert("Offline Mode: Cannot save."); return; }
+            const btn = document.getElementById('save-prof-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "Saving to Ekayan Core...";
+            btn.disabled = true;
+
+            const name = document.getElementById('prof-name').value;
+            const company = document.getElementById('prof-company').value;
+            const role = document.getElementById('prof-role').value;
+            const city = document.getElementById('prof-city').value;
+
+            if(!name || !company) {
+                alert("Please fill Name and Company fields.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const { error } = await supabase.from('profiles').upsert({
+                id: currentUser.id,
+                full_name: name,
+                company_name: company,
+                role: role,
+                city: city,
+                email: currentUser.email,
+                credits: 50 
+            });
+
+            if (error) {
+                console.error(error);
+                alert("Error saving profile. Check console.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            } else {
+                document.getElementById('profile-modal').classList.add('hidden');
+                await fetchAndRenderProfile(); 
+            }
+        }
+
         async function logout() {
             if(isDemoMode) {
                 window.location.reload();
             } else {
-                await supabase.auth.signOut();
+                if(supabase) await supabase.auth.signOut();
                 window.location.reload();
             }
         }
 
-        function switchAgentTab(agentType) {
-            document.querySelectorAll('.agent-tab').forEach(el => el.classList.remove('active', 'text-white'));
-            document.querySelectorAll('.agent-tab').forEach(el => el.classList.add('text-gray-500'));
-            const activeTab = document.getElementById('tab-' + agentType);
-            activeTab.classList.add('active', 'text-white');
-            activeTab.classList.remove('text-gray-500');
+        // --- Dashboard Render Logic ---
+        function renderDashboardData(profile) {
+            // Use profile image if available, else initials
+            const avatarHtml = profile.avatar 
+                ? `<img src="${profile.avatar}" alt="User" class="w-10 h-10 rounded-full border border-white/20 object-cover shadow-lg" />`
+                : `<div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center font-bold text-white uppercase text-lg shadow-lg">${profile.company_name.charAt(0)}</div>`;
 
-            if(agentType === 'gatekeeper') {
-                document.getElementById('frame-gatekeeper').classList.remove('hidden');
-                document.getElementById('frame-lawyer').classList.add('hidden');
+            const sidebarHTML = `
+                <div class="flex items-center gap-3 mb-4">
+                    ${avatarHtml}
+                    <div class="overflow-hidden">
+                        <p class="text-sm font-bold text-white truncate w-32" title="${profile.company_name}">${profile.company_name}</p>
+                        <p class="text-[10px] text-gray-400 capitalize">${profile.role}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('sidebar-user-section').innerHTML = sidebarHTML;
+
+            document.getElementById('user-company-header').innerText = profile.company_name;
+            document.getElementById('user-credits-header').innerText = `Credits: ${profile.credits}`;
+            document.getElementById('dash-credits-display').innerText = profile.credits;
+            
+            const trustScore = profile.credits > 1000 ? 98 : 10;
+            document.getElementById('dash-trust-score').innerText = `${trustScore}/100`;
+            document.getElementById('dash-trust-bar').style.width = `${trustScore}%`;
+
+            // Mini Profile Card Logo
+            const logoHtml = `
+                 <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-400 border border-blue-500/30 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=150&h=150&fit=crop" class="w-full h-full object-cover opacity-80" alt="Company Logo">
+                </div>
+            `;
+
+            const cardHTML = `
+                <div class="mini-profile-card p-6 rounded-xl flex items-center justify-between shadow-lg">
+                    <div class="flex items-center gap-5">
+                        ${logoHtml}
+                        <div>
+                            <h3 class="text-xl font-bold text-white">${profile.company_name}</h3>
+                            <p class="text-sm text-slate-400">${profile.role.toUpperCase()} • ${profile.city}</p>
+                            <div class="flex items-center gap-3 mt-2">
+                                <span class="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] font-bold uppercase rounded border border-green-500/20 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Active Account
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('mini-profile-container').innerHTML = cardHTML;
+            
+            document.getElementById('full-profile-view').innerHTML = `
+                <div class="grid grid-cols-2 gap-y-6 gap-x-4 text-sm">
+                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">Full Name</p><p class="text-white text-lg">${profile.full_name}</p></div>
+                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">Company</p><p class="text-white text-lg">${profile.company_name}</p></div>
+                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">Email</p><p class="text-white text-lg">${profile.email}</p></div>
+                    <div><p class="text-gray-500 text-xs uppercase font-bold tracking-wider mb-1">City</p><p class="text-white text-lg">${profile.city}</p></div>
+                </div>
+            `;
+
+            if(window.lucide) lucide.createIcons();
+        }
+
+        async function fetchAndRenderProfile() {
+            if (isDemoMode) return;
+            if (!supabase) return;
+
+            const { data, error } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
+
+            if (error || !data) {
+                showProfileSetup();
+                return;
+            }
+            currentProfile = data;
+            
+            if (!data.company_name) {
+                showProfileSetup(); 
             } else {
-                document.getElementById('frame-gatekeeper').classList.add('hidden');
-                document.getElementById('frame-lawyer').classList.remove('hidden');
+                renderDashboardData(data);
+                renderWedge('action');
             }
         }
 
-        function switchDashView(viewId) {
-            document.querySelectorAll('.dash-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('view-' + viewId).classList.add('active');
-            
-            document.querySelectorAll('.nav-item').forEach(el => {
-                el.classList.remove('active', 'text-white');
-                el.classList.add('text-gray-400');
+        function renderDemoShipments() {
+            const shipmentTable = document.getElementById('shipment-table-body');
+            shipmentTable.innerHTML = `
+                <tr class="hover:bg-white/5 transition"><td class="p-4 font-mono text-xs">#SHP-9001</td><td class="p-4 text-white">Basmati Rice (Grade A)</td><td class="p-4">Dubai, UAE</td><td class="p-4"><span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded border border-yellow-500/30">Customs Cleared</span></td></tr>
+                <tr class="hover:bg-white/5 transition"><td class="p-4 font-mono text-xs">#SHP-9002</td><td class="p-4 text-white">Organic Spices</td><td class="p-4">London, UK</td><td class="p-4"><span class="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded border border-blue-500/30">In Transit</span></td></tr>
+            `;
+            document.getElementById('stat-shipments').innerText = "2";
+        }
+
+        function requestBooking() {
+            if(!isDemoMode) { alert("Please verify GST first."); return; }
+            const table = document.getElementById('shipment-table-body');
+            const newRow = `<tr class="animate-fade-in bg-blue-500/10"><td class="p-4 font-mono text-xs text-blue-300">#SHP-9003</td><td class="p-4 text-white">Hand Tools Set</td><td class="p-4">Toronto, CA</td><td class="p-4"><span class="px-2 py-1 bg-gray-500/20 text-gray-300 text-xs rounded border border-gray-500/30">Processing...</span></td></tr>`;
+            table.innerHTML = newRow + table.innerHTML;
+            document.getElementById('stat-shipments').innerText = "3";
+        }
+
+        // --- UPDATED MATCHES WITH PHOTOS ---
+        function renderMatches() {
+            const matches = [
+                { name: "Al-Futtaim Group", loc: "Dubai, UAE", type: "Buyer • Food", img: "https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=100&h=100&fit=crop" },
+                { name: "Tesco Sourcing", loc: "London, UK", type: "Buyer • Bulk", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100&h=100&fit=crop" },
+                { name: "Walmart Global", loc: "Arkansas, USA", type: "Retailer", img: "https://images.unsplash.com/photo-1572048572872-239440482e3a?w=100&h=100&fit=crop" },
+                { name: "Carrefour Hub", loc: "Paris, France", type: "Buyer • FMCG", img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=100&h=100&fit=crop" }
+            ];
+            const grid = document.getElementById('matches-grid');
+            let html = '';
+            matches.forEach((m, index) => {
+                html += `
+                <div class="glass-card p-5 rounded-xl border border-white/5 flex items-center justify-between hover:bg-white/5 transition">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center overflow-hidden shadow-lg">
+                            <img src="${m.img}" alt="${m.name}" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm flex items-center gap-2">
+                                ${m.name} <i data-lucide="badge-check" class="w-3 h-3 text-blue-400"></i>
+                            </h4>
+                            <p class="text-xs text-gray-400 mt-0.5">${m.loc}</p>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">${m.type}</span>
+                        </div>
+                    </div>
+                    <button id="btn-conn-${index}" onclick="connectMatch(${index})" class="text-xs font-bold border border-blue-600 text-blue-400 px-4 py-2 rounded hover:bg-blue-600 hover:text-white transition-all shadow-lg shadow-blue-900/10">
+                        Connect
+                    </button>
+                </div>`;
             });
-            const activeNav = document.getElementById('nav-' + viewId);
-            if(activeNav) activeNav.classList.add('active', 'text-white');
-            
-            lucide.createIcons();
+            grid.innerHTML = html;
+            if(window.lucide) lucide.createIcons();
+        }
+
+        function connectMatch(index) {
+            const btn = document.getElementById(`btn-conn-${index}`);
+            btn.innerText = "Request Sent";
+            btn.classList.remove('border-blue-600', 'text-blue-400', 'hover:bg-blue-600');
+            btn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30', 'cursor-default');
+            btn.onclick = null;
+        }
+
+        // --- NEW SIMULATE UPLOAD FUNCTION INTEGRATED HERE ---
+        function simulateUpload() {
+            const card = document.getElementById('upload-card');
+            const icon = document.getElementById('upload-icon');
+            const text = document.getElementById('upload-text');
+            const sub = document.getElementById('upload-sub');
+
+            text.innerText = "Scanning...";
+            sub.innerText = "AI checking validity...";
+            icon.classList.add('animate-bounce');
+            icon.classList.remove('text-gray-400');
+            icon.classList.add('text-blue-400');
+
+            setTimeout(() => {
+                card.classList.remove('border-dashed', 'border-gray-600');
+                card.classList.add('bg-green-500/10', 'border-green-500/30');
+
+                icon.classList.remove('animate-bounce', 'text-blue-400');
+                icon.classList.add('text-green-400');
+
+                // Important: Update icon to Checkmark
+                card.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle w-10 h-10 text-green-400 mb-3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+                    <h4 class="text-gray-300 text-sm font-bold">RCMC Verified</h4>
+                    <p class="text-xs text-green-400 mt-1">Document approved</p>
+                `;
+                
+                // Remove onclick to prevent re-scan
+                card.onclick = null;
+
+                if (window.lucide) lucide.createIcons();
+            }, 1800);
         }
 
         function renderWedge(step) {
@@ -890,6 +992,39 @@
                 btn.onclick = () => switchDashView('docs');
             }
         }
+
+        // ----------------------------------------------------
+        // 2. INITIALIZATION ON LOAD (Robust Mode)
+        // ----------------------------------------------------
+        window.addEventListener('load', async () => {
+            // Initialize Icons safely
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Initialize Supabase Safely
+            try {
+                if (window.supabase) {
+                    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                    
+                    const { data: { session } } = await supabase.auth.getSession();
+                    if (session) {
+                        currentUser = session.user;
+                        console.log("Logged in user:", currentUser.id);
+                        document.getElementById('landing-view').style.display = 'none';
+                        document.getElementById('dashboard-view').classList.remove('hidden');
+                        await fetchAndRenderProfile();
+                    } else {
+                        console.log("No session found. Showing Landing Page.");
+                    }
+                } else {
+                    console.warn("Supabase library not loaded correctly. Check Internet.");
+                }
+            } catch (err) {
+                console.error("Supabase Init Failed:", err);
+            }
+        });
+
     </script>
 </body>
 </html>
