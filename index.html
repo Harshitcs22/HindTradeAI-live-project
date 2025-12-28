@@ -3,201 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HindTradeAI - Native API</title>
+    <title>HindTradeAI - Nexus Interface</title>
     <style>
-        /* --- DESIGN (Professional Dark Theme) --- */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #0f172a; color: white; display: flex; flex-direction: column; min-height: 100vh; }
-        .hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        h1 { font-size: 3rem; margin-bottom: 10px; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; color: transparent; }
-        p { font-size: 1.2rem; color: #94a3b8; max-width: 600px; }
+        /* --- TUMHARA UI DESIGN --- */
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #0f172a; color: white; display: flex; flex-direction: column; min-height: 100vh; }
+        .hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        h1 { font-size: 3rem; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; color: transparent; margin: 0; }
+        p { color: #94a3b8; margin-top: 10px; }
 
-        .chat-widget-btn { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #38bdf8, #2563eb); color: white; border: none; border-radius: 50%; width: 60px; height: 60px; cursor: pointer; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4); font-size: 24px; z-index: 1000; }
-        .chat-container { display: none; position: fixed; bottom: 90px; right: 20px; width: 380px; height: 550px; background-color: #1e293b; border-radius: 16px; border: 1px solid #334155; overflow: hidden; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.6); z-index: 1000; }
-        .chat-header { background: #0f172a; padding: 15px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; color: #38bdf8; font-weight: bold; }
-        .close-btn { background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; }
+        .chat-widget-btn { position: fixed; bottom: 20px; right: 20px; background: #38bdf8; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; cursor: pointer; font-size: 24px; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4); }
+        
+        .chat-container { display: flex; position: fixed; bottom: 90px; right: 20px; width: 380px; height: 500px; background-color: #1e293b; border-radius: 12px; border: 1px solid #334155; flex-direction: column; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .chat-header { background: #0f172a; padding: 15px; border-bottom: 1px solid #334155; font-weight: bold; color: #38bdf8; display: flex; justify-content: space-between; }
+        .close-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 18px; }
+        
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px; border-radius: 8px; max-width: 85%; font-size: 0.9rem; line-height: 1.4; }
+        .bot-message { background: #334155; align-self: flex-start; border-left: 3px solid #38bdf8; }
+        .user-message { background: #38bdf8; color: #0f172a; align-self: flex-end; }
         
-        .chat-input-area { padding: 15px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 10px; }
-        .chat-input-area input { flex: 1; background: #334155; border: none; padding: 10px; border-radius: 8px; color: white; outline: none; }
-        .chat-input-area button { background: #38bdf8; border: none; padding: 10px 15px; border-radius: 8px; color: #0f172a; font-weight: bold; cursor: pointer; }
+        .chat-input { padding: 15px; background: #0f172a; display: flex; gap: 10px; border-top: 1px solid #334155; }
+        .chat-input input { flex: 1; background: #334155; border: none; padding: 10px; border-radius: 6px; color: white; outline: none; }
+        .chat-input button { background: #38bdf8; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
 
-        .message { padding: 10px 14px; border-radius: 10px; max-width: 85%; font-size: 0.95rem; white-space: pre-wrap; line-height: 1.5; }
-        .bot-message { background: #334155; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 0; border-left: 3px solid #38bdf8; }
-        .user-message { background: #38bdf8; color: #0f172a; align-self: flex-end; border-bottom-right-radius: 0; }
-        
-        /* Debug Info (Only visible if something goes wrong) */
-        .debug-info { font-size: 0.75rem; color: #f59e0b; background: #272111; padding: 5px; border-radius: 5px; margin-top: 5px; font-family: monospace; display: none; }
+        /* DEBUG LOG (Hidden by default, dikhega agar error aya) */
+        .debug-log { font-size: 0.7rem; color: #ff6b6b; margin-top: 5px; font-family: monospace; display: block; }
     </style>
 </head>
 <body>
 
     <div class="hero">
         <h1>HindTrade AI</h1>
-        <p>Nexus Trade Officer: Online.</p>
+        <p>System Connected.</p>
     </div>
 
     <button class="chat-widget-btn" onclick="toggleChat()">💬</button>
 
-    <div class="chat-container" id="ekayan-widget">
+    <div class="chat-container" id="chatBox">
         <div class="chat-header">
-            <span>Nexus Assistant</span>
+            <span>Nexus Agent</span>
             <button class="close-btn" onclick="toggleChat()">×</button>
         </div>
-        <div class="chat-body" id="chatBody">
-            <div class="message bot-message">Hello! I am ready to assist.</div>
+        <div class="chat-body" id="messages">
+            <div class="message bot-message">Hello! I'm online.</div>
         </div>
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="Ask anything..." onkeypress="handleKeyPress(event)">
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type here..." onkeypress="handleEnter(event)">
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <script>
-        // CONFIGURATION
+        // --- CONFIGURATION ---
         const CONFIG = {
-            BASE_URL: "https://api-d7b62b.stack.tryrelevance.com/latest",
+            REGION_URL: "https://api-d7b62b.stack.tryrelevance.com/latest",
             AGENT_ID: "a3f0bb17-9cbf-4d17-88cc-c1a981deabdd",
-            AUTH_TOKEN: "3fdb8425-c0a5-4909-9513-21d07c9f8f99:sk-NmQwOGI3YmMtMzljYy00NTAwLTgwYTUtYzE0NzRiYzA0N2Rh"
+            // Ye API Key tumhari purani wali hai, agar change ki hai to replace kar dena
+            AUTH: "3fdb8425-c0a5-4909-9513-21d07c9f8f99:sk-NmQwOGI3YmMtMzljYy00NTAwLTgwYTUtYzE0NzRiYzA0N2Rh"
         };
 
         function toggleChat() {
-            const widget = document.getElementById('ekayan-widget');
-            widget.style.display = (widget.style.display === 'flex') ? 'none' : 'flex';
-            if (widget.style.display === 'flex') setTimeout(() => document.getElementById("userInput").focus(), 100);
+            const box = document.getElementById('chatBox');
+            box.style.display = (box.style.display === 'none') ? 'flex' : 'none';
         }
 
         async function sendMessage() {
-            const inputField = document.getElementById("userInput");
-            const message = inputField.value.trim();
-            if (!message) return;
+            const input = document.getElementById("userInput");
+            const text = input.value.trim();
+            if (!text) return;
 
-            addMessage(message, "user");
-            inputField.value = "";
-            const loadingId = addMessage("Analyzing...", "bot");
+            // User Message Show karo
+            appendMessage(text, "user");
+            input.value = "";
+
+            // Loading Message
+            const loadingId = appendMessage("Thinking...", "bot");
 
             try {
-                // 1. TRIGGER AGENT
-                console.log("Sending Request...");
-                const response = await fetch(`${CONFIG.BASE_URL}/agents/trigger`, {
+                // 1. TRIGGER (Message Bhejo)
+                const res = await fetch(`${CONFIG.REGION_URL}/agents/trigger`, {
                     method: "POST",
-                    headers: { "Authorization": CONFIG.AUTH_TOKEN, "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: { role: "user", content: message }, agent_id: CONFIG.AGENT_ID })
+                    headers: { "Authorization": CONFIG.AUTH, "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: { role: "user", content: text }, agent_id: CONFIG.AGENT_ID })
                 });
 
-                const data = await response.json();
-                console.log("Initial Response:", data);
-
-                // Check Immediate Answer
+                const data = await res.json();
+                
+                // Case A: Turant Answer aa gaya
                 if (data.output && data.output.answer) {
                     updateMessage(loadingId, data.output.answer);
                 } 
-                // Check if Queued (Polling needed)
+                // Case B: Ticket (Job ID) mila -> Ab humein peecha karna padega
                 else if (data.job_info && data.job_info.job_id) {
-                    await pollJob(data.job_info.job_id, loadingId);
+                    // YAHAN HACK HAI: 'agent_empty_chain_inline' ko hum manually handle karenge
+                    const studioId = data.job_info.studio_id || "agent_empty_chain_inline"; 
+                    await trackJob(data.job_info.job_id, studioId, loadingId);
                 } 
                 else {
-                    updateMessage(loadingId, "Message sent, but format is unexpected.");
-                    showDebug(JSON.stringify(data));
+                    updateMessage(loadingId, "Message sent via Backend. Check Dashboard History.");
                 }
 
-            } catch (error) {
-                console.error(error);
-                updateMessage(loadingId, "Connection Failed.");
-                showDebug(error.message);
+            } catch (err) {
+                updateMessage(loadingId, "Error connecting.");
+                console.error(err);
             }
         }
 
-        // --- POWERFUL POLLING FUNCTION ---
-        async function pollJob(jobId, msgId) {
-            const pollUrl = `${CONFIG.BASE_URL}/jobs/${jobId}`;
-            let attempts = 0;
+        // --- TRACKING FUNCTION (Polling) ---
+        async function trackJob(jobId, studioId, msgId) {
+            // Yahan hum 2 URL try karenge safety ke liye
+            const url1 = `${CONFIG.REGION_URL}/studios/${studioId}/async_poll/${jobId}`;
+            const url2 = `${CONFIG.REGION_URL}/jobs/${jobId}`; // Fallback URL
 
+            let attempts = 0;
             const interval = setInterval(async () => {
                 attempts++;
                 try {
-                    const res = await fetch(pollUrl, {
-                        headers: { "Authorization": CONFIG.AUTH_TOKEN }
-                    });
-                    const jobData = await res.json();
-                    console.log(`Polling (${attempts}):`, jobData.status);
-
-                    // If Complete
-                    if (jobData.status === "done" || jobData.state === "completed") {
-                        clearInterval(interval);
-                        
-                        // HUNTER LOGIC: Find the answer anywhere
-                        let finalAnswer = null;
-
-                        // 1. Standard locations
-                        if (jobData.output && jobData.output.answer) finalAnswer = jobData.output.answer;
-                        else if (jobData.output && jobData.output.output) finalAnswer = jobData.output.output;
-                        else if (typeof jobData.output === 'string') finalAnswer = jobData.output;
-                        
-                        // 2. Nested locations (Common in Relevance)
-                        else if (jobData.output && jobData.output.api_output) finalAnswer = jobData.output.api_output;
-                        
-                        // 3. Fallback: Dump the whole object if string
-                        if (!finalAnswer && jobData.output) {
-                            finalAnswer = JSON.stringify(jobData.output); 
-                        }
-
-                        if (finalAnswer) {
-                            // Agar answer JSON format mein hai, toh usse clean text banao
-                            if (typeof finalAnswer === 'object') finalAnswer = JSON.stringify(finalAnswer);
-                            updateMessage(msgId, finalAnswer);
-                        } else {
-                            updateMessage(msgId, "Processing done, but answer is empty.");
-                            showDebug(JSON.stringify(jobData));
-                        }
+                    // Pehle Specific URL try karo
+                    let response = await fetch(url1, { headers: { "Authorization": CONFIG.AUTH } });
+                    
+                    // Agar 404/Fail aye, toh Doosra URL try karo
+                    if (!response.ok) {
+                        response = await fetch(url2, { headers: { "Authorization": CONFIG.AUTH } });
                     }
 
-                    // Timeout after 40 seconds
-                    if (attempts > 20) {
+                    if (response.ok) {
+                        const job = await response.json();
+                        console.log("Status:", job.status);
+
+                        if (job.status === "done" || job.state === "completed") {
+                            clearInterval(interval);
+                            
+                            // Answer nikalne ka tareeka
+                            let ans = "Done.";
+                            if (job.output) {
+                                if (job.output.answer) ans = job.output.answer;
+                                else if (job.output.output) ans = job.output.output;
+                                else if (typeof job.output === 'string') ans = job.output;
+                                else ans = JSON.stringify(job.output); // Agar object hai toh string bana do
+                            }
+                            
+                            // Formatting fix
+                            ans = ans.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+                            updateMessage(msgId, ans);
+                        }
+                    }
+                    
+                    // 30 Second Timeout
+                    if (attempts > 15) {
                         clearInterval(interval);
-                        updateMessage(msgId, "Server took too long.");
+                        updateMessage(msgId, "Took too long. Please try again.");
                     }
 
                 } catch (e) {
-                    console.error("Poll Error", e);
+                    console.error("Polling error", e);
                 }
-            }, 2000);
+            }, 2000); // 2 second mein check karo
         }
 
-        function addMessage(text, sender) {
-            const chatBody = document.getElementById("chatBody");
+        function appendMessage(text, sender) {
             const div = document.createElement("div");
             div.className = `message ${sender === "user" ? "user-message" : "bot-message"}`;
-            div.innerText = text;
+            div.innerHTML = text;
             div.id = "msg-" + Date.now();
-            chatBody.appendChild(div);
-            chatBody.scrollTop = chatBody.scrollHeight;
+            document.getElementById("messages").appendChild(div);
+            document.getElementById("messages").scrollTop = 10000;
             return div.id;
         }
 
         function updateMessage(id, text) {
             const el = document.getElementById(id);
-            if (el) {
-                // Clean up formatting
-                let cleanText = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>"); // Bold
-                cleanText = cleanText.replace(/\\n/g, "<br>"); // New lines
-                cleanText = cleanText.replace(/^"|"$/g, ''); // Remove quotes
-                
-                el.innerHTML = cleanText;
-                el.removeAttribute("id");
-            }
+            if (el) el.innerHTML = text;
         }
 
-        function showDebug(info) {
-            const chatBody = document.getElementById("chatBody");
-            const div = document.createElement("div");
-            div.className = "debug-info";
-            div.style.display = "block";
-            div.innerText = "DEBUG: " + info;
-            chatBody.appendChild(div);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        function handleKeyPress(e) { if (e.key === "Enter") sendMessage(); }
+        function handleEnter(e) { if(e.key === "Enter") sendMessage(); }
     </script>
 </body>
 </html>
