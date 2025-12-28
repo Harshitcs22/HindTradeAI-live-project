@@ -645,7 +645,6 @@
 
     <script>
         // --- 🤖 CREDENTIALS ---
-        // Your credentials are now hardcoded for the widget
         const RELEVANCE_PROJECT_ID = "3fdb8425-c0a5-4909-9513-21d07c9f8f99";
         const RELEVANCE_API_KEY = "sk-NTAxYTcyYWQtYjk1NC00ZjFiLWFlNTUtNmEyNTRhOGQyNTdi";
         const RELEVANCE_AGENT_ID = "a3f0bb17-9cbf-4d17-88cc-c1a981deabdd";
@@ -678,8 +677,7 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
-                // 3. Call Relevance AI API (Updated to Region Specific if needed, defaulting to correct region URL)
-                // Using the specific cluster endpoint from your URL: d7b62b
+                // 3. Call Relevance AI API (Region-Specific: d7b62b)
                 const response = await fetch('https://api-d7b62b.stack.tryrelevance.com/latest/agents/trigger', {
                     method: 'POST',
                     headers: {
@@ -687,9 +685,8 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: message,
-                        agent_id: RELEVANCE_AGENT_ID,
-                        stream: false
+                        message: { role: "user", content: message }, // Updated payload format
+                        agent_id: RELEVANCE_AGENT_ID
                     })
                 });
 
@@ -698,7 +695,7 @@
                 // Remove Loading
                 document.getElementById(loadingId).remove();
 
-                // 4. Extract Answer (Handling different response structures)
+                // 4. Extract Answer
                 let botAnswer = "Sorry, I couldn't connect to the server.";
                 
                 if (data.output && data.output.answer) {
@@ -723,13 +720,11 @@
             }
         }
 
-        // --- BUTTON EVENT LISTENERS UPDATED FOR EKAYAN ---
+        // --- BUTTON EVENT LISTENERS ---
         document.querySelectorAll('button').forEach(btn => {
-            // Avoid adding listeners to the chat widget buttons again
             if(btn.closest('#ekayan-widget')) return;
 
             btn.addEventListener('click', function () {
-                // Ignore if it has onclick attribute (like the main hero button)
                 if (this.getAttribute('onclick')) return;
 
                 const text = this.textContent.trim();
@@ -738,7 +733,6 @@
                 } else if (text.includes('Demo')) {
                     alert('Demo: https://hindtradeai.vercel.app/demo');
                 } else if (text.includes('Nexus') || text.includes('Ekayan')) {
-                    // Open Chat
                     toggleEkayanChat();
                 } else if (text.includes('Hire')) {
                     alert('CA Marketplace: Direct messaging, rates, instant hiring enabled.');
