@@ -3,61 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HindTradeAI - Nexus Officer</title>
+    <title>HindTradeAI - Nexus Debugger</title>
     <style>
-        /* --- DESIGN SECTION --- */
+        /* --- DESIGN (Same as before) --- */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #0f172a; color: white; display: flex; flex-direction: column; min-height: 100vh; }
         .hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         h1 { font-size: 3rem; margin-bottom: 10px; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; color: transparent; }
-        p { font-size: 1.2rem; color: #94a3b8; max-width: 600px; }
-
-        /* Chat Widget */
+        
         .chat-widget-btn { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #38bdf8, #2563eb); color: white; border: none; border-radius: 50%; width: 60px; height: 60px; cursor: pointer; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4); font-size: 24px; z-index: 1000; }
-        .chat-container { display: none; position: fixed; bottom: 90px; right: 20px; width: 380px; height: 550px; background-color: #1e293b; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); flex-direction: column; z-index: 1000; border: 1px solid #334155; overflow: hidden; }
+        .chat-container { display: none; position: fixed; bottom: 90px; right: 20px; width: 380px; height: 550px; background-color: #1e293b; border-radius: 16px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; }
         .chat-header { background: #0f172a; padding: 15px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; color: #38bdf8; font-weight: bold; }
         .close-btn { background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; }
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        
-        /* Input Area */
         .chat-input-area { padding: 15px; background: #0f172a; border-top: 1px solid #334155; display: flex; gap: 10px; }
         .chat-input-area input { flex: 1; background: #334155; border: none; padding: 10px; border-radius: 8px; color: white; outline: none; }
         .chat-input-area button { background: #38bdf8; border: none; padding: 10px 15px; border-radius: 8px; color: #0f172a; font-weight: bold; cursor: pointer; }
-
-        /* Messages */
-        .message { padding: 10px 14px; border-radius: 10px; max-width: 85%; font-size: 0.95rem; white-space: pre-wrap; line-height: 1.5; }
-        .bot-message { background: #334155; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 0; border-left: 3px solid #38bdf8; }
-        .user-message { background: #38bdf8; color: #0f172a; align-self: flex-end; border-bottom-right-radius: 0; }
-        .code-block { background: #0f172a; padding: 8px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; color: #a5f3fc; margin-top: 5px; border: 1px solid #334155; }
+        
+        .message { padding: 10px 14px; border-radius: 10px; max-width: 90%; font-size: 0.95rem; white-space: pre-wrap; word-wrap: break-word; }
+        .bot-message { background: #334155; color: #e2e8f0; align-self: flex-start; border-left: 3px solid #38bdf8; }
+        .user-message { background: #38bdf8; color: #0f172a; align-self: flex-end; }
+        .error-log { font-size: 0.8rem; color: #f87171; font-family: monospace; background: #2a1212; padding: 5px; border-radius: 5px; margin-top: 5px; }
     </style>
 </head>
 <body>
 
     <div class="hero">
         <h1>HindTrade AI</h1>
-        <p>Nexus Trade Officer: Your intelligent trading companion.</p>
+        <p>System Online. Check Chat.</p>
     </div>
 
     <button class="chat-widget-btn" onclick="toggleChat()">💬</button>
 
-    <div class="chat-container" id="ekayan-widget">
+    <div class="chat-container" id="ekayan-widget" style="display: none;">
         <div class="chat-header">
-            <span>Nexus Trade Officer</span>
+            <span>Nexus Assistant</span>
             <button class="close-btn" onclick="toggleChat()">×</button>
         </div>
-        
         <div class="chat-body" id="chatBody">
-            <div class="message bot-message">Hello! I am connected to DGFT & Trade Policies. How can I assist?</div>
+            <div class="message bot-message">System Ready.</div>
         </div>
-
         <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="Ask about imports/exports..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="userInput" placeholder="Type here..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <script>
         const CONFIG = {
-            REGION: "https://api-d7b62b.stack.tryrelevance.com/latest",
+            // Base URL (Region d7b62b)
+            BASE_URL: "https://api-d7b62b.stack.tryrelevance.com/latest",
             AGENT_ID: "a3f0bb17-9cbf-4d17-88cc-c1a981deabdd",
             AUTH_TOKEN: "3fdb8425-c0a5-4909-9513-21d07c9f8f99:sk-NmQwOGI3YmMtMzljYy00NTAwLTgwYTUtYzE0NzRiYzA0N2Rh"
         };
@@ -65,7 +59,6 @@
         function toggleChat() {
             const widget = document.getElementById('ekayan-widget');
             widget.style.display = (widget.style.display === 'flex') ? 'none' : 'flex';
-            if (widget.style.display === 'flex') setTimeout(() => document.getElementById("userInput").focus(), 100);
         }
 
         async function sendMessage() {
@@ -75,96 +68,109 @@
 
             addMessage(message, "user");
             inputField.value = "";
-            const loadingId = addMessage("Analyzing Trade Data...", "bot", true);
+            const loadingId = addMessage("Sending to Agent...", "bot");
 
             try {
-                // Step 1: Trigger the Agent
-                const response = await fetch(`${CONFIG.REGION}/agents/trigger`, {
+                // 1. TRIGGER THE AGENT
+                console.log("Triggering Agent...");
+                const response = await fetch(`${CONFIG.BASE_URL}/agents/trigger`, {
                     method: "POST",
                     headers: { "Authorization": CONFIG.AUTH_TOKEN, "Content-Type": "application/json" },
                     body: JSON.stringify({ message: { role: "user", content: message }, agent_id: CONFIG.AGENT_ID })
                 });
 
                 const data = await response.json();
-                console.log("Trigger Response:", data);
+                console.log("Trigger Result:", data);
 
-                // CASE A: Direct Answer (Agar turant jawaab aaya)
+                // Check Result Type
                 if (data.output && data.output.answer) {
                     updateMessage(loadingId, data.output.answer);
-                }
-                // CASE B: Job Queued (Agar 'Waiting' ticket mila)
+                } 
                 else if (data.job_info && data.job_info.job_id) {
-                    console.log("Job Queued. ID:", data.job_info.job_id);
-                    await pollJobStatus(data.job_info.job_id, loadingId);
-                }
-                // CASE C: Fallback
+                    updateMessage(loadingId, `Agent working (Job ID: ${data.job_info.job_id}). Waiting for reply...`);
+                    await pollJob(data.job_info.job_id, loadingId);
+                } 
                 else {
-                    updateMessage(loadingId, "Processing completed. Check Dashboard for details.");
+                    updateMessage(loadingId, "Message Sent. Check Dashboard History.");
+                    addErrorLog("Unknown Response format: " + JSON.stringify(data));
                 }
 
             } catch (error) {
                 console.error(error);
                 updateMessage(loadingId, "Connection Failed.");
+                addErrorLog(error.message);
             }
         }
 
-        // --- POLLING FUNCTION (Jawaab ka intezaar karne wala) ---
-        async function pollJobStatus(jobId, elementId) {
-            const pollUrl = `${CONFIG.REGION}/jobs/${jobId}`;
+        // 2. POLL JOB STATUS (Wait for Answer)
+        async function pollJob(jobId, msgId) {
+            const pollUrl = `${CONFIG.BASE_URL}/jobs/${jobId}`;
             let attempts = 0;
+            const maxAttempts = 20; // Try for 40 seconds
 
             const interval = setInterval(async () => {
                 attempts++;
-                if (attempts > 30) { // 60 seconds timeout
-                    clearInterval(interval);
-                    updateMessage(elementId, "Response timed out. Please try again.");
-                    return;
-                }
-
                 try {
                     const res = await fetch(pollUrl, {
                         headers: { "Authorization": CONFIG.AUTH_TOKEN }
                     });
-                    const jobData = await res.json();
-                    console.log("Polling...", jobData.status);
+                    
+                    if (!res.ok) {
+                        throw new Error(`Polling HTTP Error: ${res.status}`);
+                    }
 
+                    const jobData = await res.json();
+                    console.log(`Poll Attempt ${attempts}:`, jobData.status);
+
+                    // Check if Done
                     if (jobData.status === "done" || jobData.state === "completed") {
                         clearInterval(interval);
                         
-                        // Answer dhoondho
-                        let finalReply = "Analysis Complete.";
-                        if (jobData.output && jobData.output.answer) finalReply = jobData.output.answer;
-                        else if (jobData.output && typeof jobData.output === 'string') finalReply = jobData.output;
-                        
-                        updateMessage(elementId, finalReply);
+                        let reply = "Processing Complete.";
+                        if (jobData.output && jobData.output.answer) reply = jobData.output.answer;
+                        else if (jobData.output && typeof jobData.output === "string") reply = jobData.output;
+                        else if (jobData.output && jobData.output.output) reply = jobData.output.output; // Sometimes nested
+
+                        updateMessage(msgId, reply);
                     }
-                } catch (e) {
-                    console.error("Polling Error", e);
+                    
+                    // Stop if Failed or Timeout
+                    if (attempts >= maxAttempts) {
+                        clearInterval(interval);
+                        updateMessage(msgId, "Agent is taking too long. Check Dashboard.");
+                    }
+
+                } catch (err) {
+                    console.error("Polling Error:", err);
+                    addErrorLog("Polling Error: " + err.message);
                 }
-            }, 2000); // Check every 2 seconds
+            }, 2000);
         }
 
-        function addMessage(text, sender, isLoading = false) {
+        // UI Helpers
+        function addMessage(text, sender) {
             const chatBody = document.getElementById("chatBody");
             const div = document.createElement("div");
             div.className = `message ${sender === "user" ? "user-message" : "bot-message"}`;
-            if (isLoading) { div.innerText = "Connecting to Nexus Core..."; div.id = "loading-msg"; }
-            else { div.innerHTML = text.replace(/\n/g, "<br>"); } // Line breaks fix
+            div.innerText = text;
+            div.id = "msg-" + Date.now();
             chatBody.appendChild(div);
             chatBody.scrollTop = chatBody.scrollHeight;
             return div.id;
         }
 
-        function updateMessage(elementId, newText) {
-            const el = document.getElementById(elementId);
-            if (el) {
-                // Formatting for the Nexus style logs
-                if (newText.includes("[NEXUS_CORE]") || newText.includes(">")) {
-                    newText = newText.replace(/(\[.*?\])/g, "<b>$1</b>"); // Bold tags
-                }
-                el.innerHTML = newText.replace(/\n/g, "<br>");
-                el.removeAttribute("id");
-            }
+        function updateMessage(id, text) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        }
+
+        function addErrorLog(text) {
+            const chatBody = document.getElementById("chatBody");
+            const div = document.createElement("div");
+            div.className = "error-log";
+            div.innerText = "DEBUG: " + text;
+            chatBody.appendChild(div);
+            chatBody.scrollTop = chatBody.scrollHeight;
         }
 
         function handleKeyPress(e) { if (e.key === "Enter") sendMessage(); }
