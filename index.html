@@ -3,49 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Trade - Debugger</title>
+    <title>Nexus Trade - Live</title>
     <style>
-        body { font-family: sans-serif; background: #0f172a; color: white; display: flex; flex-direction: column; height: 100vh; margin: 0; }
-        .chat-container { flex: 1; padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; }
-        #chatBox { flex: 1; overflow-y: auto; border: 1px solid #334155; padding: 20px; background: #1e293b; margin-bottom: 20px; }
-        .msg { padding: 10px; border-radius: 8px; margin-bottom: 10px; }
-        .bot { background: #334155; border-left: 4px solid #38bdf8; }
-        .error { background: #450a0a; border-left: 4px solid #ef4444; color: #fca5a5; }
-        input { padding: 15px; width: 70%; background: #334155; color: white; border: none; }
-        button { padding: 15px; width: 25%; background: #38bdf8; border: none; cursor: pointer; }
+        /* --- DARK THEME UI --- */
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; display: flex; flex-direction: column; height: 100vh; margin: 0; }
+        .chat-container { flex: 1; display: flex; flex-direction: column; padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+        
+        .header-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        h2 { margin: 0; color: #38bdf8; font-weight: 600; font-size: 1.5rem; }
+        
+        .clear-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .clear-btn:hover { background: #dc2626; }
+
+        #chatBox { flex: 1; overflow-y: auto; border: 1px solid #334155; border-radius: 12px; padding: 20px; background: #1e293b; margin-bottom: 20px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); }
+        
+        .msg { padding: 12px 16px; border-radius: 8px; max-width: 85%; line-height: 1.6; font-size: 15px; word-wrap: break-word; }
+        .user { background: #38bdf8; color: #0f172a; align-self: flex-end; font-weight: 600; border-bottom-right-radius: 2px; }
+        
+        /* Bot Message Styling */
+        .bot { background: #334155; color: #e2e8f0; align-self: flex-start; border-left: 4px solid #38bdf8; border-bottom-left-radius: 2px; }
+        .bot strong { color: #38bdf8; font-weight: 700; }
+        .bot ul, .bot ol { margin: 8px 0; padding-left: 20px; }
+        .bot li { margin-bottom: 4px; }
+        .bot p { margin: 0 0 8px 0; }
+        .bot p:last-child { margin-bottom: 0; }
+        
+        .cache-tag { display: inline-block; font-size: 11px; background: #166534; color: #bbf7d0; padding: 2px 6px; border-radius: 4px; margin-top: 8px; font-weight: 600; border: 1px solid #22c55e; }
+
+        .input-area { display: flex; gap: 10px; }
+        input { flex: 1; padding: 16px; border-radius: 8px; border: 1px solid #475569; background: #334155; color: white; outline: none; font-size: 16px; transition: border-color 0.2s; }
+        input:focus { border-color: #38bdf8; }
+        
+        button#sendBtn { padding: 0 30px; background: #38bdf8; border: none; border-radius: 8px; color: #0f172a; font-weight: bold; cursor: pointer; font-size: 16px; transition: background 0.2s; }
+        button#sendBtn:hover { background: #7dd3fc; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <h2 style="text-align: center; color: #ef4444;">DEBUG MODE (Error Finder)</h2>
-
     <div class="chat-container">
-        <div id="chatBox">
-            <div class="msg bot">System Ready. Send message to check API status.</div>
+        <div class="header-area">
+            <h2>Nexus Trade Agent</h2>
+            <button class="clear-btn" onclick="clearCache()" title="Clear saved history">🗑️ Reset History</button>
         </div>
-        <div>
-            <input type="text" id="userInput" placeholder="Type generic test..." value="Hi">
-            <button onclick="startChat()">Test Connection</button>
+
+        <div id="chatBox">
+            <div class="msg bot">System Online. New API Configured. 🚀</div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Ask about market analysis..." onkeypress="handleEnter(event)">
+            <button onclick="startChat()" id="sendBtn">Send</button>
         </div>
     </div>
 
     <script>
-        // --- ⚠️ CHECK YOUR CREDENTIALS HERE ---
+        // --- ⚙️ NEW CONFIGURATION (Updated from Screenshot) ---
         const CONFIG = {
-            // Yahan check karo ki key sahi format mein hai (ProjectID:APIKey)
-            AUTH: "3fdb8425-c0a5-4909-9513-21d07c9f8f99:sk-NmQwOGI3YmMtMzljYy00NTAwLTgwYTUtYzE0NzRiYzA0N2Rh",
+            // Updated Authorization Token
+            AUTH: "3fdb8425-c0a5-4909-9513-21d07c9f8f99:sk-OGU1MjA5MTYtZGYyMi00YmYyLWlzY2QtZTNiMDViZGU0M2ZI",
             
+            // Agent ID & URLs
             AGENT_ID: "a3f0bb17-9cbf-4d17-88cc-c1a981deabdd",
-            
             TRIGGER_URL: "https://api-d7b62b.stack.tryrelevance.com/latest/agents/trigger",
             POLL_BASE: "https://api-d7b62b.stack.tryrelevance.com/latest/jobs"
         };
 
+        // --- MAIN CHAT LOGIC ---
         async function startChat() {
             const input = document.getElementById("userInput");
-            const text = input.value;
+            const btn = document.getElementById("sendBtn");
+            const text = input.value.trim();
             
-            addMsg("Sending Request...", 'bot');
+            if(!text) return;
+
+            // UI Update
+            addMsg(text, 'user');
+            input.value = '';
+            input.disabled = true; 
+            btn.disabled = true;
+
+            // --- 1. CACHE CHECK (SAVE CREDITS) ---
+            const cacheKey = "nexus_" + text.toLowerCase().replace(/\s/g, '_');
+            const cachedAnswer = localStorage.getItem(cacheKey);
+
+            if (cachedAnswer) {
+                console.log("⚡ Serving from Cache");
+                setTimeout(() => {
+                    // Show cached answer
+                    const finalHtml = cachedAnswer + "<br><span class='cache-tag'>⚡ Saved from History (0 Credits)</span>";
+                    addMsg(finalHtml, 'bot');
+                    resetUI();
+                }, 600); // Small fake delay
+                return;
+            }
+
+            // --- 2. API REQUEST ---
+            const loadingId = addMsg("Thinking...", 'bot');
 
             try {
                 const response = await fetch(CONFIG.TRIGGER_URL, {
@@ -61,26 +120,104 @@
                 });
 
                 const data = await response.json();
-                console.log("Server Response:", data); // F12 Console ke liye
+                console.log("Trigger:", data); 
 
-                // --- ERROR CATCHING LOGIC ---
                 if (data.job_info && data.job_info.job_id) {
-                    addMsg("✅ Success! Job ID received: " + data.job_info.job_id, 'bot');
-                    addMsg("Polling function will start now...", 'bot');
-                    // Polling code hataya hai taaki hum sirf Connection test karein
+                    pollResult(data.job_info.job_id, loadingId, text);
                 } else {
-                    // YAHAN DIKHEGA ASLI ERROR
-                    let errorText = "❌ <b>SERVER ERROR:</b><br>";
-                    
-                    if (data.detail) errorText += JSON.stringify(data.detail);
-                    else if (data.message) errorText += data.message;
-                    else errorText += JSON.stringify(data);
-
-                    addMsg(errorText, 'error');
+                    let errMsg = "❌ Connection Failed.";
+                    if(data.message) errMsg += " " + data.message;
+                    updateMsg(loadingId, errMsg);
+                    resetUI();
                 }
 
             } catch (e) {
-                addMsg("❌ NETWORK ERROR: " + e.message, 'error');
+                console.error(e);
+                updateMsg(loadingId, "❌ Network Error: " + e.message);
+                resetUI();
+            }
+        }
+
+        // --- 3. POLLING FUNCTION ---
+        async function pollResult(jobId, msgId, originalQuery) {
+            const pollUrl = `${CONFIG.POLL_BASE}/${jobId}`;
+            let attempts = 0;
+            const maxAttempts = 60; // 2 Mins timeout
+
+            const interval = setInterval(async () => {
+                attempts++;
+                
+                try {
+                    const res = await fetch(pollUrl, { headers: { "Authorization": CONFIG.AUTH } });
+                    const job = await res.json();
+                    
+                    // Check Status
+                    if (job.status === 'done' || job.state === 'completed' || job.status === 'complete') {
+                        clearInterval(interval);
+                        
+                        // Extract Output
+                        let rawText = "";
+                        if (job.output) {
+                            if (job.output.answer) rawText = job.output.answer;
+                            else if (job.output.output) rawText = job.output.output;
+                            else if (job.output.text) rawText = job.output.text;
+                            else if (typeof job.output === 'string') rawText = job.output;
+                            else rawText = JSON.stringify(job.output);
+                        } else {
+                            rawText = "Analysis complete, but no text returned.";
+                        }
+
+                        // BEAUTIFY TEXT
+                        const formattedText = formatText(rawText);
+
+                        // SAVE TO CACHE
+                        if (rawText.length > 10) {
+                            const cacheKey = "nexus_" + originalQuery.toLowerCase().replace(/\s/g, '_');
+                            try { localStorage.setItem(cacheKey, formattedText); } catch(e){}
+                        }
+
+                        updateMsg(msgId, formattedText);
+                        resetUI();
+                    }
+                    
+                    if (job.status === 'failed') {
+                        clearInterval(interval);
+                        updateMsg(msgId, "❌ Agent Failed.");
+                        resetUI();
+                    }
+
+                } catch (err) { }
+
+                if (attempts >= maxAttempts) {
+                    clearInterval(interval);
+                    updateMsg(msgId, "❌ Timeout.");
+                    resetUI();
+                }
+
+            }, 2000); 
+        }
+
+        // --- 🎨 BEAUTIFIER (Markdown to HTML) ---
+        function formatText(text) {
+            if(!text) return "";
+            return text
+                // Bold: **text** -> <strong>text</strong>
+                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                // Italic: *text* -> <em>text</em>
+                .replace(/\*(.*?)\*/g, "<em>$1</em>")
+                // Headers: ### Text -> <h3>Text</h3>
+                .replace(/### (.*?)\n/g, "<h3>$1</h3>")
+                // Lists: - text -> <li>text</li>
+                .replace(/^- (.*$)/gim, "<li>$1</li>")
+                // New Lines
+                .replace(/\n/g, "<br>");
+        }
+
+        // --- HELPERS ---
+        function clearCache() {
+            if(confirm("Delete saved history?")) {
+                localStorage.clear();
+                location.reload();
             }
         }
 
@@ -89,8 +226,16 @@
             const div = document.createElement("div");
             div.className = `msg ${type}`;
             div.innerHTML = text;
+            div.id = "msg_" + Date.now();
             box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+            return div.id;
         }
+
+        function updateMsg(id, text) { const el = document.getElementById(id); if(el) el.innerHTML = text; }
+        function resetUI() { document.getElementById("userInput").disabled = false; document.getElementById("sendBtn").disabled = false; document.getElementById("userInput").focus(); }
+        function handleEnter(e) { if(e.key === 'Enter') startChat(); }
     </script>
+
 </body>
 </html>
