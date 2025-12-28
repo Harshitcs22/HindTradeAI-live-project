@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ekayan – The One Who Is All. GovTech-grade AI trade intelligence officer with RAG from official policy documents.">
-    <title>Ekayan – The One Who Is All</title>
+    <meta name="description" content="HindTradeAI - Agent-Led Trade Network with Ekayan AI Intelligence Officer">
+    <title>HindTradeAI - The Global Trade OS</title>
     <style>
         * {
             margin: 0;
@@ -13,24 +13,21 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1229 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: #e5e7eb;
             line-height: 1.6;
+            background: radial-gradient(circle at top, #0b1220 0%, #020617 40%, #000000 100%);
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        .header {
-            position: fixed;
+        header {
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(10, 14, 39, 0.95);
+            z-index: 100;
+            background: rgba(11, 18, 32, 0.85);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
-            padding: 20px 40px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 16px 40px;
         }
 
         .header-content {
@@ -42,8 +39,8 @@
         }
 
         .logo {
-            font-size: 26px;
-            font-weight: 800;
+            font-size: 28px;
+            font-weight: 700;
             background: linear-gradient(135deg, #38bdf8 0%, #22c55e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -51,73 +48,322 @@
             letter-spacing: -1px;
         }
 
-        .status-bar {
+        nav {
             display: flex;
-            gap: 15px;
+            gap: 40px;
             align-items: center;
+        }
+
+        nav a {
+            font-size: 13px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        .nav-btn {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #38bdf8 0%, #22c55e 100%);
+            color: #020617;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
             font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
         }
 
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            background: #22c55e;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .container {
+        .hero {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 100px 40px 40px;
-        }
-
-        .chat-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 30px;
-            min-height: calc(100vh - 140px);
-        }
-
-        .chat-container {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            border-radius: 20px;
-            backdrop-filter: blur(20px);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .chat-header {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
-            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
-            padding: 25px;
+            padding: 100px 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .chat-header h1 {
-            font-size: 28px;
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15), transparent 60%);
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 700;
             color: #f9fafb;
-            margin-bottom: 8px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 .gradient-text {
             background: linear-gradient(135deg, #38bdf8, #22c55e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .chat-header p {
+        .hero p {
+            font-size: 18px;
+            color: #9ca3af;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #38bdf8 0%, #22c55e 100%);
+            color: #020617;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 16px 40px;
+            background: transparent;
+            color: #38bdf8;
+            border: 2px solid #38bdf8;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(56, 189, 248, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #f9fafb;
+            margin-bottom: 60px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .section-title .gradient-text {
+            background: linear-gradient(135deg, #38bdf8, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            padding: 40px;
+            border-radius: 16px;
+            transition: all 0.3s;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #f0f4f8;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 15px;
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .agent-card {
+            padding: 35px;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-left: 4px solid #38bdf8;
+            transition: all 0.3s;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.2);
+            border-left-color: #22c55e;
+        }
+
+        .agent-icon {
+            font-size: 44px;
+            margin-bottom: 15px;
+        }
+
+        .agent-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f0f4f8;
+            margin-bottom: 10px;
+        }
+
+        .agent-card p {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-bottom: 20px;
+        }
+
+        .features-list {
+            list-style: none;
             font-size: 13px;
             color: #6b7280;
         }
 
-        .messages {
+        .features-list li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .features-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Ekayan Chat Modal */
+        #ekayanModal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 1000px;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            color: #f9fafb;
+            background: linear-gradient(135deg, #38bdf8, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-btn {
+            font-size: 28px;
+            font-weight: bold;
+            color: #9ca3af;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #f9fafb;
+        }
+
+        .chat-messages {
             flex: 1;
             overflow-y: auto;
             padding: 30px;
@@ -127,28 +373,22 @@
             scroll-behavior: smooth;
         }
 
-        .message {
+        .chat-msg {
             display: flex;
             gap: 15px;
             animation: slideUp 0.4s ease-out;
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .message.user {
+        .chat-msg.user {
             justify-content: flex-end;
         }
 
-        .message-avatar {
+        .msg-avatar {
             width: 32px;
             height: 32px;
             border-radius: 50%;
@@ -159,25 +399,8 @@
             flex-shrink: 0;
         }
 
-        .message.user .message-avatar {
-            background: rgba(56, 189, 248, 0.2);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-        }
-
-        .message.agent .message-avatar {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(56, 189, 248, 0.2) 100%);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .message-content {
+        .msg-bubble {
             max-width: 70%;
-        }
-
-        .message.user .message-content {
-            text-align: right;
-        }
-
-        .message-bubble {
             padding: 14px 18px;
             border-radius: 14px;
             font-size: 14px;
@@ -185,24 +408,68 @@
             word-wrap: break-word;
         }
 
-        .message.user .message-bubble {
+        .chat-msg.user .msg-bubble {
             background: linear-gradient(135deg, #38bdf8 0%, #22c55e 100%);
             color: #020617;
             font-weight: 500;
             box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
         }
 
-        .message.agent .message-bubble {
+        .chat-msg.agent .msg-bubble {
             background: rgba(56, 189, 248, 0.1);
             border: 1px solid rgba(56, 189, 248, 0.2);
             color: #e5e7eb;
         }
 
-        .message-time {
-            font-size: 11px;
-            color: #6b7280;
-            margin-top: 5px;
-            text-align: right;
+        .chat-input-area {
+            border-top: 1px solid rgba(56, 189, 248, 0.15);
+            padding: 20px 30px;
+            background: rgba(5, 8, 20, 0.5);
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #f9fafb;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            max-height: 100px;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.12);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        .chat-send-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #38bdf8 0%, #22c55e 100%);
+            color: #020617;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .chat-send-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .chat-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .typing-indicator {
@@ -235,279 +502,109 @@
             30% { opacity: 1; }
         }
 
-        .input-area {
-            border-top: 1px solid rgba(56, 189, 248, 0.15);
-            padding: 20px;
-            background: rgba(5, 8, 20, 0.5);
-        }
-
-        .input-group {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-        }
-
-        .input-field {
-            flex: 1;
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: #f9fafb;
-            font-size: 14px;
-            resize: none;
-            max-height: 100px;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: #38bdf8;
-            background: rgba(56, 189, 248, 0.12);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
-        }
-
-        .input-field::placeholder {
-            color: #6b7280;
-        }
-
-        .send-btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #38bdf8 0%, #22c55e 100%);
-            color: #020617;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-            min-width: 90px;
-        }
-
-        .send-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
-        }
-
-        .send-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .sidebar-card {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            border-radius: 16px;
-            padding: 20px;
-            backdrop-filter: blur(20px);
-        }
-
-        .sidebar-card h3 {
-            font-size: 14px;
-            font-weight: 700;
-            color: #38bdf8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-
-        .quick-prompts {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .prompt-btn {
-            padding: 10px 14px;
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 8px;
-            color: #9ca3af;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-            line-height: 1.4;
-        }
-
-        .prompt-btn:hover {
-            background: rgba(56, 189, 248, 0.15);
-            border-color: rgba(56, 189, 248, 0.4);
-            color: #e5e7eb;
-        }
-
-        .info-badge {
-            display: flex;
-            gap: 10px;
-            padding: 12px;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            border-radius: 10px;
-            font-size: 12px;
-            color: #9ca3af;
-        }
-
-        .info-badge span {
-            color: #22c55e;
-            font-weight: 600;
-        }
-
-        @media (max-width: 1024px) {
-            .chat-wrapper {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                display: none;
-            }
-
-            .message-content {
-                max-width: 85%;
-            }
-
-            .header {
-                padding: 15px 20px;
-            }
-
-            .container {
-                padding: 80px 20px 20px;
-            }
-        }
-
-        .messages::-webkit-scrollbar {
+        .chat-messages::-webkit-scrollbar {
             width: 6px;
         }
 
-        .messages::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .messages::-webkit-scrollbar-thumb {
+        .chat-messages::-webkit-scrollbar-thumb {
             background: rgba(56, 189, 248, 0.2);
             border-radius: 3px;
         }
 
-        .messages::-webkit-scrollbar-thumb:hover {
+        .chat-messages::-webkit-scrollbar-thumb:hover {
             background: rgba(56, 189, 248, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                height: 90vh;
+            }
+
+            .msg-bubble {
+                max-width: 85%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
+    <header>
         <div class="header-content">
-            <div class="logo">🔮 Ekayan – The One Who Is All</div>
-            <div class="status-bar">
-                <div class="status-indicator"></div>
-                <span>Connected to Relevance AI</span>
+            <div class="logo">🌐 HindTradeAI</div>
+            <nav>
+                <a href="#agents">Agents</a>
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>The <span class="gradient-text">Agent-Led Trade Network</span></h1>
+        <h1>Code is Law. Trust is Currency.</h1>
+        <p>AI Agents automate your entire export journey. Ekayan – The One Who Is All bridges policy and execution. <span style="color: #22c55e; font-weight: 700;">🟢 Live Now</span></p>
+        <div class="hero-buttons">
+            <button class="btn-primary" onclick="openEkayanChat()">🔮 Chat with Ekayan Now</button>
+        </div>
+    </section>
+
+    <section class="section" id="agents">
+        <h2 class="section-title">Meet <span class="gradient-text">Ekayan</span></h2>
+        <div class="cards-grid">
+            <div class="agent-card" style="border-left: 4px solid #22c55e; grid-column: 1 / -1;">
+                <div style="display: inline-block; background: rgba(34, 197, 94, 0.3); color: #22c55e; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">🟢 GovTech AI Live</div>
+                <div class="agent-icon">🔮</div>
+                <h3>Ekayan – The One Who Is All</h3>
+                <p style="font-size: 16px; margin-bottom: 20px;">
+                    <strong>GovTech-grade AI trade intelligence officer.</strong> Reads, verifies, and reasons using retrieval-augmented generation (RAG) directly from official government policy documents before issuing trade guidance. Built for exporters, trade consultants, logistics partners, and policy-driven B2B workflows.
+                </p>
+                <p style="color: #38bdf8; margin-bottom: 15px;"><strong>Sample Query:</strong> "Can I import 'Second-Hand Laptop Computers' from Singapore to India for my startup in Bangalore? Also, tell me if I can get any duty benefit under the EPCG scheme?"</p>
+                <ul class="features-list">
+                    <li>HS codes & policy classification</li>
+                    <li>DGFT compliance with RAG reasoning</li>
+                    <li>Duty calculations with trade agreements</li>
+                    <li>EPCG & financing scheme analysis</li>
+                    <li>Real-time policy interpretation</li>
+                    <li>GovTech-grade accuracy</li>
+                </ul>
+                <button style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #22c55e; padding: 12px 24px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 20px; width: 100%;" onclick="openEkayanChat()">Chat with Ekayan Now →</button>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="container">
-        <div class="chat-wrapper">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h1>Trade Intelligence & Policy Analysis</h1>
-                    <p>GovTech-grade AI reasoning with RAG from official policy documents</p>
-                </div>
-
-                <div class="messages" id="messagesContainer">
-                    <div class="message agent">
-                        <div class="message-avatar">🔮</div>
-                        <div class="message-content">
-                            <div class="message-bubble">
-                                👋 Welcome to Ekayan – The One Who Is All! I'm a GovTech-grade AI trade intelligence officer powered by Relevance AI. I read, verify, and reason using RAG directly from official government policy documents before issuing trade guidance.
-                                <br><br>
-                                <strong>I specialize in:</strong><br>
-                                📋 HS codes & product classification<br>
-                                🚢 Export/import compliance by country<br>
-                                💰 Duty calculations with trade agreements<br>
-                                💳 Financing schemes (EPCG, LUT, etc.)<br>
-                                👨‍⚖️ CA services & UDIN certification<br>
-                                🛂 Customs clearance procedures<br>
-                                📑 Policy interpretation & tax benefits
-                            </div>
-                            <div class="message-time">Just now</div>
+    <!-- Ekayan Chat Modal -->
+    <div id="ekayanModal" onclick="if(event.target === this) closeEkayanChat()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔮 Ekayan – The One Who Is All</h2>
+                <button class="close-btn" onclick="closeEkayanChat()">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-msg agent">
+                    <div class="msg-avatar">🔮</div>
+                    <div style="flex: 1;">
+                        <div class="msg-bubble">
+                            👋 Welcome to Ekayan – The One Who Is All! I'm a GovTech-grade AI trade intelligence officer powered by Relevance AI. I read, verify, and reason using RAG directly from official government policy documents.
+                            <br><br>
+                            <strong>Ask me about:</strong><br>
+                            📋 HS codes & policy classification<br>
+                            🚢 Export/import compliance<br>
+                            💰 EPCG & duty benefits<br>
+                            📑 Real-time policy interpretation<br>
+                            🛂 Customs & compliance rules
                         </div>
                     </div>
                 </div>
-
-                <div class="input-area">
-                    <div class="input-group">
-                        <textarea 
-                            class="input-field" 
-                            id="userInput" 
-                            placeholder="Ask Ekayan anything... (e.g., 'Can I import second-hand laptops from Singapore with EPCG duty benefit?')"
-                            rows="1"
-                        ></textarea>
-                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
-                    </div>
-                </div>
             </div>
-
-            <div class="sidebar">
-                <div class="sidebar-card">
-                    <h3>💡 Sample Queries</h3>
-                    <div class="quick-prompts">
-                        <button class="prompt-btn" onclick="insertPrompt('Can I import second-hand laptop computers from Singapore to India for my startup in Bangalore? Can I get EPCG duty benefit?')">
-                            Second-hand laptops + EPCG
-                        </button>
-                        <button class="prompt-btn" onclick="insertPrompt('What is the HS code for cotton t-shirts and what are export compliance requirements?')">
-                            HS code for cotton?
-                        </button>
-                        <button class="prompt-btn" onclick="insertPrompt('What duty applies to textile exports under India-UAE CEPA agreement?')">
-                            UAE CEPA duty rates?
-                        </button>
-                        <button class="prompt-btn" onclick="insertPrompt('What are the financing options for exporters under government schemes?')">
-                            Export financing schemes?
-                        </button>
-                        <button class="prompt-btn" onclick="insertPrompt('Explain DGFT policy on electronics imports and RoO requirements')">
-                            Electronics import policy?
-                        </button>
-                        <button class="prompt-btn" onclick="insertPrompt('What is UDIN certification and how does CA verification work?')">
-                            UDIN certification?
-                        </button>
-                    </div>
-                </div>
-
-                <div class="sidebar-card">
-                    <h3>⚡ System Status</h3>
-                    <div class="info-badge">
-                        <span>✓</span>
-                        Relevance AI Connected
-                    </div>
-                    <div class="info-badge" style="margin-top: 10px;">
-                        <span>✓</span>
-                        Real-time Policy Reasoning
-                    </div>
-                    <div class="info-badge" style="margin-top: 10px;">
-                        <span>✓</span>
-                        RAG Enabled
-                    </div>
-                </div>
-
-                <div class="sidebar-card" style="background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.2);">
-                    <h3 style="color: #22c55e;">📚 About Ekayan</h3>
-                    <p style="font-size: 12px; color: #9ca3af; line-height: 1.6;">
-                        Ekayan is a GovTech-grade AI trade intelligence officer designed to bridge the gap between government trade policy and real-world execution. Built for exporters, consultants, logistics partners, and B2B workflows. Powered by Relevance AI with RAG from official policy documents.
-                    </p>
-                </div>
+            <div class="chat-input-area">
+                <textarea class="chat-input" id="chatInput" placeholder="Ask Ekayan anything about trade policy..." rows="1"></textarea>
+                <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMessage()">Send</button>
             </div>
         </div>
     </div>
 
     <script>
-        // ✅ RELEVANCE AI - FULLY INTEGRATED WITH YOUR API KEYS
+        // ✅ RELEVANCE AI INTEGRATION
         const RELEVANCE_API_KEY = 'sk-NTZmMGUyMTAtM2E0YS00Njk0LTgzYzYtYmVjY2Q4NzQxOGE4';
         const RELEVANCE_AGENT_ID = '3fdb8425-c0a5-4909-9513-21d07c9f8f99';
         const RELEVANCE_BASE_URL = 'https://api.relevanceai.com/v1';
@@ -515,48 +612,42 @@
         let sessionId = 'ekayan-' + Date.now();
         let isLoading = false;
 
-        function getTimeString() {
-            const now = new Date();
-            return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+        function openEkayanChat() {
+            document.getElementById('ekayanModal').style.display = 'block';
+            document.getElementById('chatInput').focus();
         }
 
-        function addMessage(text, isUser = false) {
-            const messagesContainer = document.getElementById('messagesContainer');
-            const message = document.createElement('div');
-            message.className = `message ${isUser ? 'user' : 'agent'}`;
+        function closeEkayanChat() {
+            document.getElementById('ekayanModal').style.display = 'none';
+        }
+
+        function addChatMessage(text, isUser = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-msg ${isUser ? 'user' : 'agent'}`;
             
-            message.innerHTML = `
-                <div class="message-avatar">${isUser ? '👤' : '🔮'}</div>
-                <div class="message-content">
-                    <div class="message-bubble">${escapeHtml(text)}</div>
-                    <div class="message-time">${getTimeString()}</div>
-                </div>
-            `;
+            const content = isUser ? 
+                `<div class="msg-avatar">👤</div><div class="msg-bubble">${escapeHtml(text)}</div>` :
+                `<div class="msg-avatar">🔮</div><div style="flex: 1;"><div class="msg-bubble">${escapeHtml(text)}</div></div>`;
             
-            messagesContainer.appendChild(message);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            msgDiv.innerHTML = content;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         function escapeHtml(text) {
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
+            const map = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'};
             return text.replace(/[&<>"']/g, m => map[m]);
         }
 
         function showTypingIndicator() {
-            const messagesContainer = document.getElementById('messagesContainer');
-            const message = document.createElement('div');
-            message.className = 'message agent';
-            message.id = 'typingIndicator';
-            
-            message.innerHTML = `
-                <div class="message-avatar">🔮</div>
-                <div class="message-content">
+            const chatMessages = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-msg agent';
+            msgDiv.id = 'typingIndicator';
+            msgDiv.innerHTML = `
+                <div class="msg-avatar">🔮</div>
+                <div style="flex: 1;">
                     <div class="typing-indicator">
                         <div class="typing-dot"></div>
                         <div class="typing-dot"></div>
@@ -564,9 +655,8 @@
                     </div>
                 </div>
             `;
-            
-            messagesContainer.appendChild(message);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         function removeTypingIndicator() {
@@ -574,7 +664,7 @@
             if (indicator) indicator.remove();
         }
 
-        async function getRelevanceResponse(query) {
+        async function getEkayanResponse(query) {
             try {
                 const response = await fetch(`${RELEVANCE_BASE_URL}/agents/${RELEVANCE_AGENT_ID}/chat`, {
                     method: 'POST',
@@ -589,76 +679,65 @@
                 });
 
                 if (!response.ok) {
-                    console.error('API Error:', response.status, response.statusText);
+                    console.error('API Error:', response.status);
                     return null;
                 }
 
                 const data = await response.json();
-                console.log('Relevance AI Response:', data);
-                
-                if (data.answer) return data.answer;
-                if (data.response) return data.response;
-                if (data.message) return data.message;
-                if (data.data && data.data.answer) return data.data.answer;
-                if (data.result) return data.result;
-                
-                return null;
+                return data.answer || data.response || data.message || data.result || null;
             } catch (error) {
-                console.error('Relevance AI Error:', error);
+                console.error('Error:', error);
                 return null;
             }
         }
 
-        async function sendMessage() {
-            const userInput = document.getElementById('userInput');
-            const sendBtn = document.getElementById('sendBtn');
-            const query = userInput.value.trim();
+        async function sendChatMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const chatSendBtn = document.getElementById('chatSendBtn');
+            const query = chatInput.value.trim();
 
             if (!query) return;
 
             isLoading = true;
-            sendBtn.disabled = true;
+            chatSendBtn.disabled = true;
 
-            addMessage(query, true);
-            userInput.value = '';
-            userInput.style.height = 'auto';
+            addChatMessage(query, true);
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
 
             showTypingIndicator();
-
-            const response = await getRelevanceResponse(query);
-
+            const response = await getEkayanResponse(query);
             removeTypingIndicator();
 
             if (response) {
-                addMessage(response, false);
+                addChatMessage(response, false);
             } else {
-                addMessage('Unable to process your query at this time. Please check your connection and try again.', false);
+                addChatMessage('Unable to process query. Please check connection and try again.', false);
             }
 
             isLoading = false;
-            sendBtn.disabled = false;
-            userInput.focus();
+            chatSendBtn.disabled = false;
+            chatInput.focus();
         }
 
-        function insertPrompt(text) {
-            const userInput = document.getElementById('userInput');
-            userInput.value = text;
-            userInput.focus();
-        }
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChatMessage();
+            }
+        });
 
-        document.getElementById('userInput').addEventListener('input', function() {
+        document.getElementById('chatInput').addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 100) + 'px';
         });
 
-        document.getElementById('userInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
+        window.onclick = function(event) {
+            const modal = document.getElementById('ekayanModal');
+            if (event.target === modal) {
+                closeEkayanChat();
             }
-        });
-
-        document.getElementById('userInput').focus();
+        };
     </script>
 </body>
 </html>
