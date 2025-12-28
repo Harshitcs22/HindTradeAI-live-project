@@ -2,181 +2,179 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HindTradeAI - Nexus Interface</title>
+    <title>Nexus Trade - Live Endpoint</title>
     <style>
-        /* --- TUMHARA UI DESIGN --- */
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #0f172a; color: white; display: flex; flex-direction: column; min-height: 100vh; }
-        .hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        h1 { font-size: 3rem; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; color: transparent; margin: 0; }
-        p { color: #94a3b8; margin-top: 10px; }
+        /* --- DARK THEME UI --- */
+        body { font-family: sans-serif; background: #0f172a; color: white; display: flex; flex-direction: column; height: 100vh; margin: 0; }
+        .chat-container { flex: 1; display: flex; flex-direction: column; padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; }
+        
+        #chatBox { flex: 1; overflow-y: auto; border: 1px solid #334155; border-radius: 12px; padding: 15px; background: #1e293b; margin-bottom: 20px; display: flex; flex-direction: column; gap: 15px; }
+        
+        .msg { padding: 12px 16px; border-radius: 8px; max-width: 85%; line-height: 1.5; font-size: 15px; }
+        .user { background: #38bdf8; color: #0f172a; align-self: flex-end; font-weight: 500; }
+        .bot { background: #334155; color: #e2e8f0; align-self: flex-start; border-left: 4px solid #38bdf8; }
+        .status-log { font-size: 12px; color: #94a3b8; align-self: center; margin-top: -10px; font-family: monospace; }
 
-        .chat-widget-btn { position: fixed; bottom: 20px; right: 20px; background: #38bdf8; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; cursor: pointer; font-size: 24px; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4); }
-        
-        .chat-container { display: flex; position: fixed; bottom: 90px; right: 20px; width: 380px; height: 500px; background-color: #1e293b; border-radius: 12px; border: 1px solid #334155; flex-direction: column; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        .chat-header { background: #0f172a; padding: 15px; border-bottom: 1px solid #334155; font-weight: bold; color: #38bdf8; display: flex; justify-content: space-between; }
-        .close-btn { background: none; border: none; color: #fff; cursor: pointer; font-size: 18px; }
-        
-        .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .message { padding: 10px; border-radius: 8px; max-width: 85%; font-size: 0.9rem; line-height: 1.4; }
-        .bot-message { background: #334155; align-self: flex-start; border-left: 3px solid #38bdf8; }
-        .user-message { background: #38bdf8; color: #0f172a; align-self: flex-end; }
-        
-        .chat-input { padding: 15px; background: #0f172a; display: flex; gap: 10px; border-top: 1px solid #334155; }
-        .chat-input input { flex: 1; background: #334155; border: none; padding: 10px; border-radius: 6px; color: white; outline: none; }
-        .chat-input button { background: #38bdf8; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-
-        /* DEBUG LOG (Hidden by default, dikhega agar error aya) */
-        .debug-log { font-size: 0.7rem; color: #ff6b6b; margin-top: 5px; font-family: monospace; display: block; }
+        .input-area { display: flex; gap: 10px; }
+        input { flex: 1; padding: 15px; border-radius: 8px; border: none; background: #334155; color: white; outline: none; }
+        button { padding: 15px 25px; background: #38bdf8; border: none; border-radius: 8px; color: #0f172a; font-weight: bold; cursor: pointer; }
+        button:hover { background: #7dd3fc; }
     </style>
 </head>
 <body>
 
-    <div class="hero">
-        <h1>HindTrade AI</h1>
-        <p>System Connected.</p>
-    </div>
+    <h2 style="text-align: center; color: #38bdf8;">Nexus Trade Agent</h2>
 
-    <button class="chat-widget-btn" onclick="toggleChat()">💬</button>
+    <div class="chat-container">
+        <div id="chatBox">
+            <div class="msg bot">System Online. Connected to API Trigger.</div>
+        </div>
 
-    <div class="chat-container" id="chatBox">
-        <div class="chat-header">
-            <span>Nexus Agent</span>
-            <button class="close-btn" onclick="toggleChat()">×</button>
-        </div>
-        <div class="chat-body" id="messages">
-            <div class="message bot-message">Hello! I'm online.</div>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Type here..." onkeypress="handleEnter(event)">
-            <button onclick="sendMessage()">Send</button>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Type query here..." onkeypress="handleEnter(event)">
+            <button onclick="startChat()">Send</button>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURATION ---
+        // --- SETTINGS ---
         const CONFIG = {
-            REGION_URL: "https://api-d7b62b.stack.tryrelevance.com/latest",
+            // Tumhara Specific Endpoint
+            TRIGGER_URL: "https://api-d7b62b.stack.tryrelevance.com/latest/agents/trigger",
+            // Polling ke liye General Endpoint
+            POLL_BASE: "https://api-d7b62b.stack.tryrelevance.com/latest/jobs",
+            
             AGENT_ID: "a3f0bb17-9cbf-4d17-88cc-c1a981deabdd",
-            // Ye API Key tumhari purani wali hai, agar change ki hai to replace kar dena
             AUTH: "3fdb8425-c0a5-4909-9513-21d07c9f8f99:sk-NmQwOGI3YmMtMzljYy00NTAwLTgwYTUtYzE0NzRiYzA0N2Rh"
         };
 
-        function toggleChat() {
-            const box = document.getElementById('chatBox');
-            box.style.display = (box.style.display === 'none') ? 'flex' : 'none';
-        }
-
-        async function sendMessage() {
+        async function startChat() {
             const input = document.getElementById("userInput");
             const text = input.value.trim();
-            if (!text) return;
+            if(!text) return;
 
-            // User Message Show karo
-            appendMessage(text, "user");
-            input.value = "";
-
-            // Loading Message
-            const loadingId = appendMessage("Thinking...", "bot");
+            addMsg(text, 'user');
+            input.value = '';
+            
+            // 1. TRIGGER REQUEST
+            const loadingId = addMsg("Sending to Backend...", 'bot');
 
             try {
-                // 1. TRIGGER (Message Bhejo)
-                const res = await fetch(`${CONFIG.REGION_URL}/agents/trigger`, {
+                const response = await fetch(CONFIG.TRIGGER_URL, {
                     method: "POST",
                     headers: { "Authorization": CONFIG.AUTH, "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: { role: "user", content: text }, agent_id: CONFIG.AGENT_ID })
+                    body: JSON.stringify({ 
+                        message: { role: "user", content: text }, 
+                        agent_id: CONFIG.AGENT_ID 
+                    })
                 });
 
-                const data = await res.json();
-                
-                // Case A: Turant Answer aa gaya
-                if (data.output && data.output.answer) {
-                    updateMessage(loadingId, data.output.answer);
-                } 
-                // Case B: Ticket (Job ID) mila -> Ab humein peecha karna padega
-                else if (data.job_info && data.job_info.job_id) {
-                    // YAHAN HACK HAI: 'agent_empty_chain_inline' ko hum manually handle karenge
-                    const studioId = data.job_info.studio_id || "agent_empty_chain_inline"; 
-                    await trackJob(data.job_info.job_id, studioId, loadingId);
-                } 
-                else {
-                    updateMessage(loadingId, "Message sent via Backend. Check Dashboard History.");
+                const data = await response.json();
+                console.log("Trigger Response:", data);
+
+                if (data.job_info && data.job_info.job_id) {
+                    updateMsg(loadingId, "Processing... (Job ID: " + data.job_info.job_id.substring(0,6) + ")");
+                    // Polling shuru karo
+                    pollResult(data.job_info.job_id, loadingId);
+                } else {
+                    updateMsg(loadingId, "Trigger Failed: No Job ID returned.");
                 }
 
-            } catch (err) {
-                updateMessage(loadingId, "Error connecting.");
-                console.error(err);
+            } catch (e) {
+                console.error(e);
+                updateMsg(loadingId, "Connection Error: " + e.message);
             }
         }
 
-        // --- TRACKING FUNCTION (Polling) ---
-        async function trackJob(jobId, studioId, msgId) {
-            // Yahan hum 2 URL try karenge safety ke liye
-            const url1 = `${CONFIG.REGION_URL}/studios/${studioId}/async_poll/${jobId}`;
-            const url2 = `${CONFIG.REGION_URL}/jobs/${jobId}`; // Fallback URL
-
+        // 2. POLLING FUNCTION (Ye hai main Logic)
+        async function pollResult(jobId, msgId) {
+            const pollUrl = `${CONFIG.POLL_BASE}/${jobId}`;
             let attempts = 0;
+
             const interval = setInterval(async () => {
                 attempts++;
+                
+                // Update Status Text (Taaki pata chale code zinda hai)
+                if(attempts % 2 === 0) updateMsg(msgId, `Thinking... (Check ${attempts})`);
+
                 try {
-                    // Pehle Specific URL try karo
-                    let response = await fetch(url1, { headers: { "Authorization": CONFIG.AUTH } });
+                    const res = await fetch(pollUrl, {
+                        headers: { "Authorization": CONFIG.AUTH }
+                    });
+                    const job = await res.json();
                     
-                    // Agar 404/Fail aye, toh Doosra URL try karo
-                    if (!response.ok) {
-                        response = await fetch(url2, { headers: { "Authorization": CONFIG.AUTH } });
-                    }
+                    console.log(`Poll ${attempts}:`, job.status);
 
-                    if (response.ok) {
-                        const job = await response.json();
-                        console.log("Status:", job.status);
+                    // AGAR KAAM HO GAYA (DONE)
+                    if (job.status === 'done' || job.state === 'completed') {
+                        clearInterval(interval); // Loop roko
+                        
+                        // --- ANSWER DHOONDHO AB ---
+                        let finalAnswer = "Analysis Complete (No text found).";
 
-                        if (job.status === "done" || job.state === "completed") {
-                            clearInterval(interval);
-                            
-                            // Answer nikalne ka tareeka
-                            let ans = "Done.";
-                            if (job.output) {
-                                if (job.output.answer) ans = job.output.answer;
-                                else if (job.output.output) ans = job.output.output;
-                                else if (typeof job.output === 'string') ans = job.output;
-                                else ans = JSON.stringify(job.output); // Agar object hai toh string bana do
-                            }
-                            
-                            // Formatting fix
-                            ans = ans.replace(/\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
-                            updateMessage(msgId, ans);
+                        // Priority 1: Seedha Answer
+                        if (job.output && job.output.answer) {
+                            finalAnswer = job.output.answer;
+                        } 
+                        // Priority 2: Generic Output string
+                        else if (job.output && typeof job.output === 'string') {
+                            finalAnswer = job.output;
                         }
+                        // Priority 3: Nested Output (Common in Agents)
+                        else if (job.output && job.output.output) {
+                             finalAnswer = job.output.output;
+                        }
+                        // Priority 4: JSON Dump (Agar kuch samajh na aaye)
+                        else if (job.output) {
+                            finalAnswer = JSON.stringify(job.output);
+                        }
+
+                        // Text ko sundar banao
+                        finalAnswer = finalAnswer
+                            .replace(/\n/g, "<br>")
+                            .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+
+                        updateMsg(msgId, finalAnswer);
                     }
                     
-                    // 30 Second Timeout
-                    if (attempts > 15) {
+                    // AGAR FAIL HO GAYA
+                    if (job.status === 'failed') {
                         clearInterval(interval);
-                        updateMessage(msgId, "Took too long. Please try again.");
+                        updateMsg(msgId, "Agent Failed to process request.");
                     }
 
-                } catch (e) {
-                    console.error("Polling error", e);
+                } catch (err) {
+                    console.error("Poll Error:", err);
                 }
-            }, 2000); // 2 second mein check karo
+
+                // 40 Seconds Timeout
+                if (attempts > 20) {
+                    clearInterval(interval);
+                    updateMsg(msgId, "Server took too long. Check Dashboard History.");
+                }
+
+            }, 2000); // Har 2 second mein check karega
         }
 
-        function appendMessage(text, sender) {
+        // --- UI HELPERS ---
+        function addMsg(text, type) {
+            const box = document.getElementById("chatBox");
             const div = document.createElement("div");
-            div.className = `message ${sender === "user" ? "user-message" : "bot-message"}`;
+            div.className = `msg ${type}`;
             div.innerHTML = text;
-            div.id = "msg-" + Date.now();
-            document.getElementById("messages").appendChild(div);
-            document.getElementById("messages").scrollTop = 10000;
+            div.id = "msg_" + Date.now();
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
             return div.id;
         }
 
-        function updateMessage(id, text) {
+        function updateMsg(id, text) {
             const el = document.getElementById(id);
             if (el) el.innerHTML = text;
         }
 
-        function handleEnter(e) { if(e.key === "Enter") sendMessage(); }
+        function handleEnter(e) { if(e.key === 'Enter') startChat(); }
     </script>
+
 </body>
 </html>
