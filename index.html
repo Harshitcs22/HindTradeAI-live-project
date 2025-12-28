@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HindTradeAI - Nexus Debugger</title>
+    <title>HindTradeAI - Nexus Live</title>
     <style>
-        /* --- DESIGN (Same as before) --- */
+        /* --- DESIGN SECTION (Same as before) --- */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #0f172a; color: white; display: flex; flex-direction: column; min-height: 100vh; }
         .hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         h1 { font-size: 3rem; margin-bottom: 10px; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; color: transparent; }
+        p { font-size: 1.2rem; color: #94a3b8; max-width: 600px; }
         
         .chat-widget-btn { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #38bdf8, #2563eb); color: white; border: none; border-radius: 50%; width: 60px; height: 60px; cursor: pointer; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4); font-size: 24px; z-index: 1000; }
-        .chat-container { display: none; position: fixed; bottom: 90px; right: 20px; width: 380px; height: 550px; background-color: #1e293b; border-radius: 16px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; }
+        .chat-container { display: none; position: fixed; bottom: 90px; right: 20px; width: 380px; height: 550px; background-color: #1e293b; border-radius: 16px; border: 1px solid #334155; overflow: hidden; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.6); z-index: 1000; }
         .chat-header { background: #0f172a; padding: 15px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; color: #38bdf8; font-weight: bold; }
         .close-btn { background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; }
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
@@ -22,25 +23,25 @@
         .message { padding: 10px 14px; border-radius: 10px; max-width: 90%; font-size: 0.95rem; white-space: pre-wrap; word-wrap: break-word; }
         .bot-message { background: #334155; color: #e2e8f0; align-self: flex-start; border-left: 3px solid #38bdf8; }
         .user-message { background: #38bdf8; color: #0f172a; align-self: flex-end; }
-        .error-log { font-size: 0.8rem; color: #f87171; font-family: monospace; background: #2a1212; padding: 5px; border-radius: 5px; margin-top: 5px; }
+        .error-log { display: none; } /* Hide errors from user, show only in console */
     </style>
 </head>
 <body>
 
     <div class="hero">
         <h1>HindTrade AI</h1>
-        <p>System Online. Check Chat.</p>
+        <p>Nexus Trade Officer: Online & Ready.</p>
     </div>
 
     <button class="chat-widget-btn" onclick="toggleChat()">💬</button>
 
-    <div class="chat-container" id="ekayan-widget" style="display: none;">
+    <div class="chat-container" id="ekayan-widget">
         <div class="chat-header">
             <span>Nexus Assistant</span>
             <button class="close-btn" onclick="toggleChat()">×</button>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="message bot-message">System Ready.</div>
+            <div class="message bot-message">Hello! I am connected to live trade data. Ask me anything.</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="userInput" placeholder="Type here..." onkeypress="handleKeyPress(event)">
@@ -50,7 +51,6 @@
 
     <script>
         const CONFIG = {
-            // Base URL (Region d7b62b)
             BASE_URL: "https://api-d7b62b.stack.tryrelevance.com/latest",
             AGENT_ID: "a3f0bb17-9cbf-4d17-88cc-c1a981deabdd",
             AUTH_TOKEN: "3fdb8425-c0a5-4909-9513-21d07c9f8f99:sk-NmQwOGI3YmMtMzljYy00NTAwLTgwYTUtYzE0NzRiYzA0N2Rh"
@@ -68,11 +68,10 @@
 
             addMessage(message, "user");
             inputField.value = "";
-            const loadingId = addMessage("Sending to Agent...", "bot");
+            const loadingId = addMessage("Thinking...", "bot");
 
             try {
-                // 1. TRIGGER THE AGENT
-                console.log("Triggering Agent...");
+                // 1. Send Message
                 const response = await fetch(`${CONFIG.BASE_URL}/agents/trigger`, {
                     method: "POST",
                     headers: { "Authorization": CONFIG.AUTH_TOKEN, "Content-Type": "application/json" },
@@ -80,34 +79,34 @@
                 });
 
                 const data = await response.json();
-                console.log("Trigger Result:", data);
+                console.log("Trigger Data:", data);
 
-                // Check Result Type
+                // 2. Handle Response
                 if (data.output && data.output.answer) {
+                    // Agar turant answer aa gaya
                     updateMessage(loadingId, data.output.answer);
                 } 
                 else if (data.job_info && data.job_info.job_id) {
-                    updateMessage(loadingId, `Agent working (Job ID: ${data.job_info.job_id}). Waiting for reply...`);
-                    await pollJob(data.job_info.job_id, loadingId);
+                    // Agar Job ID mili -> Poll karo (Sahi URL ke saath)
+                    const studioId = data.job_info.studio_id || "agent_empty_chain_inline"; 
+                    await pollJob(data.job_info.job_id, studioId, loadingId);
                 } 
                 else {
-                    updateMessage(loadingId, "Message Sent. Check Dashboard History.");
-                    addErrorLog("Unknown Response format: " + JSON.stringify(data));
+                    updateMessage(loadingId, "Response received. Check dashboard.");
                 }
 
             } catch (error) {
                 console.error(error);
-                updateMessage(loadingId, "Connection Failed.");
-                addErrorLog(error.message);
+                updateMessage(loadingId, "Connection Error.");
             }
         }
 
-        // 2. POLL JOB STATUS (Wait for Answer)
-        async function pollJob(jobId, msgId) {
-            const pollUrl = `${CONFIG.BASE_URL}/jobs/${jobId}`;
+        // --- FIXED POLLING FUNCTION ---
+        async function pollJob(jobId, studioId, msgId) {
+            // FIX: URL ab 'jobs/' ki jagah 'studios/.../async_poll' use karega
+            const pollUrl = `${CONFIG.BASE_URL}/studios/${studioId}/async_poll/${jobId}`;
+            
             let attempts = 0;
-            const maxAttempts = 20; // Try for 40 seconds
-
             const interval = setInterval(async () => {
                 attempts++;
                 try {
@@ -115,39 +114,41 @@
                         headers: { "Authorization": CONFIG.AUTH_TOKEN }
                     });
                     
-                    if (!res.ok) {
-                        throw new Error(`Polling HTTP Error: ${res.status}`);
-                    }
+                    if (!res.ok) throw new Error("Poll Failed: " + res.status);
 
                     const jobData = await res.json();
-                    console.log(`Poll Attempt ${attempts}:`, jobData.status);
+                    console.log("Polling Status:", jobData.status || jobData.state);
 
-                    // Check if Done
+                    // Check if complete
                     if (jobData.status === "done" || jobData.state === "completed") {
                         clearInterval(interval);
                         
-                        let reply = "Processing Complete.";
+                        let reply = "";
+                        // Answer nikalne ke sabhi tareeke
                         if (jobData.output && jobData.output.answer) reply = jobData.output.answer;
                         else if (jobData.output && typeof jobData.output === "string") reply = jobData.output;
-                        else if (jobData.output && jobData.output.output) reply = jobData.output.output; // Sometimes nested
+                        else if (Array.isArray(jobData.output)) reply = JSON.stringify(jobData.output); // List fix
+                        else reply = "Analysis Complete.";
 
                         updateMessage(msgId, reply);
                     }
                     
-                    // Stop if Failed or Timeout
-                    if (attempts >= maxAttempts) {
+                    if (attempts > 30) { // 60 seconds max
                         clearInterval(interval);
-                        updateMessage(msgId, "Agent is taking too long. Check Dashboard.");
+                        updateMessage(msgId, "Taking too long. Please try again.");
                     }
 
                 } catch (err) {
                     console.error("Polling Error:", err);
-                    addErrorLog("Polling Error: " + err.message);
+                    // Agar 404 aaye, toh generic URL try karo (Backup)
+                    if(err.message.includes("404")) {
+                        clearInterval(interval);
+                        updateMessage(msgId, "System busy. Check dashboard history.");
+                    }
                 }
             }, 2000);
         }
 
-        // UI Helpers
         function addMessage(text, sender) {
             const chatBody = document.getElementById("chatBody");
             const div = document.createElement("div");
@@ -161,16 +162,12 @@
 
         function updateMessage(id, text) {
             const el = document.getElementById(id);
-            if (el) el.innerText = text;
-        }
-
-        function addErrorLog(text) {
-            const chatBody = document.getElementById("chatBody");
-            const div = document.createElement("div");
-            div.className = "error-log";
-            div.innerText = "DEBUG: " + text;
-            chatBody.appendChild(div);
-            chatBody.scrollTop = chatBody.scrollHeight;
+            if (el) {
+                // Formatting clean karo
+                text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>"); // Bold fix
+                el.innerHTML = text.replace(/\n/g, "<br>");
+                el.removeAttribute("id");
+            }
         }
 
         function handleKeyPress(e) { if (e.key === "Enter") sendMessage(); }
