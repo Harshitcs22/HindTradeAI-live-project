@@ -1148,12 +1148,13 @@
                     ? RELEVANCE_CONFIG.logisticsAgentId 
                     : RELEVANCE_CONFIG.complianceAgentId;
 
-                // Correct API URL - direct endpoint (from official credentials) - now dynamic
-                const apiUrl = `https://api-${RELEVANCE_CONFIG.region}.stack.tryrelevance.com/latest/agents/${agentId}/trigger`;
+                // Correct API URL - full studio path with agent ID
+                const apiUrl = `https://api-${RELEVANCE_CONFIG.region}.stack.tryrelevance.com/latest/studios/${RELEVANCE_CONFIG.projectId}/agents/${agentId}/trigger`;
 
                 // Debug logging - verify URL and config values
                 console.log('🔍 Debug Info:');
                 console.log('Region:', RELEVANCE_CONFIG.region);
+                console.log('Project ID:', RELEVANCE_CONFIG.projectId);
                 console.log('Agent ID:', agentId);
                 console.log('Constructed URL:', apiUrl);
                 console.log('Request Body:', JSON.stringify({ message: userMessage, agent_id: agentId }));
