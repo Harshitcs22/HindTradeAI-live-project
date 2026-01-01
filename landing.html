@@ -1282,6 +1282,9 @@
     </footer>
 
     <script>
+        // Configuration
+        const EKAYAN_AGENT_URL = 'https://app.relevanceai.com/agents/d7b62b/3fdb8425-c0a5-4909-9513-21d07c9f8f99/a3f0bb17-9cbf-4d17-88cc-c1a981deabdd/embed-chat';
+        
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1299,7 +1302,7 @@
             const iframe = modal.querySelector('.agent-iframe');
             
             // Set the iframe URL to the exact URL provided in requirements
-            iframe.src = 'https://app.relevanceai.com/agents/d7b62b/3fdb8425-c0a5-4909-9513-21d07c9f8f99/a3f0bb17-9cbf-4d17-88cc-c1a981deabdd/embed-chat';
+            iframe.src = EKAYAN_AGENT_URL;
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
