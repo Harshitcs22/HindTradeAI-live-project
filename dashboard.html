@@ -1148,15 +1148,14 @@
                     ? RELEVANCE_CONFIG.logisticsAgentId 
                     : RELEVANCE_CONFIG.complianceAgentId;
 
-                // Correct API URL - direct endpoint (from official credentials)
-                const apiUrl = "https://api-d7b62b.stack.tryrelevance.com/latest/agents/a3f0bb17-9cbf-4d17-88cc-c1a981deabdd/trigger";
+                // Correct API URL - direct endpoint (from official credentials) - now dynamic
+                const apiUrl = `https://api-${RELEVANCE_CONFIG.region}.stack.tryrelevance.com/latest/agents/${agentId}/trigger`;
 
                 // Debug logging - verify URL and config values
                 console.log('🔍 Debug Info:');
                 console.log('Region:', RELEVANCE_CONFIG.region);
                 console.log('Agent ID:', agentId);
                 console.log('Constructed URL:', apiUrl);
-                console.log('Authorization:', RELEVANCE_CONFIG.authToken);
                 console.log('Request Body:', JSON.stringify({ message: userMessage, agent_id: agentId }));
 
                 const response = await fetch(apiUrl, {
