@@ -830,6 +830,7 @@
             region: 'd7b62b',
             projectId: '3fdb8425-c0a5-4909-9513-21d07c9f8f99',
             logisticsAgentId: 'a3f0bb17-9cbf-4d17-88cc-c1a981deabdd',
+            complianceAgentId: 'a3f0bb17-9cbf-4d17-88cc-c1a981deabdd', // Using same agent for now - update when compliance agent is available
             authToken: '3fdb8425-c0a5-4909-9513-21d07c9f8f99:sk-MTFkYzUxZDgtNTU2MC00MDMwLTk4MWYtZjA4ZjNkMjk0MTgy',
             apiUrl: 'https://api-d7b62b.stack.tryrelevance.com/latest/agents/trigger'
         };
@@ -1142,6 +1143,11 @@
         // HANDLE AGENT MESSAGE - API Call to Relevance AI
         async function handleAgentMessage(userMessage) {
             try {
+                // Select the appropriate agent ID based on current agent
+                const agentId = currentAgentId === 'logistics' 
+                    ? RELEVANCE_CONFIG.logisticsAgentId 
+                    : RELEVANCE_CONFIG.complianceAgentId;
+
                 const response = await fetch(RELEVANCE_CONFIG.apiUrl, {
                     method: 'POST',
                     headers: {
@@ -1150,7 +1156,7 @@
                     },
                     body: JSON.stringify({
                         message: userMessage,
-                        agent_id: RELEVANCE_CONFIG.logisticsAgentId
+                        agent_id: agentId
                     })
                 });
 
