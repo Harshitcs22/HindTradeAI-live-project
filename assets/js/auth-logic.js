@@ -26,7 +26,7 @@ function toggleTab(tab) {
 
 // 2. Role Selection Logic
 function selectRole(role) {
-    document.getElementById('selected-role').value = role;
+    document.getElementById('role').value = role;
     
     // Reset buttons
     document.querySelectorAll('.role-btn').forEach(btn => {
@@ -38,32 +38,21 @@ function selectRole(role) {
     const activeBtn = document.querySelector(`button[data-role="${role}"]`);
     activeBtn.classList.remove('border-white/10', 'bg-white/5', 'text-gray-400');
     activeBtn.classList.add('border-blue-500', 'bg-blue-500/20', 'text-white');
-
-    // Show/Hide fields
-    const gstField = document.getElementById('gst-field');
-    const udinField = document.getElementById('udin-field');
-
-    if (role === 'ca') {
-        gstField.classList.add('hidden');
-        udinField.classList.remove('hidden');
-    } else if (role === 'buyer') {
-        gstField.classList.add('hidden');
-        udinField.classList.add('hidden');
-    } else {
-        gstField.classList.remove('hidden');
-        udinField.classList.add('hidden');
-    }
 }
 
 // 3. Handle SIGN UP
 async function handleSignup(e) {
     e.preventDefault();
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-    const role = document.getElementById('selected-role').value;
-    const company = document.getElementById('company-name').value;
-    const gst = document.getElementById('gst-number').value;
-    const udin = document.getElementById('udin-number').value;
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const fullName = document.getElementById('fullName').value;
+    const companyName = document.getElementById('companyName').value;
+    const phone = document.getElementById('phone').value;
+    const role = document.getElementById('role').value; // 'exporter', 'ca', 'cha'
+    const city = document.getElementById('city').value;
+    const state = document.getElementById('state').value;
+    const businessCategory = document.getElementById('businessCategory').value;
 
     const errorMsg = document.getElementById('error-msg');
     const successMsg = document.getElementById('success-msg');
@@ -72,40 +61,50 @@ async function handleSignup(e) {
     successMsg.classList.add('hidden');
 
     try {
-        // A. Create User in Supabase Auth
-        const { data, error } = await window.sb.auth.signUp({
-            email: email,
-            password: password
+        // Step 1: Sign up with Supabase Auth
+        const { data: authData, error: authError } = await window.sb.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    full_name: fullName,
+                    company_name: companyName,
+                    phone,
+                    role
+                }
+            }
         });
 
-        if (error) throw error;
+        if (authError) throw authError;
 
-        // B. Insert Extra Details into 'profiles' table
-        const { error: profileError } = await window.sb
+        // Step 2: Insert into profiles table
+        const { data: profileData, error: profileError } = await window.sb
             .from('profiles')
-            .insert([
-                { 
-                    id: data.user.id, 
-                    email: email,
-                    role: role,
-                    company_name: company,
-                    gst_number: role === 'seller' ? gst : null,
-                    udin_number: role === 'ca' ? udin : null
-                }
-            ]);
+            .insert({
+                id: authData.user.id,
+                email,
+                full_name: fullName,
+                company_name: companyName,
+                phone,
+                role,
+                city,
+                state,
+                business_category: businessCategory,
+                status: 'pending'
+            });
 
         if (profileError) throw profileError;
 
-        successMsg.innerText = "Account created! Redirecting...";
+        successMsg.innerText = '✅ Signup successful! Check your email to confirm.';
         successMsg.classList.remove('hidden');
         
-        // C. Redirect to Dashboard
         setTimeout(() => {
             window.location.href = 'dashboard.html';
-        }, 1500);
+        }, 2000);
 
-    } catch (err) {
-        errorMsg.innerText = err.message;
+    } catch (error) {
+        console.error('Signup error:', error);
+        errorMsg.innerText = '❌ Error: ' + error.message;
         errorMsg.classList.remove('hidden');
     }
 }

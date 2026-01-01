@@ -1327,20 +1327,24 @@
                 }
 
                 const text = this.textContent.trim();
+                
+                // Registration buttons - redirect to auth.html
                 if (text.includes('Register') || text.includes('Early Access')) {
-                    alert('Register page coming soon. You\'ll get:\n✓ Premium Trade Card\n✓ CA Verification\n✓ QR Code\n✓ Trust Score\n✓ Nexus Agent Access');
+                    window.location.href = 'auth.html?action=register';
+                } else if (text.includes('Start Free')) {
+                    // Free tier - redirect to auth with free tier parameter
+                    window.location.href = 'auth.html?action=register&tier=free';
+                } else if (text.includes('Schedule Call')) {
+                    // Enterprise - redirect to auth with enterprise parameter
+                    window.location.href = 'auth.html?action=register&tier=enterprise';
+                    
+                // Info-only buttons - keep alerts
                 } else if (text.includes('Demo')) {
                     alert('Video demo: https://hindtradeai.vercel.app/demo\n\nNexus Trade Agent: LIVE at chat.hindtradeai.io');
                 } else if (text.includes('Hire This CA')) {
                     alert('CA Marketplace: Coming to your dashboard\nYou can directly message CAs, see rates, hire immediately.');
                 } else if (text.includes('CHA Leads')) {
                     alert('CHA Network: Direct access to verified CHAs by port\nNhava Sheva • Mumbai • JNPT • Kandla • Cochin');
-                } else if (text.includes('Start Free')) {
-                    alert('Free tier activated!\n✓ Profile created\n✓ 3 Nexus queries/month\n✓ Mentor access\n\nUpgrade to Pro for Trade Card & CA marketplace');
-                } else if (text.includes('Get Early Access')) {
-                    alert('You\'ll get early access to:\n✓ Premium Black Trade Card\n✓ CA Verification (₹5K/month)\n✓ 50+ buyer leads\n✓ CA Marketplace\n✓ Bank pre-approval');
-                } else if (text.includes('Schedule Call')) {
-                    alert('Enterprise support:\nSchedule a call with our team\nWhite-label API • Personal CA • 24/7 support\nContact: enterprise@hindtradeai.io');
                 }
             });
         });

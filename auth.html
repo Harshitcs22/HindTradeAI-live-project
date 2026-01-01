@@ -47,34 +47,58 @@
         <form id="signup-form" class="space-y-4 hidden" onsubmit="handleSignup(event)">
             
             <div class="grid grid-cols-3 gap-2 mb-4">
-                <button type="button" onclick="selectRole('seller')" class="role-btn active p-2 rounded border border-blue-500 bg-blue-500/20 text-white text-xs font-bold" data-role="seller">Seller</button>
-                <button type="button" onclick="selectRole('buyer')" class="role-btn p-2 rounded border border-white/10 bg-white/5 text-gray-400 text-xs font-bold hover:bg-white/10" data-role="buyer">Buyer</button>
-                <button type="button" onclick="selectRole('ca')" class="role-btn p-2 rounded border border-white/10 bg-white/5 text-gray-400 text-xs font-bold hover:bg-white/10" data-role="ca">CA / Auditor</button>
+                <button type="button" onclick="selectRole('exporter')" class="role-btn active p-2 rounded border border-blue-500 bg-blue-500/20 text-white text-xs font-bold" data-role="exporter">Exporter</button>
+                <button type="button" onclick="selectRole('ca')" class="role-btn p-2 rounded border border-white/10 bg-white/5 text-gray-400 text-xs font-bold hover:bg-white/10" data-role="ca">CA</button>
+                <button type="button" onclick="selectRole('cha')" class="role-btn p-2 rounded border border-white/10 bg-white/5 text-gray-400 text-xs font-bold hover:bg-white/10" data-role="cha">CHA</button>
             </div>
-            <input type="hidden" id="selected-role" value="seller">
+            <input type="hidden" id="role" value="exporter">
+
+            <div>
+                <label class="block text-gray-400 text-xs uppercase font-bold mb-2">Full Name</label>
+                <input type="text" id="fullName" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="John Doe" required>
+            </div>
 
             <div>
                 <label class="block text-gray-400 text-xs uppercase font-bold mb-2">Company Name</label>
-                <input type="text" id="company-name" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="Himrock Exports Pvt Ltd" required>
+                <input type="text" id="companyName" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="Himrock Exports Pvt Ltd" required>
             </div>
 
-            <div id="gst-field">
-                <label class="block text-gray-400 text-xs uppercase font-bold mb-2">GST Number</label>
-                <input type="text" id="gst-number" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="22AAAAA0000A1Z5">
+            <div>
+                <label class="block text-gray-400 text-xs uppercase font-bold mb-2">Phone</label>
+                <input type="tel" id="phone" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="+91 9876543210" required>
             </div>
 
-            <div id="udin-field" class="hidden">
-                <label class="block text-yellow-400 text-xs uppercase font-bold mb-2">CA Membership No / FRN</label>
-                <input type="text" id="udin-number" class="w-full bg-black/20 border border-yellow-500/30 rounded p-3 text-white text-sm focus:border-yellow-500 outline-none" placeholder="Membership No.">
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-gray-400 text-xs uppercase font-bold mb-2">City</label>
+                    <input type="text" id="city" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="Ludhiana" required>
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-xs uppercase font-bold mb-2">State</label>
+                    <input type="text" id="state" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" placeholder="Punjab" required>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-gray-400 text-xs uppercase font-bold mb-2">Business Category</label>
+                <select id="businessCategory" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" required>
+                    <option value="">Select Category</option>
+                    <option value="textiles">Textiles</option>
+                    <option value="agriculture">Agriculture</option>
+                    <option value="manufacturing">Manufacturing</option>
+                    <option value="services">Services</option>
+                    <option value="other">Other</option>
+                </select>
             </div>
 
             <div>
                 <label class="block text-gray-400 text-xs uppercase font-bold mb-2">Email</label>
-                <input type="email" id="signup-email" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" required>
+                <input type="email" id="email" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" required>
             </div>
+            
             <div>
                 <label class="block text-gray-400 text-xs uppercase font-bold mb-2">Password</label>
-                <input type="password" id="signup-password" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" required>
+                <input type="password" id="password" class="w-full bg-black/20 border border-white/10 rounded p-3 text-white text-sm focus:border-blue-500 outline-none" required>
             </div>
 
             <button type="submit" class="w-full py-3 bg-white text-blue-900 font-bold rounded-lg transition hover:bg-gray-200">
