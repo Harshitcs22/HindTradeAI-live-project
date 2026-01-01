@@ -685,8 +685,8 @@
             background: rgba(56, 189, 248, 0.25);
         }
 
-        /* Nexus Chat Modal */
-        .nexus-modal {
+        /* EKAYAN Agent Modal */
+        .agent-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -698,14 +698,14 @@
             backdrop-filter: blur(5px);
         }
 
-        .nexus-modal.active {
+        .agent-modal.active {
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .nexus-modal-content {
-            background: rgba(15, 23, 42, 0.95);
+        .agent-modal-content {
+            background: white;
             border: 1px solid rgba(56, 189, 248, 0.3);
             border-radius: 20px;
             width: 90%;
@@ -715,7 +715,7 @@
             overflow: hidden;
         }
 
-        .nexus-close {
+        .agent-close {
             position: absolute;
             top: 20px;
             right: 20px;
@@ -734,12 +734,12 @@
             z-index: 1001;
         }
 
-        .nexus-close:hover {
+        .agent-close:hover {
             background: rgba(56, 189, 248, 0.3);
             transform: scale(1.1);
         }
 
-        .nexus-iframe {
+        .agent-iframe {
             width: 100%;
             height: 100%;
             border: none;
@@ -864,11 +864,11 @@
     </style>
 </head>
 <body>
-    <!-- Nexus Modal -->
-    <div id="nexusModal" class="nexus-modal">
-        <div class="nexus-modal-content">
-            <div class="nexus-close" onclick="closeNexusChat()">&times;</div>
-            <iframe class="nexus-iframe" src="https://app.relevanceai.com/agents/d7b62b/3fdb8425-c0a5-4909-9513-21d07c9f8f99/a3f0bb17-9cbf-4d17-88cc-c1a981deabdd/share?hide_tool_steps=false&hide_file_uploads=false&hide_conversation_list=false&bubble_style=agent&primary_color=%23685FFF&bubble_icon=pd%2Fchat&input_placeholder_text=Type+your+message...&hide_logo=false&hide_description=false" allow="microphone"></iframe>
+    <!-- EKAYAN Agent Modal -->
+    <div id="agentModal" class="agent-modal">
+        <div class="agent-modal-content bg-white">
+            <div class="agent-close" onclick="closeAgentModal()">&times;</div>
+            <iframe class="agent-iframe" src="" allow="microphone"></iframe>
         </div>
     </div>
 
@@ -880,7 +880,7 @@
                 <a href="#agents">Agents</a>
                 <a href="#demo">Features</a>
                 <a href="#pricing">Pricing</a>
-                <a href="#register" class="nav-btn">Register Now</a>
+                <a href="index.html" class="nav-btn">Login</a>
             </nav>
         </div>
     </header>
@@ -889,10 +889,10 @@
     <section class="hero">
         <h1>The <span class="gradient-text">Agent-Led Trade Network</span></h1>
         <h1>Code is Law. Trust is Currency.</h1>
-        <p>7 AI Agents automate your entire export journey. From CA verification to global buyer discovery—everything verified, nothing manual. Your Trade Card with QR backed by CA audits. <span style="color: #22c55e; font-weight: 700;">🟢 Nexus Trade Agent is LIVE</span></p>
+        <p>7 AI Agents automate your entire export journey. From CA verification to global buyer discovery—everything verified, nothing manual. Your Trade Card with QR backed by CA audits. <span style="color: #22c55e; font-weight: 700;">🟢 EKAYAN is LIVE</span></p>
         <div class="hero-buttons">
-            <button class="btn-primary" onclick="openNexusChat()">🤖 Chat with Nexus Agent Now</button>
-            <button class="btn-secondary" onclick="alert('Demo video: https://hindtradeai.vercel.app/demo')" style="background: rgba(56, 189, 248, 0.1);">📺 Watch Demo</button>
+            <button class="btn-primary" onclick="window.location.href='index.html'">🚀 Get Started</button>
+            <button class="btn-secondary" onclick="openAgentModal()">🤖 Chat with EKAYAN Now</button>
         </div>
     </section>
 
@@ -961,7 +961,7 @@
     <!-- Agents Section -->
     <section class="section agents-section" id="agents">
         <h2 class="section-title">Your <span class="gradient-text">AI Workforce</span></h2>
-        <p style="text-align: center; color: #9ca3af; margin-bottom: 50px; font-size: 16px;">24/7 operation. Zero errors. Costs ₹5K/month vs ₹50L/year in human overhead. Every document needs CA signature—we handle coordination. Plus: Access our curated CA marketplace, Custom House Agent network + hire personal CAs for enterprises. ⚡ <span style="color: #22c55e; font-weight: 700;">Nexus Trade Agent is LIVE NOW</span></p>
+        <p style="text-align: center; color: #9ca3af; margin-bottom: 50px; font-size: 16px;">24/7 operation. Zero errors. Costs ₹5K/month vs ₹50L/year in human overhead. Every document needs CA signature—we handle coordination. Plus: Access our curated CA marketplace, Custom House Agent network + hire personal CAs for enterprises. ⚡ <span style="color: #22c55e; font-weight: 700;">EKAYAN is LIVE NOW</span></p>
         <div class="cards-grid">
             <div class="agent-card">
                 <div class="agent-icon">🔐</div>
@@ -977,7 +977,7 @@
             <div class="agent-card" style="border-left: 4px solid #22c55e;">
                 <div style="display: inline-block; background: rgba(34, 197, 94, 0.3); color: #22c55e; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">🟢 Live Now</div>
                 <div class="agent-icon">⚖️</div>
-                <h3>Nexus Trade Agent</h3>
+                <h3>EKAYAN</h3>
                 <p>GovTech-grade AI. Real-time DGFT/Customs compliance. Ask anything trade-related. Responds in 60 seconds.</p>
                 <ul class="features-list">
                     <li>HS code lookups (instant)</li>
@@ -986,7 +986,7 @@
                     <li>Trade scenario analysis</li>
                     <li>Find trusted CAs for verification</li>
                 </ul>
-                <button onclick="openNexusChat()" style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #22c55e; padding: 10px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 15px; width: 100%;">Chat with Nexus Now →</button>
+                <button onclick="openAgentModal()" style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #22c55e; padding: 10px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 15px; width: 100%;">Chat with EKAYAN Now →</button>
             </div>
             <div class="agent-card">
                 <div class="agent-icon">📄</div>
@@ -1170,7 +1170,7 @@
                 <div class="price-duration">Forever</div>
                 <ul>
                     <li>Profile + Registration</li>
-                    <li>3 Nexus queries/month</li>
+                    <li>3 EKAYAN queries/month</li>
                     <li>Basic Trust Score</li>
                     <li>Mentor Agent access</li>
                     <li>No Trade Card</li>
@@ -1293,36 +1293,46 @@
             });
         });
 
-        // Nexus Chat Handler
-        function openNexusChat() {
-            document.getElementById('nexusModal').classList.add('active');
+        // EKAYAN Agent Modal Handler
+        function openAgentModal() {
+            const modal = document.getElementById('agentModal');
+            const iframe = modal.querySelector('.agent-iframe');
+            
+            // Set the iframe URL to the exact URL provided in requirements
+            iframe.src = 'https://app.relevanceai.com/agents/d7b62b/3fdb8425-c0a5-4909-9513-21d07c9f8f99/a3f0bb17-9cbf-4d17-88cc-c1a981deabdd/embed-chat';
+            
+            modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
-        function closeNexusChat() {
-            document.getElementById('nexusModal').classList.remove('active');
+        function closeAgentModal() {
+            const modal = document.getElementById('agentModal');
+            const iframe = modal.querySelector('.agent-iframe');
+            
+            modal.classList.remove('active');
+            iframe.src = ''; // Clear iframe when closing
             document.body.style.overflow = 'auto';
         }
 
         // Close modal when clicking outside
-        document.getElementById('nexusModal').addEventListener('click', function(e) {
+        document.getElementById('agentModal').addEventListener('click', function(e) {
             if (e.target === this) {
-                closeNexusChat();
+                closeAgentModal();
             }
         });
 
         // Close modal with Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeNexusChat();
+                closeAgentModal();
             }
         });
 
         // Button handlers
         document.querySelectorAll('button').forEach(btn => {
             btn.addEventListener('click', function (e) {
-                // Skip if it's the Nexus chat button or close button
-                if (this.textContent.includes('Chat with Nexus') || this.className.includes('nexus-close')) {
+                // Skip if it's the EKAYAN chat button or close button
+                if (this.textContent.includes('Chat with EKAYAN') || this.className.includes('agent-close')) {
                     return;
                 }
 
@@ -1340,7 +1350,7 @@
                     
                 // Info-only buttons - keep alerts
                 } else if (text.includes('Demo')) {
-                    alert('Video demo: https://hindtradeai.vercel.app/demo\n\nNexus Trade Agent: LIVE at chat.hindtradeai.io');
+                    alert('Video demo: https://hindtradeai.vercel.app/demo\n\nEKAYAN: LIVE at chat.hindtradeai.io');
                 } else if (text.includes('Hire This CA')) {
                     alert('CA Marketplace: Coming to your dashboard\nYou can directly message CAs, see rates, hire immediately.');
                 } else if (text.includes('CHA Leads')) {
