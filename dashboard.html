@@ -1151,16 +1151,23 @@
                 // Generic trigger endpoint (safest - doesn't require agent ID in path)
                 const apiUrl = `https://api-${RELEVANCE_CONFIG.region}.stack.tryrelevance.com/latest/agents/trigger`;
 
+                // Build request body with params object
+                const requestBody = {
+                    agent_id: agentId,
+                    studio_id: RELEVANCE_CONFIG.projectId,
+                    params: {
+                        long_text: userMessage,  // Primary field for Relevance AI
+                        text: userMessage,       // Backup field
+                        query: userMessage       // Backup field
+                    }
+                };
+
                 // Debug logging - verify URL and config values
                 console.log('🔍 Debug Info:');
                 console.log('Agent ID:', agentId);
                 console.log('Studio ID:', RELEVANCE_CONFIG.projectId);
                 console.log('API URL:', apiUrl);
-                console.log('Request Body:', JSON.stringify({ 
-                    message: userMessage, 
-                    agent_id: agentId,
-                    studio_id: RELEVANCE_CONFIG.projectId 
-                }));
+                console.log('Request Body:', JSON.stringify(requestBody));
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -1168,11 +1175,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': RELEVANCE_CONFIG.authToken
                     },
-                    body: JSON.stringify({
-                        message: userMessage,
-                        agent_id: agentId,
-                        studio_id: RELEVANCE_CONFIG.projectId
-                    })
+                    body: JSON.stringify(requestBody)
                 });
 
                 removeTypingIndicator();
