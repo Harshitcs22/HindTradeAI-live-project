@@ -217,7 +217,7 @@
 
         <div class="p-4 border-t border-ht-border">
             <div class="glass glass-hover p-3 rounded-lg flex items-center gap-3 cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-ht-accent to-ht-gold flex items-center justify-center text-ht-dark font-bold text-xs">VE</div>
+                <div id="sidebar-avatar" class="w-10 h-10 rounded-full bg-gradient-to-br from-ht-accent to-ht-gold flex items-center justify-center text-ht-dark font-bold text-xs">VE</div>
                 <div class="flex-1 min-w-0">
                     <div id="sidebar-name" class="text-sm font-600 text-white truncate">Velox Exports</div>
                     <button onclick="handleLogout()" class="text-[11px] text-red-400 hover:text-red-300 transition">Log Out</button>
@@ -299,13 +299,17 @@
         }
 
         function updateSidebarUser() {
-            document.getElementById('sidebar-name').innerText = userProfile.company_name || 'User';
-            const initials = (userProfile.company_name || 'HT').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-            document.getElementById('sidebar-avatar').innerText = initials;
+            const displayName = userProfile.company_name || userProfile.name || 'User';
+            document.getElementById('sidebar-name').innerText = displayName;
+            const avatarElement = document.getElementById('sidebar-avatar');
+            if (avatarElement) {
+                avatarElement.innerText = userProfile.initials || 'HT';
+            }
         }
 
         function updateHeaderCredits() {
-            document.getElementById('credits-display').innerText = userProfile.credits.toLocaleString();
+            const credits = userProfile.credits || 0;
+            document.getElementById('credits-display').innerText = credits.toLocaleString();
         }
 
         // Real-time profile listener
@@ -336,6 +340,35 @@
         async function handleLogout() {
             const { error } = await window.sb.auth.signOut();
             if (!error) window.location.href = 'index.html';
+        }
+
+        // TOAST NOTIFICATION SYSTEM
+        function showToast(message, type = 'error') {
+            const toastContainer = document.getElementById('toast-container') || createToastContainer();
+            const toast = document.createElement('div');
+            const bgColor = type === 'error' ? 'bg-red-500/90' : type === 'success' ? 'bg-green-500/90' : 'bg-blue-500/90';
+            const icon = type === 'error' ? 'ri-error-warning-line' : type === 'success' ? 'ri-checkbox-circle-line' : 'ri-information-line';
+            
+            toast.className = `${bgColor} text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 mb-3 animate-fade-in`;
+            toast.innerHTML = `
+                <i class="${icon} text-xl"></i>
+                <span>${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        function createToastContainer() {
+            const container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'fixed top-4 right-4 z-50 flex flex-col items-end';
+            document.body.appendChild(container);
+            return container;
         }
 
         // EDIT PROFILE
@@ -398,19 +431,19 @@
                             <div class="grid grid-cols-2 gap-2 text-[10px]">
                                 <div class="bg-white/5 rounded p-2">
                                     <div class="text-gray-400">Net Worth</div>
-                                    <div class="text-ht-gold font-600 mt-1">₹5-10 Cr</div>
+                                    <div class="text-ht-gold font-600 mt-1">${userProfile.net_worth ? '₹' + (userProfile.net_worth / 10000000).toFixed(1) + ' Cr' : 'N/A'}</div>
                                 </div>
                                 <div class="bg-white/5 rounded p-2">
                                     <div class="text-gray-400">Shipments</div>
-                                    <div class="text-ht-accent font-600 mt-1">132+</div>
+                                    <div class="text-ht-accent font-600 mt-1">${userProfile.shipments_completed || 0}+</div>
                                 </div>
                                 <div class="bg-white/5 rounded p-2">
                                     <div class="text-gray-400">Trust Score</div>
-                                    <div class="text-white font-600 mt-1">${userProfile.trustScore}/100</div>
+                                    <div class="text-white font-600 mt-1">${userProfile.trust_score || 0}/100</div>
                                 </div>
                                 <div class="bg-white/5 rounded p-2">
                                     <div class="text-gray-400">Status</div>
-                                    <div class="text-ht-success font-600 mt-1">✓ Verified</div>
+                                    <div class="text-ht-success font-600 mt-1">${userProfile.ca_verified ? '✓ Verified' : 'Pending'}</div>
                                 </div>
                             </div>
 
