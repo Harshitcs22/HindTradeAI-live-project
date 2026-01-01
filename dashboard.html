@@ -1148,13 +1148,12 @@
                     ? RELEVANCE_CONFIG.logisticsAgentId 
                     : RELEVANCE_CONFIG.complianceAgentId;
 
-                // Build API URL with project ID and agent ID in path (correct Relevance AI format)
-                const apiUrl = `https://api-${RELEVANCE_CONFIG.region}.stack.tryrelevance.com/latest/studios/${RELEVANCE_CONFIG.projectId}/agents/${agentId}/trigger`;
+                // Build API URL - direct format without /studios/ path
+                const apiUrl = `https://api-${RELEVANCE_CONFIG.region}.stack.tryrelevance.com/latest/agents/${agentId}/trigger`;
 
                 // Debug logging - verify URL and config values
                 console.log('🔍 Debug Info:');
                 console.log('Region:', RELEVANCE_CONFIG.region);
-                console.log('Project ID:', RELEVANCE_CONFIG.projectId);
                 console.log('Agent ID:', agentId);
                 console.log('Constructed URL:', apiUrl);
                 console.log('Request Body:', JSON.stringify({ params: { message: userMessage } }));
@@ -1175,6 +1174,16 @@
                 removeTypingIndicator();
 
                 if (!response.ok) {
+                    // Enhanced error logging for 404 responses
+                    if (response.status === 404) {
+                        const errorText = await response.text();
+                        console.error('❌ 404 Error Details:');
+                        console.error('Status:', response.status);
+                        console.error('Status Text:', response.statusText);
+                        console.error('Response Body:', errorText);
+                        console.error('URL that failed:', apiUrl);
+                        throw new Error(`API Error: 404 Not Found - ${errorText}`);
+                    }
                     throw new Error(`API Error: ${response.status} ${response.statusText}`);
                 }
 
