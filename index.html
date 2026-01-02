@@ -890,7 +890,7 @@
     <section class="hero">
         <h1>The <span class="gradient-text">Agent-Led Trade Network</span></h1>
         <h1>Code is Law. Trust is Currency.</h1>
-        <p>7 AI Agents automate your entire export journey. From CA verification to global buyer discovery—everything verified, nothing manual. Your Trade Card with QR backed by CA audits. <span style="color: #22c55e; font-weight: 700;">🟢 Nexus Trade Agent is LIVE</span></p>
+        <p>7 AI Agents automate your entire export journey. From CA verification to global buyer discovery—everything verified, nothing manual. Your Trade Card with QR backed by CA audits. <span style="color: #22c55e; font-weight: 700;">🟢 Ekayan is LIVE</span></p>
         <div class="hero-buttons">
             <button class="btn-primary" onclick="openNexusChat()">🤖 Chat with Nexus Agent Now</button>
             <button class="btn-secondary" onclick="alert('Demo video: https://hindtradeai.vercel.app/demo')" style="background: rgba(56, 189, 248, 0.1);">📺 Watch Demo</button>
@@ -978,7 +978,7 @@
             <div class="agent-card" style="border-left: 4px solid #22c55e;">
                 <div style="display: inline-block; background: rgba(34, 197, 94, 0.3); color: #22c55e; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">🟢 Live Now</div>
                 <div class="agent-icon">⚖️</div>
-                <h3>Nexus Trade Agent</h3>
+                <h3>Ekayan</h3>
                 <p>GovTech-grade AI. Real-time DGFT/Customs compliance. Ask anything trade-related. Responds in 60 seconds.</p>
                 <ul class="features-list">
                     <li>HS code lookups (instant)</li>
@@ -1192,7 +1192,7 @@
                     <li>Bank financing pre-approval</li>
                     <li>Unlimited document coordination</li>
                 </ul>
-                <button class="btn-primary">Get Early Access</button>
+                <button class="btn-primary" onclick="window.location.href='auth.html'">Get Early Access</button>
             </div>
             <div class="pricing-card">
                 <h3>Enterprise</h3>
@@ -1266,7 +1266,7 @@
     <section style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(34, 197, 94, 0.15)); padding: 80px 40px; text-align: center; border-radius: 20px; margin: 80px 40px; border: 1px solid rgba(56, 189, 248, 0.3);">
         <h2 style="font-size: 48px; font-weight: 700; margin-bottom: 20px; color: #f9fafb;">Register Now. Get Early Access.</h2>
         <p style="font-size: 18px; margin-bottom: 40px; color: #9ca3af; max-width: 700px; margin-left: auto; margin-right: auto;">Be among the first 500 verified exporters. Your Trade Card + MiniLinkedIn profile + CA & CHA marketplace access. Build trust. Close deals faster.</p>
-        <button class="btn-primary" id="register" style="font-size: 18px; padding: 20px 50px;">Register & Get Early Access →</button>
+        <button class="btn-primary" id="register" style="font-size: 18px; padding: 20px 50px;" onclick="window.location.href='auth.html'">Register & Get Early Access →</button>
     </section>
 
     <!-- Footer -->
@@ -1322,8 +1322,10 @@
         // Button handlers
         document.querySelectorAll('button').forEach(btn => {
             btn.addEventListener('click', function (e) {
-                // Skip if it's the Nexus chat button or close button
-                if (this.textContent.includes('Chat with Nexus') || this.className.includes('nexus-close')) {
+                // Skip if it's the Nexus chat button, close button, or has its own onclick handler
+                if (this.textContent.includes('Chat with Nexus') || 
+                    this.className.includes('nexus-close') || 
+                    this.hasAttribute('onclick')) {
                     return;
                 }
 
