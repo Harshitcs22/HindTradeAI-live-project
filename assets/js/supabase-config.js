@@ -71,21 +71,10 @@ window.htAPI = {
             if (error) throw error;
             
             console.log('✅ Sign up successful:', data.user.email);
+            console.log('✅ User profile will be created automatically by database trigger');
             
-            // Create user profile if sign up successful
-            if (data.user) {
-                const profileResult = await this.createUserProfile(data.user.id, {
-                    email: email,
-                    full_name: metadata.full_name || '',
-                    company_name: metadata.company_name || '',
-                    location: metadata.location || '',
-                    initials: this.generateInitials(metadata.full_name || metadata.company_name || email)
-                });
-                
-                if (!profileResult.success) {
-                    console.warn('⚠️ Profile creation failed but user created');
-                }
-            }
+            // Note: Profile creation is handled automatically by the database trigger (handle_new_user)
+            // No manual profile creation needed here to avoid duplicate insert errors
             
             return { success: true, user: data.user, session: data.session };
         } catch (error) {

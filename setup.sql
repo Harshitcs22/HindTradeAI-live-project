@@ -56,6 +56,11 @@ CREATE POLICY IF NOT EXISTS "Users can read own profile"
 ON user_profiles FOR SELECT 
 USING (auth.uid() = user_id);
 
+-- Policy: Users can insert their own profile (needed for trigger)
+CREATE POLICY IF NOT EXISTS "Users can insert own profile" 
+ON user_profiles FOR INSERT 
+WITH CHECK (auth.uid() = user_id);
+
 -- Policy: Users can update their own profile
 CREATE POLICY IF NOT EXISTS "Users can update own profile" 
 ON user_profiles FOR UPDATE 
