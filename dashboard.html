@@ -360,7 +360,7 @@
                     event: '*', 
                     schema: 'public', 
                     table: 'user_profiles',
-                    filter: `user_id=eq.${currentUser.id}`
+                    filter: `id=eq.${currentUser.id}`
                 }, (payload) => {
                     console.log('📡 Profile update received:', payload);
                     userProfile = payload.new;

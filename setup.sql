@@ -22,8 +22,8 @@ ADD COLUMN IF NOT EXISTS status VARCHAR(50) DEFAULT 'active';
 -- 2. CREATE INDEXES FOR BETTER PERFORMANCE
 -- ============================================
 
--- Index on user_id for faster profile lookups
-CREATE INDEX IF NOT EXISTS idx_user_profiles_user_id ON user_profiles(user_id);
+-- Index on id for faster profile lookups
+CREATE INDEX IF NOT EXISTS idx_user_profiles_id ON user_profiles(id);
 
 -- Index on email for faster email lookups
 CREATE INDEX IF NOT EXISTS idx_user_profiles_email ON user_profiles(email);
@@ -31,8 +31,8 @@ CREATE INDEX IF NOT EXISTS idx_user_profiles_email ON user_profiles(email);
 -- Index on trade_opportunities status for filtering
 CREATE INDEX IF NOT EXISTS idx_trade_opportunities_status ON trade_opportunities(status);
 
--- Index on inventory user_id for faster user inventory queries
-CREATE INDEX IF NOT EXISTS idx_inventory_user_id ON inventory(user_id);
+-- Index on inventory id for faster user inventory queries
+CREATE INDEX IF NOT EXISTS idx_inventory_id ON inventory(id);
 
 -- Index on agents status
 CREATE INDEX IF NOT EXISTS idx_agents_status ON agents(status) WHERE status IS NOT NULL;
@@ -54,12 +54,17 @@ ALTER TABLE experts ENABLE ROW LEVEL SECURITY;
 -- Policy: Users can read their own profile
 CREATE POLICY IF NOT EXISTS "Users can read own profile" 
 ON user_profiles FOR SELECT 
-USING (auth.uid() = user_id);
+USING (auth.uid() = id);
+
+-- Policy: Users can insert their own profile
+CREATE POLICY IF NOT EXISTS "Users can insert own profile" 
+ON user_profiles FOR INSERT 
+WITH CHECK (auth.uid() = id);
 
 -- Policy: Users can update their own profile
 CREATE POLICY IF NOT EXISTS "Users can update own profile" 
 ON user_profiles FOR UPDATE 
-USING (auth.uid() = user_id);
+USING (auth.uid() = id);
 
 -- Policy: Authenticated users can read all opportunities
 CREATE POLICY IF NOT EXISTS "Authenticated users can read opportunities" 
@@ -70,17 +75,17 @@ USING (true);
 -- Policy: Users can read their own inventory
 CREATE POLICY IF NOT EXISTS "Users can read own inventory" 
 ON inventory FOR SELECT 
-USING (auth.uid() = user_id);
+USING (auth.uid() = id);
 
 -- Policy: Users can insert their own inventory
 CREATE POLICY IF NOT EXISTS "Users can insert own inventory" 
 ON inventory FOR INSERT 
-WITH CHECK (auth.uid() = user_id);
+WITH CHECK (auth.uid() = id);
 
 -- Policy: Users can update their own inventory
 CREATE POLICY IF NOT EXISTS "Users can update own inventory" 
 ON inventory FOR UPDATE 
-USING (auth.uid() = user_id);
+USING (auth.uid() = id);
 
 -- Policy: Authenticated users can read agents
 CREATE POLICY IF NOT EXISTS "Authenticated users can read agents" 
@@ -103,7 +108,7 @@ CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
   INSERT INTO public.user_profiles (
-    user_id,
+    id,
     email,
     full_name,
     company_name,

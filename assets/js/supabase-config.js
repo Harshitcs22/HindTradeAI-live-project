@@ -134,7 +134,7 @@ window.htAPI = {
             const { data, error } = await supabaseClient
                 .from('user_profiles')
                 .select('*')
-                .eq('user_id', userId)
+                .eq('id', userId)
                 .single();
             
             if (error) throw error;
@@ -172,16 +172,21 @@ window.htAPI = {
             const { data, error } = await supabaseClient
                 .from('user_profiles')
                 .insert([{
-                    user_id: userId,
+                    id: userId,
                     email: profileData.email,
                     full_name: profileData.full_name || '',
                     company_name: profileData.company_name || '',
-                    location: profileData.location || '',
-                    initials: profileData.initials || this.generateInitials(profileData.full_name || 'HT'),
-                    credits: 100,
-                    trust_score: 50,
+                    phone: profileData.phone || '',
+                    city: profileData.city || '',
+                    state: profileData.state || '',
+                    business_category: profileData.business_category || 'other',
+                    gst_number: profileData.gst_number || '',
+                    iec_number: profileData.iec_number || '',
+                    role: profileData.role || 'exporter',
                     status: 'active',
-                    role: 'trader'
+                    trust_score: 0,
+                    shipments_completed: 0,
+                    credits: 100
                 }])
                 .select()
                 .single();
@@ -203,7 +208,7 @@ window.htAPI = {
             const { data, error } = await supabaseClient
                 .from('user_profiles')
                 .update(updates)
-                .eq('user_id', userId)
+                .eq('id', userId)
                 .select()
                 .single();
             
@@ -255,7 +260,7 @@ window.htAPI = {
             const { data, error } = await supabaseClient
                 .from('inventory')
                 .select('*')
-                .eq('user_id', userId)
+                .eq('id', userId)
                 .order('created_at', { ascending: false });
             
             if (error) throw error;
@@ -330,7 +335,7 @@ window.htAPI = {
                     event: '*',
                     schema: 'public',
                     table: 'user_profiles',
-                    filter: `user_id=eq.${userId}`
+                    filter: `id=eq.${userId}`
                 }, (payload) => {
                     console.log('📡 Profile update received:', payload);
                     if (callback) callback(payload);

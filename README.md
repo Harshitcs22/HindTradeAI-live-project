@@ -66,17 +66,40 @@ If you have test data in your Supabase instance:
 - User ID: `cc7900ae-240d-46b5-87de-309ff478f7a2`
 - Profile: Harshit Singh / Velox Exports
 
+## Authentication Setup
+
+### Login Flow
+- Visit: https://hindtradeai.vercel.app/auth.html
+- Existing users: Enter email + password
+- New users: Click "Sign Up" tab
+
+### Signup Flow
+- Fill form: email, password, name, company, phone, city, state, business category
+- Auto-creates profile in user_profiles table
+- Auto-redirects to dashboard after 2 seconds
+- Default values: role='exporter', status='active', trust_score=0, credits=100
+
+### Database
+- Table: user_profiles (with RLS policies enabled)
+- Primary Key: id (UUID, refs auth.users)
+- Auth: Supabase Auth (auto-managed)
+- RLS Policies: Users can insert, read, and update their own profiles
+
 ### Sign Up
 
-1. Go to http://localhost:8000/index.html
-2. Click "Sign Up" tab
-3. Fill in:
+1. Go to http://localhost:8000/auth.html or https://hindtradeai.vercel.app/auth.html
+2. Click "Register" tab
+3. Select role: Exporter, CA, or CHA
+4. Fill in:
    - Full Name
    - Company Name
-   - Location
+   - Phone
+   - City
+   - State
+   - Business Category
    - Email
    - Password (min 6 characters)
-4. Create account and auto-login
+5. Create account and auto-redirect to dashboard
 
 ### Login
 

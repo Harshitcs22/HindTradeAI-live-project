@@ -40,7 +40,7 @@ function selectRole(role) {
     activeBtn.classList.add('border-blue-500', 'bg-blue-500/20', 'text-white');
 }
 
-// 3. Handle SIGN UP (FIXED: Removed duplicate insert)
+// 3. Handle SIGN UP (FIXED: Manual profile creation with correct schema)
 async function handleSignup(e) {
     e.preventDefault();
     
@@ -61,38 +61,58 @@ async function handleSignup(e) {
     successMsg.classList.add('hidden');
 
     try {
-        // Step 1: Sign up with Supabase Auth (Trigger will handle profile creation)
+        // Step 1: Sign up with Supabase Auth
         const { data: authData, error: authError } = await window.sb.auth.signUp({
             email,
-            password,
-            options: {
-                // Hum sara data yahan bhej rahe hain taaki SQL Trigger isey use karle
-                data: {
-                    full_name: fullName,
-                    company_name: companyName,
-                    phone: phone,
-                    role: role,
-                    city: city,
-                    state: state,
-                    business_category: businessCategory
-                }
-            }
+            password
         });
 
         if (authError) throw authError;
 
-        // Note: Humne yahan se Manual Insert hata diya hai kyunki Trigger automatic kaam karega.
+        if (!authData.user) {
+            throw new Error('User creation failed');
+        }
 
-        successMsg.innerText = '✅ Signup successful! Redirecting...';
+        console.log('✅ Auth user created:', authData.user.id);
+
+        // Step 2: Create profile in user_profiles table using correct column name (id, not user_id)
+        const { data: profileData, error: profileError } = await window.sb
+            .from('user_profiles')
+            .insert([{
+                id: authData.user.id,
+                email: email,
+                full_name: fullName,
+                company_name: companyName,
+                phone: phone,
+                city: city,
+                state: state,
+                business_category: businessCategory,
+                role: role,
+                status: 'active',
+                trust_score: 0,
+                shipments_completed: 0,
+                credits: 100
+            }])
+            .select()
+            .single();
+
+        if (profileError) {
+            console.error('Profile creation error:', profileError);
+            throw new Error('Database error saving new user: ' + profileError.message);
+        }
+
+        console.log('✅ Profile created:', profileData);
+
+        successMsg.innerText = '✅ Signup successful! Redirecting to dashboard...';
         successMsg.classList.remove('hidden');
         
         setTimeout(() => {
-            window.location.href = 'index.html'; // Ya dashboard.html
+            window.location.href = 'dashboard.html';
         }, 2000);
 
     } catch (error) {
         console.error('Signup error:', error);
-        errorMsg.innerText = '❌ Error: ' + error.message;
+        errorMsg.innerText = '❌ ' + error.message;
         errorMsg.classList.remove('hidden');
     }
 }
@@ -112,11 +132,14 @@ async function handleLogin(e) {
 
         if (error) throw error;
 
-        // Redirect on success
-        window.location.href = 'index.html'; // Ya dashboard.html
+        console.log('✅ Login successful, redirecting to dashboard...');
+
+        // Redirect to dashboard on success
+        window.location.href = 'dashboard.html';
 
     } catch (err) {
-        errorMsg.innerText = err.message;
+        console.error('Login error:', err);
+        errorMsg.innerText = '❌ ' + err.message;
         errorMsg.classList.remove('hidden');
     }
 }
