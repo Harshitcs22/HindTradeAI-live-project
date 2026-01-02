@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="HindTradeAI - Agent-Led Trade Network. Verify exporters, automate compliance, find buyers, track shipments with AI.">
     <title>HindTradeAI - The Global Trade OS</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -880,7 +881,7 @@
                 <a href="#agents">Agents</a>
                 <a href="#demo">Features</a>
                 <a href="#pricing">Pricing</a>
-                <a href="#register" class="nav-btn">Register Now</a>
+                <a href="auth.html" class="nav-btn">Register Now</a>
             </nav>
         </div>
     </header>
@@ -1358,6 +1359,44 @@
                 }
             });
         });
+
+        // ============ SUPABASE AUTHENTICATION INTEGRATION ============
+        // Initialize Supabase Client
+        const SUPABASE_URL = 'https://fgzlekquexmtnzrhjswd.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZnemxla3F1ZXhtdG56cmhqc3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY5NDgxNTQsImV4cCI6MjA4MjUyNDE1NH0.hEDqZzidfJJTE5n0KF2Jd1XNMSbDyZcut4MP-PCi1NY';
+        
+        let supabaseClient;
+        if (typeof supabase !== 'undefined') {
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log('✅ Supabase initialized on landing page');
+        } else {
+            console.error('❌ Supabase SDK not loaded');
+        }
+
+        // Session Check: Redirect logged-in users to dashboard
+        async function checkSession() {
+            if (!supabaseClient) return;
+            
+            try {
+                const { data: { session }, error } = await supabaseClient.auth.getSession();
+                
+                if (error) {
+                    console.error('Session check error:', error);
+                    return;
+                }
+                
+                // If user is logged in, redirect to dashboard
+                if (session && session.user) {
+                    console.log('✅ User logged in, redirecting to dashboard...');
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (err) {
+                console.error('Session check failed:', err);
+            }
+        }
+
+        // Run session check on page load
+        document.addEventListener('DOMContentLoaded', checkSession);
     </script>
 </body>
 </html>
