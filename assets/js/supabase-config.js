@@ -260,7 +260,7 @@ window.htAPI = {
             const { data, error } = await supabaseClient
                 .from('inventory')
                 .select('*')
-                .eq('id', userId)
+                .eq('user_id', userId)
                 .order('created_at', { ascending: false });
             
             if (error) throw error;

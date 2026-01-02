@@ -258,7 +258,7 @@ ADD COLUMN IF NOT EXISTS net_worth BIGINT DEFAULT 0,
 ADD COLUMN IF NOT EXISTS ca_verified BOOLEAN DEFAULT false;
 
 -- Index for faster queries
-CREATE INDEX IF NOT EXISTS idx_user_profiles_user_id ON user_profiles(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_id ON user_profiles(id);
 CREATE INDEX IF NOT EXISTS idx_trade_opportunities_status ON trade_opportunities(status);
 CREATE INDEX IF NOT EXISTS idx_inventory_user_id ON inventory(user_id);
 ```

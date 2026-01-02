@@ -31,8 +31,8 @@ CREATE INDEX IF NOT EXISTS idx_user_profiles_email ON user_profiles(email);
 -- Index on trade_opportunities status for filtering
 CREATE INDEX IF NOT EXISTS idx_trade_opportunities_status ON trade_opportunities(status);
 
--- Index on inventory id for faster user inventory queries
-CREATE INDEX IF NOT EXISTS idx_inventory_id ON inventory(id);
+-- Index on inventory user_id for faster user inventory queries
+CREATE INDEX IF NOT EXISTS idx_inventory_user_id ON inventory(user_id);
 
 -- Index on agents status
 CREATE INDEX IF NOT EXISTS idx_agents_status ON agents(status) WHERE status IS NOT NULL;
@@ -75,17 +75,17 @@ USING (true);
 -- Policy: Users can read their own inventory
 CREATE POLICY IF NOT EXISTS "Users can read own inventory" 
 ON inventory FOR SELECT 
-USING (auth.uid() = id);
+USING (auth.uid() = user_id);
 
 -- Policy: Users can insert their own inventory
 CREATE POLICY IF NOT EXISTS "Users can insert own inventory" 
 ON inventory FOR INSERT 
-WITH CHECK (auth.uid() = id);
+WITH CHECK (auth.uid() = user_id);
 
 -- Policy: Users can update their own inventory
 CREATE POLICY IF NOT EXISTS "Users can update own inventory" 
 ON inventory FOR UPDATE 
-USING (auth.uid() = id);
+USING (auth.uid() = user_id);
 
 -- Policy: Authenticated users can read agents
 CREATE POLICY IF NOT EXISTS "Authenticated users can read agents" 
