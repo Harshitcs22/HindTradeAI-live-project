@@ -1,27 +1,31 @@
 {
-  "name": "hindtrade-ai",
-  "version": "1.0.0",
-  "description": "HindTrade AI - Agent-Led Global Trade Operating System",
+  "name": "hindtrade-react",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "python3 -m http.server 8000 || python -m http.server 8000",
-    "start": "python3 -m http.server 8000 || python -m http.server 8000"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
-  "keywords": [
-    "export",
-    "import",
-    "trade",
-    "ai",
-    "supabase",
-    "agents"
-  ],
-  "author": "HindTrade AI",
-  "license": "UNLICENSED",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Harshitcs22/HindTradeAI-live-project"
+  "dependencies": {
+    "@supabase/supabase-js": "^2.90.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.12.0",
+    "tailwindcss": "^4.1.18"
   },
-  "engines": {
-    "node": ">=14.0.0"
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "vite": "^7.2.4"
   }
 }
