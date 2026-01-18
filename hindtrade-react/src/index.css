@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+}
+
+/* Tailwind v4 Theme Configuration */
+@theme {
+    --color-ht-dark: #0A0E27;
+    --color-ht-darker: #050810;
+    --color-ht-surface: #0F1428;
+    --color-ht-border: #1A2847;
+    --color-ht-accent: #00D9FF;
+    --color-ht-gold: #FFB800;
+    --color-ht-success: #10B981;
+}
