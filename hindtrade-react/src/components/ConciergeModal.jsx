@@ -55,7 +55,7 @@ export default function ConciergeModal({ userId, onComplete }) {
             </div>
 
             {/* Modal Card */}
-            <div className="relative w-full max-w-lg bg-[#080808] border border-white/10 rounded-2xl overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)]">
+            <div className="relative w-[95%] max-w-lg bg-[#080808] border border-white/10 rounded-2xl overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)]">
                 {/* Top Gradient Border */}
                 <div className="h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-blue-600"></div>
 
@@ -124,8 +124,8 @@ export default function ConciergeModal({ userId, onComplete }) {
                                         type="button"
                                         onClick={() => setFormData({ ...formData, role: type.id })}
                                         className={`p-4 border rounded-xl text-center transition ${formData.role === type.id
-                                                ? 'bg-blue-600/20 border-blue-500/50 text-white'
-                                                : 'bg-black/30 border-white/10 text-slate-400 hover:border-white/20'
+                                            ? 'bg-blue-600/20 border-blue-500/50 text-white'
+                                            : 'bg-black/30 border-white/10 text-slate-400 hover:border-white/20'
                                             }`}
                                     >
                                         <span className="text-2xl block mb-1">{type.icon}</span>

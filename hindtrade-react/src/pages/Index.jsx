@@ -108,7 +108,7 @@ function Index({ session }) {
                     </p>
 
                     {/* THE ULTRA-LUXURY CARD */}
-                    <div className="relative w-full max-w-[520px] aspect-[1.586/1] mx-auto perspective-1000 mb-20 group">
+                    <div className="relative w-full max-w-[320px] md:max-w-[520px] aspect-[1.586/1] mx-auto perspective-1000 mb-12 md:mb-20 group">
                         {/* Champagne/Gold Glow specific to Card */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-amber-200/10 rounded-full blur-[80px] opacity-100 transition duration-1000"></div>
 
@@ -117,7 +117,7 @@ function Index({ session }) {
                             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-40 mix-blend-overlay"></div>
 
                             {/* Card Content */}
-                            <div className="relative z-10 p-8 flex flex-col h-full justify-between">
+                            <div className="relative z-10 p-4 md:p-8 flex flex-col h-full justify-between">
 
                                 {/* Header */}
                                 <div className="flex justify-between items-start">
@@ -138,10 +138,10 @@ function Index({ session }) {
 
                                 {/* Main Data */}
                                 <div>
-                                    <h2 className="text-2xl text-white tracking-widest uppercase font-light mb-6">Himrock Exports</h2>
+                                    <h2 className="text-lg md:text-2xl text-white tracking-widest uppercase font-light mb-4 md:mb-6">Himrock Exports</h2>
 
                                     {/* Stats Grid */}
-                                    <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-4 mb-4">
+                                    <div className="grid grid-cols-3 gap-2 md:gap-4 border-t border-white/10 pt-3 md:pt-4 mb-3 md:mb-4">
                                         <div>
                                             <div className="text-[9px] text-slate-500 uppercase tracking-wider mb-1">Shipments</div>
                                             <div className="text-sm text-white font-mono">120+</div>
@@ -156,7 +156,7 @@ function Index({ session }) {
                                         </div>
                                     </div>
 
-                                    <div className="flex gap-2 mb-2">
+                                    <div className="flex flex-wrap gap-1 md:gap-2 mb-2">
                                         <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] text-slate-400">GST REGISTERED</span>
                                         <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] text-slate-400">IEC HOLDER</span>
                                         <span className="px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[9px] text-slate-400">CA AUDITED</span>
@@ -218,19 +218,19 @@ function Index({ session }) {
             </section>
 
             {/* INFRASTRUCTURE GRID: "SHOPIFY EFFECTS" */}
-            <section id="infrastructure" className="py-32 border-t border-white/5 bg-black">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-20">
-                        <div>
+            <section id="infrastructure" className="py-16 md:py-32 border-t border-white/5 bg-black">
+                <div className="max-w-7xl mx-auto px-4 md:px-6">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-20 gap-4">
+                        <div className="text-center md:text-left w-full md:w-auto">
                             <span className="text-blue-500 font-bold text-[10px] uppercase tracking-[0.25em] mb-4 block">The Solution</span>
-                            <h2 className="text-4xl font-serif text-white">Core Infrastructure</h2>
+                            <h2 className="text-2xl md:text-4xl font-serif text-white">Core Infrastructure</h2>
                         </div>
-                        <p className="text-slate-500 text-right text-xs max-w-xs leading-relaxed">
+                        <p className="text-slate-500 text-center md:text-right text-xs max-w-xs mx-auto md:mx-0 leading-relaxed">
                             A complete operating system to manage identity, compliance, and growth.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
                         {[
                             { icon: "🪪", title: "Trade Card", desc: "Your cryptographic business passport. Verified by CAs." },
                             { icon: "🤖", title: "AI Trade Guidance", desc: "24/7 AI Copilot for HSN codes & compliance queries." },
@@ -239,15 +239,14 @@ function Index({ session }) {
                             { icon: "🎨", title: "Student Designers", desc: "Hire talent to build your digital portfolio." },
                             { icon: "🌍", title: "Connectivity", desc: "Logistics linking for seamless exports." }
                         ].map((item, i) => (
-                            <div key={i} className="group bg-[#080808] border border-white/10 p-8 rounded-2xl hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(255,255,255,0.1)] hover:border-white/30 transition-all duration-500 relative overflow-hidden">
+                            <div key={i} className="group bg-[#080808] border border-white/10 p-4 md:p-8 rounded-xl md:rounded-2xl hover:-translate-y-1 md:hover:-translate-y-2 hover:shadow-[0_20px_60px_-15px_rgba(255,255,255,0.1)] hover:border-white/30 transition-all duration-500 relative overflow-hidden">
                                 <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                                <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition duration-500 text-white">↗</div>
-                                <div className="relative z-10">
-                                    <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-white/10 transition">
-                                        <span className="text-2xl">{item.icon}</span>
+                                <div className="relative z-10 text-center md:text-left">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 border border-white/10 rounded-full md:rounded-xl flex items-center justify-center mb-3 md:mb-6 group-hover:bg-white/10 transition mx-auto md:mx-0">
+                                        <span className="text-xl md:text-2xl">{item.icon}</span>
                                     </div>
-                                    <h3 className="text-lg text-white mb-2 font-serif">{item.title}</h3>
-                                    <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
+                                    <h3 className="text-sm md:text-lg text-white mb-1 md:mb-2 font-serif">{item.title}</h3>
+                                    <p className="text-slate-500 text-[10px] md:text-xs leading-relaxed hidden md:block">{item.desc}</p>
                                 </div>
                             </div>
                         ))}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase, htAPI } from '../config/supabase'
+import MobileNav from '../components/MobileNav'
 
 export default function Dashboard({ session }) {
     const [activeTab, setActiveTab] = useState('overview')
@@ -152,7 +153,7 @@ export default function Dashboard({ session }) {
             {/* MAIN CONTENT AREA */}
             <main className="flex-1 overflow-y-auto relative">
                 {/* Header */}
-                <header className="h-20 border-b border-white/5 bg-black/50 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between px-8">
+                <header className="h-16 md:h-20 border-b border-white/5 bg-black/50 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between px-4 md:px-8">
                     <div className="text-sm text-slate-500">Dashboard / <span className="text-white capitalize">{activeTab.replace('-', ' ')}</span></div>
                     <div className="flex items-center gap-4">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600"></div>
@@ -161,28 +162,13 @@ export default function Dashboard({ session }) {
                 </header>
 
                 {/* Dynamic Content */}
-                <div className="p-8 max-w-7xl mx-auto">
+                <div className="p-4 md:p-8 pb-24 md:pb-8 max-w-7xl mx-auto">
                     {renderContent()}
                 </div>
             </main>
 
-            {/* Mobile Nav Toggle */}
-            <div className="md:hidden fixed bottom-4 left-4 right-4 bg-[#050505] border border-white/10 rounded-2xl p-2 flex justify-around z-50">
-                {[
-                    { id: 'overview', icon: '⚡' },
-                    { id: 'trade-card', icon: '🪪' },
-                    { id: 'inventory', icon: '📦' },
-                    { id: 'network', icon: '🤝' },
-                ].map((item) => (
-                    <button
-                        key={item.id}
-                        onClick={() => setActiveTab(item.id)}
-                        className={`p-3 rounded-xl ${activeTab === item.id ? 'bg-blue-600/20 text-blue-500' : 'text-slate-500'}`}
-                    >
-                        <span className="text-xl">{item.icon}</span>
-                    </button>
-                ))}
-            </div>
+            {/* Mobile Bottom Navigation */}
+            <MobileNav activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout} />
         </div>
     )
 }
@@ -402,7 +388,7 @@ function OverviewSection({ trustScore, plan, exporterProfile, verificationStatus
 // 2. TRADE CARD: IDENTITY MANAGEMENT
 function TradeCardSection({ tradeCard, companyName }) {
     return (
-        <div className="flex flex-col lg:flex-row gap-12">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-12">
             <div className="flex-1">
                 <h2 className="text-2xl text-white font-serif mb-6">Your Digital Identity</h2>
                 <p className="text-slate-400 text-sm mb-8 max-w-md">
@@ -586,7 +572,7 @@ function InventorySection({ userId }) {
             {/* Add Product Modal */}
             {showAddModal && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 w-full max-w-md">
+                    <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 md:p-8 w-[95%] max-w-md">
                         <h3 className="text-white text-xl font-serif mb-6">Add New Product</h3>
 
                         <div className="space-y-4">
@@ -1388,7 +1374,7 @@ function ProfileSection({ userId, userProfile, exporterProfile, verificationStat
                     </div>
 
                     {/* Quick Stats - REAL DATA */}
-                    <div className="grid grid-cols-4 gap-4 py-6 border-t border-b border-white/5">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-6 border-t border-b border-white/5">
                         <div className="text-center">
                             <div className="text-2xl text-white font-mono">{exporterProfile?.established_year || '--'}</div>
                             <div className="text-[10px] text-slate-500 uppercase tracking-widest">Established</div>
@@ -1423,7 +1409,7 @@ function ProfileSection({ userId, userProfile, exporterProfile, verificationStat
                     {/* ADD CERTIFICATION MODAL */}
                     {showCertModal && (
                         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 w-full max-w-md">
+                            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-5 md:p-6 w-[95%] max-w-md">
                                 <h3 className="text-white text-lg font-serif mb-6">Add Certification</h3>
 
                                 <div className="space-y-4">
@@ -1869,7 +1855,7 @@ function ProfileSection({ userId, userProfile, exporterProfile, verificationStat
             {/* ADD SHIPMENT MODAL */}
             {showShipmentModal && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 w-full max-w-md">
+                    <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-5 md:p-6 w-[95%] max-w-md">
                         <h3 className="text-white text-lg font-serif mb-6 flex items-center gap-2">
                             <span>📦</span> Log New Shipment
                         </h3>
